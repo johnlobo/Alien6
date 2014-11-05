@@ -36,6 +36,8 @@ typedef	struct {		// minimun sprite structure
 	unsigned char dead;
 	unsigned char vidas;
 	long lastmoved;
+	long lastShot;
+	char reloadSpeed;
 } TIPO_NAVE;
 //MALO
 typedef	struct {		// minimun sprite structure

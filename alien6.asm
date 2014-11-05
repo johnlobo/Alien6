@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW64)
-; This file was generated Tue Nov 04 18:29:04 2014
+; This file was generated Wed Nov 05 10:54:46 2014
 ;--------------------------------------------------------
 	.module alien6
 	.optsdcc -mz80
@@ -30,9 +30,9 @@
 	.globl _borrarProta
 	.globl _inicializarProta
 	.globl _pintarDisparos
-	.globl _crearDisparo
 	.globl _moverDisparos
 	.globl _borrarDisparos
+	.globl _crearDisparo
 	.globl _inicializarDisparos
 	.globl _pintarMalos
 	.globl _moverMalos
@@ -93,10 +93,7 @@
 	.globl _sprintf
 	.globl _cambio_score
 	.globl _score
-	.globl _contador
-	.globl _ultimo_disparo_malo
 	.globl _MAX_DISPAROS_MALOS
-	.globl _ultimo_disparo
 	.globl _estrellasMovidas
 	.globl _lastMovedEstrella
 	.globl _pStar
@@ -180,7 +177,7 @@ _disparosMalos::
 _disparos_activos_malos::
 	.ds 1
 _prota::
-	.ds 26
+	.ds 31
 _malos::
 	.ds 168
 _malos_activos::
@@ -299,14 +296,8 @@ _lastMovedEstrella::
 	.ds 4
 _estrellasMovidas::
 	.ds 1
-_ultimo_disparo::
-	.ds 2
 _MAX_DISPAROS_MALOS::
 	.ds 1
-_ultimo_disparo_malo::
-	.ds 2
-_contador::
-	.ds 2
 _score::
 	.ds 2
 _cambio_score::
@@ -443,13 +434,13 @@ _asm_data_quezesto:
 	.db #0xFF
 	ret
 _asm_data_quezesto_end::
-;alien6.c:106: void interrupciones(void) {
+;alien6.c:103: void interrupciones(void) {
 ;	---------------------------------
 ; Function interrupciones
 ; ---------------------------------
 _interrupciones_start::
 _interrupciones:
-;alien6.c:132: __endasm;
+;alien6.c:129: __endasm;
 	di
 	im 1
 	ld hl,(#0X0039)
@@ -1843,29 +1834,29 @@ _direccionLinea:
 	.dw #0xEF80
 	.dw #0xF780
 	.dw #0xFF80
-;alien6.c:135: unsigned long getTime()
+;alien6.c:132: unsigned long getTime()
 ;	---------------------------------
 ; Function getTime
 ; ---------------------------------
 _getTime_start::
 _getTime:
-;alien6.c:138: nTime = (timer1 << 8) + timer0;
+;alien6.c:135: nTime = (timer1 << 8) + timer0;
 	ld	hl,#_timer1 + 0
 	ld	d, (hl)
 	ld	e,#0x00
 	ld	hl,(_timer0)
 	add	hl,de
 	ld	de,#0x0000
-;alien6.c:139: return nTime;
+;alien6.c:136: return nTime;
 	ret
 _getTime_end::
-;alien6.c:142: void halt_me () {			
+;alien6.c:139: void halt_me () {			
 ;	---------------------------------
 ; Function halt_me
 ; ---------------------------------
 _halt_me_start::
 _halt_me:
-;alien6.c:149: __endasm;
+;alien6.c:146: __endasm;
 	halt
 	halt
 	halt
@@ -1873,13 +1864,13 @@ _halt_me:
 	halt
 	ret
 _halt_me_end::
-;alien6.c:153: void scr_waitVSYNC() {
+;alien6.c:150: void scr_waitVSYNC() {
 ;	---------------------------------
 ; Function scr_waitVSYNC
 ; ---------------------------------
 _scr_waitVSYNC_start::
 _scr_waitVSYNC:
-;alien6.c:161: __endasm;
+;alien6.c:158: __endasm;
 	 wait_vs:
 	ld b, #0xF5
 	in a, (c)
@@ -1887,13 +1878,13 @@ _scr_waitVSYNC:
 	jr nc, wait_vs
 	ret
 _scr_waitVSYNC_end::
-;alien6.c:164: void pause(unsigned char p){
+;alien6.c:161: void pause(unsigned char p){
 ;	---------------------------------
 ; Function pause
 ; ---------------------------------
 _pause_start::
 _pause:
-;alien6.c:166: for (i=0; i < p; i++) {
+;alien6.c:163: for (i=0; i < p; i++) {
 	ld	d,#0x00
 00103$:
 	ld	hl,#2
@@ -1901,23 +1892,23 @@ _pause:
 	ld	a,d
 	sub	a, (hl)
 	ret	NC
-;alien6.c:169: __endasm;
+;alien6.c:166: __endasm;
 	halt
-;alien6.c:166: for (i=0; i < p; i++) {
+;alien6.c:163: for (i=0; i < p; i++) {
 	inc	d
 	jr	00103$
 	ret
 _pause_end::
-;alien6.c:173: void set_colours()
+;alien6.c:170: void set_colours()
 ;	---------------------------------
 ; Function set_colours
 ; ---------------------------------
 _set_colours_start::
 _set_colours:
-;alien6.c:176: for (x=0; x<17; x++)
+;alien6.c:173: for (x=0; x<17; x++)
 	ld	e,#0x00
 00102$:
-;alien6.c:178: cpc_SetColour(x,tintas[x]);
+;alien6.c:175: cpc_SetColour(x,tintas[x]);
 	ld	hl,#_tintas
 	ld	d,#0x00
 	add	hl, de
@@ -1931,20 +1922,20 @@ _set_colours:
 	call	_cpc_SetColour
 	pop	af
 	pop	de
-;alien6.c:176: for (x=0; x<17; x++)
+;alien6.c:173: for (x=0; x<17; x++)
 	inc	e
 	ld	a,e
 	sub	a, #0x11
 	jr	C,00102$
 	ret
 _set_colours_end::
-;alien6.c:182: unsigned char detectarColision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2){
+;alien6.c:179: unsigned char detectarColision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2){
 ;	---------------------------------
 ; Function detectarColision
 ; ---------------------------------
 _detectarColision_start::
 _detectarColision:
-;alien6.c:183: return ((x1 < x2 + w2) &&
+;alien6.c:180: return ((x1 < x2 + w2) &&
 	ld	hl, #6+0
 	add	hl, sp
 	ld	e, (hl)
@@ -1966,7 +1957,7 @@ _detectarColision:
 	xor	a, #0x80
 00122$:
 	jp	P,00103$
-;alien6.c:184: (x1 + w1 > x2) &&
+;alien6.c:181: (x1 + w1 > x2) &&
 	ld	iy,#4
 	add	iy,sp
 	ld	l,0 (iy)
@@ -1980,7 +1971,7 @@ _detectarColision:
 	xor	a, #0x80
 00123$:
 	jp	P,00103$
-;alien6.c:185: (y1 < y2 + h2) &&
+;alien6.c:182: (y1 < y2 + h2) &&
 	ld	hl, #7+0
 	add	hl, sp
 	ld	e, (hl)
@@ -2002,7 +1993,7 @@ _detectarColision:
 	xor	a, #0x80
 00124$:
 	jp	P,00103$
-;alien6.c:186: (h1 + y1 > y2));
+;alien6.c:183: (h1 + y1 > y2));
 	ld	iy,#5
 	add	iy,sp
 	ld	l,0 (iy)
@@ -2025,29 +2016,29 @@ _detectarColision:
 	ld	l,#0x01
 	ret
 _detectarColision_end::
-;alien6.c:189: void letrasColorAzul(){
+;alien6.c:186: void letrasColorAzul(){
 ;	---------------------------------
 ; Function letrasColorAzul
 ; ---------------------------------
 _letrasColorAzul_start::
 _letrasColorAzul:
-;alien6.c:190: cpc_SetInkGphStr(0,0);
+;alien6.c:187: cpc_SetInkGphStr(0,0);
 	ld	hl,#0x0000
 	push	hl
 	call	_cpc_SetInkGphStr
-;alien6.c:191: cpc_SetInkGphStr(1,42);
+;alien6.c:188: cpc_SetInkGphStr(1,42);
 	ld	hl, #0x2A01
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;alien6.c:192: cpc_SetInkGphStr(2,34);
+;alien6.c:189: cpc_SetInkGphStr(2,34);
 	ld	hl, #0x2202
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;alien6.c:193: cpc_SetInkGphStr(3,42);
+;alien6.c:190: cpc_SetInkGphStr(3,42);
 	ld	hl, #0x2A03
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;alien6.c:194: pause(2);
+;alien6.c:191: pause(2);
 	ld	h,#0x02
 	ex	(sp),hl
 	inc	sp
@@ -2055,29 +2046,29 @@ _letrasColorAzul:
 	inc	sp
 	ret
 _letrasColorAzul_end::
-;alien6.c:197: void letrasColorRojo(){
+;alien6.c:194: void letrasColorRojo(){
 ;	---------------------------------
 ; Function letrasColorRojo
 ; ---------------------------------
 _letrasColorRojo_start::
 _letrasColorRojo:
-;alien6.c:198: cpc_SetInkGphStr(0,0);
+;alien6.c:195: cpc_SetInkGphStr(0,0);
 	ld	hl,#0x0000
 	push	hl
 	call	_cpc_SetInkGphStr
-;alien6.c:199: cpc_SetInkGphStr(1,40);
+;alien6.c:196: cpc_SetInkGphStr(1,40);
 	ld	hl, #0x2801
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;alien6.c:200: cpc_SetInkGphStr(2,136);
+;alien6.c:197: cpc_SetInkGphStr(2,136);
 	ld	hl, #0x8802
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;alien6.c:201: cpc_SetInkGphStr(3,40);
+;alien6.c:198: cpc_SetInkGphStr(3,40);
 	ld	hl, #0x2803
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;alien6.c:202: pause(2);
+;alien6.c:199: pause(2);
 	ld	h,#0x02
 	ex	(sp),hl
 	inc	sp
@@ -2085,134 +2076,134 @@ _letrasColorRojo:
 	inc	sp
 	ret
 _letrasColorRojo_end::
-;alien6.c:205: unsigned char pixelEstrella(unsigned char nPixel){
+;alien6.c:202: unsigned char pixelEstrella(unsigned char nPixel){
 ;	---------------------------------
 ; Function pixelEstrella
 ; ---------------------------------
 _pixelEstrella_start::
 _pixelEstrella:
-;alien6.c:208: if(nPixel == 0)
+;alien6.c:205: if(nPixel == 0)
 	ld	hl, #2+0
 	add	hl, sp
 	ld	a, (hl)
 	or	a, a
 	jr	NZ,00102$
-;alien6.c:210: nByte = 32;
+;alien6.c:207: nByte = 32;
 	ld	l,#0x20
 	ret
 00102$:
-;alien6.c:213: nByte = 16;
+;alien6.c:210: nByte = 16;
 	ld	l,#0x10
-;alien6.c:216: return nByte;
+;alien6.c:213: return nByte;
 	ret
 _pixelEstrella_end::
-;alien6.c:219: unsigned char GetMode0PixelColorByte(unsigned char nColor, unsigned char nPixel)
+;alien6.c:216: unsigned char GetMode0PixelColorByte(unsigned char nColor, unsigned char nPixel)
 ;	---------------------------------
 ; Function GetMode0PixelColorByte
 ; ---------------------------------
 _GetMode0PixelColorByte_start::
 _GetMode0PixelColorByte:
-;alien6.c:227: if(nColor & 1)
+;alien6.c:224: if(nColor & 1)
 	ld	iy,#2
 	add	iy,sp
 	ld	a,0 (iy)
 	and	a, #0x01
 	ld	h,a
-;alien6.c:230: if(nColor & 2)
+;alien6.c:227: if(nColor & 2)
 	ld	a,0 (iy)
 	and	a, #0x02
 	ld	b,a
-;alien6.c:233: if(nColor & 4)
+;alien6.c:230: if(nColor & 4)
 	ld	a,0 (iy)
 	and	a, #0x04
 	ld	l,a
-;alien6.c:236: if(nColor & 8)
+;alien6.c:233: if(nColor & 8)
 	ld	a,0 (iy)
 	and	a, #0x08
 	ld	c,a
-;alien6.c:223: if(nPixel == 0)
+;alien6.c:220: if(nPixel == 0)
 	ld	iy,#3
 	add	iy,sp
 	ld	a,0 (iy)
-;alien6.c:225: nByte &= 85;
+;alien6.c:222: nByte &= 85;
 	or	a,a
 	jr	NZ,00118$
 	ld	e,a
-;alien6.c:227: if(nColor & 1)
+;alien6.c:224: if(nColor & 1)
 	ld	a,h
 	or	a, a
 	jr	Z,00102$
-;alien6.c:228: nByte |= 128;
+;alien6.c:225: nByte |= 128;
 	ld	e,#0x80
 00102$:
-;alien6.c:230: if(nColor & 2)
+;alien6.c:227: if(nColor & 2)
 	ld	a,b
 	or	a, a
 	jr	Z,00104$
-;alien6.c:231: nByte |= 8;
+;alien6.c:228: nByte |= 8;
 	set	3, e
 00104$:
-;alien6.c:233: if(nColor & 4)
+;alien6.c:230: if(nColor & 4)
 	ld	a,l
 	or	a, a
 	jr	Z,00106$
-;alien6.c:234: nByte |= 32;
+;alien6.c:231: nByte |= 32;
 	set	5, e
 00106$:
-;alien6.c:236: if(nColor & 8)
+;alien6.c:233: if(nColor & 8)
 	ld	a,c
 	or	a, a
 	jr	Z,00119$
-;alien6.c:237: nByte |= 2;
+;alien6.c:234: nByte |= 2;
 	set	1, e
 	jr	00119$
 00118$:
-;alien6.c:241: nByte &= 170;
+;alien6.c:238: nByte &= 170;
 	ld	e,#0x00
-;alien6.c:243: if(nColor & 1)
+;alien6.c:240: if(nColor & 1)
 	ld	a,h
 	or	a, a
 	jr	Z,00110$
-;alien6.c:244: nByte |= 64;
+;alien6.c:241: nByte |= 64;
 	ld	e,#0x40
 00110$:
-;alien6.c:246: if(nColor & 2)
+;alien6.c:243: if(nColor & 2)
 	ld	a,b
 	or	a, a
 	jr	Z,00112$
-;alien6.c:247: nByte |= 4;
+;alien6.c:244: nByte |= 4;
 	set	2, e
 00112$:
-;alien6.c:249: if(nColor & 4)
+;alien6.c:246: if(nColor & 4)
 	ld	a,l
 	or	a, a
 	jr	Z,00114$
-;alien6.c:250: nByte |= 16;
+;alien6.c:247: nByte |= 16;
 	set	4, e
 00114$:
-;alien6.c:252: if(nColor & 8)
+;alien6.c:249: if(nColor & 8)
 	ld	a,c
 	or	a, a
 	jr	Z,00119$
-;alien6.c:253: nByte |= 1;
+;alien6.c:250: nByte |= 1;
 	set	0, e
 00119$:
-;alien6.c:256: return nByte;
+;alien6.c:253: return nByte;
 	ld	l,e
 	ret
 _GetMode0PixelColorByte_end::
-;alien6.c:261: void inicializarEstrellas(){
+;alien6.c:258: void inicializarEstrellas(){
 ;	---------------------------------
 ; Function inicializarEstrellas
 ; ---------------------------------
 _inicializarEstrellas_start::
 _inicializarEstrellas:
 	push	af
-;alien6.c:263: for(nStar = 0; nStar < STARS_NUM; nStar++)
+;alien6.c:260: for(nStar = 0; nStar < STARS_NUM; nStar++)
 	ld	hl,#_nStar + 0
 	ld	(hl), #0x00
 00102$:
-;alien6.c:265: aStars[nStar].nX = cpc_Random() % 160;
+;alien6.c:262: aStars[nStar].nX = cpc_Random() % 160;
 	ld	iy,#_nStar
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2238,7 +2229,7 @@ _inicializarEstrellas:
 	ld	a,l
 	pop	de
 	ld	(de),a
-;alien6.c:266: aStars[nStar].nY = (cpc_Random() % 184)+16;
+;alien6.c:263: aStars[nStar].nY = (cpc_Random() % 184)+16;
 	ld	iy,#_nStar
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2263,7 +2254,7 @@ _inicializarEstrellas:
 	pop	de
 	add	a, #0x10
 	ld	(de),a
-;alien6.c:267: aStars[nStar].nStarType = cpc_Random() % 3;
+;alien6.c:264: aStars[nStar].nStarType = cpc_Random() % 3;
 	ld	iy,#_nStar
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2291,7 +2282,7 @@ _inicializarEstrellas:
 	ld	l, d
 	ld	h, e
 	ld	(hl),a
-;alien6.c:268: aStars[nStar].pLineAddress = (int *) direccionLinea[aStars[nStar].nY];
+;alien6.c:265: aStars[nStar].pLineAddress = (int *) direccionLinea[aStars[nStar].nY];
 	ld	iy,#_nStar
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2319,7 +2310,7 @@ _inicializarEstrellas:
 	inc	de
 	ld	a,b
 	ld	(de),a
-;alien6.c:269: aStars[nStar].columnOffset = aStars[nStar].nY/2;
+;alien6.c:266: aStars[nStar].columnOffset = aStars[nStar].nY/2;
 	ld	iy,#_nStar
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2338,7 +2329,7 @@ _inicializarEstrellas:
 	ld	a,(hl)
 	srl	a
 	ld	(de),a
-;alien6.c:270: aStars[nStar].pCurrentAddress = aStars[nStar].pLineAddress+aStars[nStar].columnOffset;
+;alien6.c:267: aStars[nStar].pCurrentAddress = aStars[nStar].pLineAddress+aStars[nStar].columnOffset;
 	ld	iy,#_nStar
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2376,13 +2367,13 @@ _inicializarEstrellas:
 	ld	(hl),d
 	inc	hl
 	ld	(hl),e
-;alien6.c:263: for(nStar = 0; nStar < STARS_NUM; nStar++)
+;alien6.c:260: for(nStar = 0; nStar < STARS_NUM; nStar++)
 	ld	hl, #_nStar+0
 	inc	(hl)
 	ld	a,(#_nStar + 0)
 	sub	a, #0x0A
 	jp	C,00102$
-;alien6.c:272: lastMovedEstrella = 0;
+;alien6.c:269: lastMovedEstrella = 0;
 	xor	a, a
 	ld	(#_lastMovedEstrella + 0),a
 	ld	(#_lastMovedEstrella + 1),a
@@ -2391,7 +2382,7 @@ _inicializarEstrellas:
 	pop	af
 	ret
 _inicializarEstrellas_end::
-;alien6.c:275: void borrarEstrellas(){
+;alien6.c:272: void borrarEstrellas(){
 ;	---------------------------------
 ; Function borrarEstrellas
 ; ---------------------------------
@@ -2399,11 +2390,11 @@ _borrarEstrellas_start::
 _borrarEstrellas:
 	push	af
 	dec	sp
-;alien6.c:276: for(nStar = 0; nStar < STARS_NUM; nStar++)
+;alien6.c:273: for(nStar = 0; nStar < STARS_NUM; nStar++)
 	ld	hl,#_nStar + 0
 	ld	(hl), #0x00
 00102$:
-;alien6.c:278: pStar = &aStars[nStar];
+;alien6.c:275: pStar = &aStars[nStar];
 	ld	iy,#_nStar
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2413,7 +2404,7 @@ _borrarEstrellas:
 	ld	de,#_aStars
 	add	hl,de
 	ld	(_pStar),hl
-;alien6.c:282: *pStar->pCurrentAddress ^= GetMode0PixelColorByte(pStar->nStarType + 1, pStar->nX % 2);
+;alien6.c:279: *pStar->pCurrentAddress ^= GetMode0PixelColorByte(pStar->nStarType + 1, pStar->nX % 2);
 	ld	bc,(_pStar)
 	ld	l, c
 	ld	h, b
@@ -2467,7 +2458,7 @@ _borrarEstrellas:
 	inc	de
 	ld	a,b
 	ld	(de),a
-;alien6.c:276: for(nStar = 0; nStar < STARS_NUM; nStar++)
+;alien6.c:273: for(nStar = 0; nStar < STARS_NUM; nStar++)
 	ld	hl, #_nStar+0
 	inc	(hl)
 	ld	a,(#_nStar + 0)
@@ -2477,7 +2468,7 @@ _borrarEstrellas:
 	inc	sp
 	ret
 _borrarEstrellas_end::
-;alien6.c:287: void pintarEstrellas(){
+;alien6.c:284: void pintarEstrellas(){
 ;	---------------------------------
 ; Function pintarEstrellas
 ; ---------------------------------
@@ -2485,11 +2476,11 @@ _pintarEstrellas_start::
 _pintarEstrellas:
 	push	af
 	dec	sp
-;alien6.c:288: for(nStar = 0; nStar < STARS_NUM; nStar++)
+;alien6.c:285: for(nStar = 0; nStar < STARS_NUM; nStar++)
 	ld	hl,#_nStar + 0
 	ld	(hl), #0x00
 00102$:
-;alien6.c:290: pStar = &aStars[nStar];
+;alien6.c:287: pStar = &aStars[nStar];
 	ld	iy,#_nStar
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2499,7 +2490,7 @@ _pintarEstrellas:
 	ld	de,#_aStars
 	add	hl,de
 	ld	(_pStar),hl
-;alien6.c:293: pStar->pCurrentAddress = (int *) direccionLinea[pStar->nY] + pStar->columnOffset;
+;alien6.c:290: pStar->pCurrentAddress = (int *) direccionLinea[pStar->nY] + pStar->columnOffset;
 	ld	de,(_pStar)
 	ld	hl,#0x0006
 	add	hl,de
@@ -2535,7 +2526,7 @@ _pintarEstrellas:
 	ld	bc,(_pStar)
 	ld	l, c
 	ld	h, b
-;alien6.c:295: *pStar->pCurrentAddress ^= GetMode0PixelColorByte(pStar->nStarType + 1, pStar->nX % 2);
+;alien6.c:292: *pStar->pCurrentAddress ^= GetMode0PixelColorByte(pStar->nStarType + 1, pStar->nX % 2);
 	ld	de, #0x0006
 	add	hl, de
 	ld	e,(hl)
@@ -2584,7 +2575,7 @@ _pintarEstrellas:
 	inc	de
 	ld	a,b
 	ld	(de),a
-;alien6.c:288: for(nStar = 0; nStar < STARS_NUM; nStar++)
+;alien6.c:285: for(nStar = 0; nStar < STARS_NUM; nStar++)
 	ld	hl, #_nStar+0
 	inc	(hl)
 	ld	a,(#_nStar + 0)
@@ -2594,17 +2585,17 @@ _pintarEstrellas:
 	inc	sp
 	ret
 _pintarEstrellas_end::
-;alien6.c:300: void moverEstrellas(){
+;alien6.c:297: void moverEstrellas(){
 ;	---------------------------------
 ; Function moverEstrellas
 ; ---------------------------------
 _moverEstrellas_start::
 _moverEstrellas:
-;alien6.c:302: for(nStar = 0; nStar < STARS_NUM; nStar++)
+;alien6.c:299: for(nStar = 0; nStar < STARS_NUM; nStar++)
 	ld	hl,#_nStar + 0
 	ld	(hl), #0x00
 00108$:
-;alien6.c:304: pStar = &aStars[nStar];
+;alien6.c:301: pStar = &aStars[nStar];
 	ld	iy,#_nStar
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -2614,7 +2605,7 @@ _moverEstrellas:
 	ld	de,#_aStars
 	add	hl,de
 	ld	(_pStar),hl
-;alien6.c:306: switch(pStar->nStarType)
+;alien6.c:303: switch(pStar->nStarType)
 	ld	bc,(_pStar)
 	ld	l, c
 	ld	h, b
@@ -2624,17 +2615,17 @@ _moverEstrellas:
 	ld	a,#0x02
 	sub	a, e
 	jr	C,00104$
-;alien6.c:309: pStar->nY += 1;
+;alien6.c:306: pStar->nY += 1;
 	inc	bc
 	ld	a,(bc)
 	ld	d,a
-;alien6.c:306: switch(pStar->nStarType)
+;alien6.c:303: switch(pStar->nStarType)
 	push	de
 	ld	d,#0x00
 	ld	hl,#00124$
 	add	hl,de
 	add	hl,de
-;alien6.c:308: case 0: //slow star
+;alien6.c:305: case 0: //slow star
 	pop	de
 	jp	(hl)
 00124$:
@@ -2642,40 +2633,40 @@ _moverEstrellas:
 	jr	00102$
 	jr	00103$
 00101$:
-;alien6.c:309: pStar->nY += 1;
+;alien6.c:306: pStar->nY += 1;
 	ld	a,d
 	inc	a
 	ld	(bc),a
-;alien6.c:310: break;
+;alien6.c:307: break;
 	jr	00104$
-;alien6.c:311: case 1: //medium star
+;alien6.c:308: case 1: //medium star
 00102$:
-;alien6.c:312: pStar->nY += 2;
+;alien6.c:309: pStar->nY += 2;
 	ld	a,d
 	add	a, #0x02
 	ld	(bc),a
-;alien6.c:313: break;
+;alien6.c:310: break;
 	jr	00104$
-;alien6.c:314: case 2: //fast star
+;alien6.c:311: case 2: //fast star
 00103$:
-;alien6.c:315: pStar->nY += 3;
+;alien6.c:312: pStar->nY += 3;
 	ld	a,d
 	add	a, #0x03
 	ld	(bc),a
-;alien6.c:317: }
+;alien6.c:314: }
 00104$:
-;alien6.c:306: switch(pStar->nStarType)
+;alien6.c:303: switch(pStar->nStarType)
 	ld	hl,(_pStar)
-;alien6.c:309: pStar->nY += 1;
+;alien6.c:306: pStar->nY += 1;
 	inc	hl
-;alien6.c:319: if(pStar->nY >= 200)
+;alien6.c:316: if(pStar->nY >= 200)
 	ld	a, (hl)
 	sub	a, #0xC8
 	jr	C,00109$
-;alien6.c:321: pStar->nY = 16;
+;alien6.c:318: pStar->nY = 16;
 	ld	(hl),#0x10
 00109$:
-;alien6.c:302: for(nStar = 0; nStar < STARS_NUM; nStar++)
+;alien6.c:299: for(nStar = 0; nStar < STARS_NUM; nStar++)
 	ld	hl, #_nStar+0
 	inc	(hl)
 	ld	a,(#_nStar + 0)
@@ -2683,16 +2674,16 @@ _moverEstrellas:
 	jr	C,00108$
 	ret
 _moverEstrellas_end::
-;alien6.c:330: void inicializarExplosiones(){
+;alien6.c:327: void inicializarExplosiones(){
 ;	---------------------------------
 ; Function inicializarExplosiones
 ; ---------------------------------
 _inicializarExplosiones_start::
 _inicializarExplosiones:
-;alien6.c:333: for (i=0;i<MAX_EXPLOSIONES;i++){
+;alien6.c:330: for (i=0;i<MAX_EXPLOSIONES;i++){
 	ld	d,#0x00
 00102$:
-;alien6.c:334: explosiones[i].activo=0;
+;alien6.c:331: explosiones[i].activo=0;
 	ld	l,d
 	ld	h,#0x00
 	add	hl, hl
@@ -2710,49 +2701,49 @@ _inicializarExplosiones:
 	inc	hl
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:335: explosiones[i].tipo=0;
+;alien6.c:332: explosiones[i].tipo=0;
 	xor	a, a
 	ld	(bc),a
-;alien6.c:336: explosiones[i].fase=0;
+;alien6.c:333: explosiones[i].fase=0;
 	ld	l, c
 	ld	h, b
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:337: explosiones[i].cx=0;
+;alien6.c:334: explosiones[i].cx=0;
 	ld	l, c
 	ld	h, b
 	inc	hl
 	inc	hl
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:338: explosiones[i].cy=0;
+;alien6.c:335: explosiones[i].cy=0;
 	ld	hl,#0x0004
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:339: explosiones[i].ox=0;
+;alien6.c:336: explosiones[i].ox=0;
 	ld	hl,#0x0005
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:340: explosiones[i].oy=0;
+;alien6.c:337: explosiones[i].oy=0;
 	ld	hl,#0x0006
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:341: explosiones[i].memoriaPantalla=0;
+;alien6.c:338: explosiones[i].memoriaPantalla=0;
 	ld	hl,#0x0009
 	add	hl,bc
 	xor	a, a
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-;alien6.c:342: explosiones[i].h=0;
+;alien6.c:339: explosiones[i].h=0;
 	ld	hl,#0x0007
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:343: explosiones[i].w=0;
+;alien6.c:340: explosiones[i].w=0;
 	ld	hl,#0x0008
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:344: explosiones[i].lastmoved=0;
+;alien6.c:341: explosiones[i].lastmoved=0;
 	ld	hl,#0x000C
 	add	hl,bc
 	xor	a, a
@@ -2764,41 +2755,41 @@ _inicializarExplosiones:
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-;alien6.c:333: for (i=0;i<MAX_EXPLOSIONES;i++){
+;alien6.c:330: for (i=0;i<MAX_EXPLOSIONES;i++){
 	inc	d
 	ld	a,d
 	sub	a, #0x06
 	jr	C,00102$
-;alien6.c:346: explosiones_activas=0;
+;alien6.c:343: explosiones_activas=0;
 	ld	hl,#_explosiones_activas + 0
 	ld	(hl), #0x00
-;alien6.c:347: explosion_sprite[0][0]=&explosion02000;
+;alien6.c:344: explosion_sprite[0][0]=&explosion02000;
 	ld	hl,#_explosion02000
 	ld	(_explosion_sprite), hl
-;alien6.c:348: explosion_sprite[0][1]=&explosion02001;
+;alien6.c:345: explosion_sprite[0][1]=&explosion02001;
 	ld	hl,#_explosion02001
 	ld	((_explosion_sprite + 0x0002)), hl
-;alien6.c:349: explosion_sprite[0][2]=&explosion02002;
+;alien6.c:346: explosion_sprite[0][2]=&explosion02002;
 	ld	hl,#_explosion02002
 	ld	((_explosion_sprite + 0x0004)), hl
-;alien6.c:350: explosion_sprite[0][3]=&explosion02003;
+;alien6.c:347: explosion_sprite[0][3]=&explosion02003;
 	ld	hl,#_explosion02003
 	ld	((_explosion_sprite + 0x0006)), hl
-;alien6.c:351: explosion_sprite[1][0]=&toque000;
+;alien6.c:348: explosion_sprite[1][0]=&toque000;
 	ld	hl,#_toque000
 	ld	((_explosion_sprite + 0x0008)), hl
-;alien6.c:352: explosion_sprite[1][1]=&toque001;
+;alien6.c:349: explosion_sprite[1][1]=&toque001;
 	ld	hl,#_toque001
 	ld	((_explosion_sprite + 0x000a)), hl
-;alien6.c:353: explosion_sprite[1][2]=&toque002;
+;alien6.c:350: explosion_sprite[1][2]=&toque002;
 	ld	hl,#_toque002
 	ld	((_explosion_sprite + 0x000c)), hl
-;alien6.c:354: explosion_sprite[1][3]=&toque003;
+;alien6.c:351: explosion_sprite[1][3]=&toque003;
 	ld	hl,#_toque003
 	ld	((_explosion_sprite + 0x000e)), hl
 	ret
 _inicializarExplosiones_end::
-;alien6.c:358: void crearExplosion(unsigned char tipo, unsigned char x, unsigned char y){
+;alien6.c:355: void crearExplosion(unsigned char tipo, unsigned char x, unsigned char y){
 ;	---------------------------------
 ; Function crearExplosion
 ; ---------------------------------
@@ -2807,7 +2798,7 @@ _crearExplosion:
 	push	af
 	push	af
 	dec	sp
-;alien6.c:361: while (explosiones[i].activo==1) { 
+;alien6.c:358: while (explosiones[i].activo==1) { 
 	ld	bc,#_explosiones+0
 	ld	e,#0x00
 00101$:
@@ -2837,16 +2828,16 @@ _crearExplosion:
 	ld	a,(hl)
 	dec	a
 	jr	NZ,00112$
-;alien6.c:362: i++;
+;alien6.c:359: i++;
 	inc	e
 	jr	00101$
 00112$:
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),e
-;alien6.c:364: explosiones[i].activo=1;
+;alien6.c:361: explosiones[i].activo=1;
 	ld	(hl),#0x01
-;alien6.c:365: explosiones[i].tipo=tipo;
+;alien6.c:362: explosiones[i].tipo=tipo;
 	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
@@ -2857,14 +2848,14 @@ _crearExplosion:
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
-;alien6.c:366: explosiones[i].fase=0;
+;alien6.c:363: explosiones[i].fase=0;
 	ld	iy,#3
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:367: explosiones[i].cx=x;
+;alien6.c:364: explosiones[i].cx=x;
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	inc	hl
@@ -2874,7 +2865,7 @@ _crearExplosion:
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
-;alien6.c:368: explosiones[i].cy=y;
+;alien6.c:365: explosiones[i].cy=y;
 	ld	iy,#3
 	add	iy,sp
 	ld	a,0 (iy)
@@ -2887,7 +2878,7 @@ _crearExplosion:
 	add	hl, sp
 	ld	a, (hl)
 	ld	(de),a
-;alien6.c:369: explosiones[i].memoriaPantalla = direccionLinea[explosiones[i].cy]+explosiones[i].cx;
+;alien6.c:366: explosiones[i].memoriaPantalla = direccionLinea[explosiones[i].cy]+explosiones[i].cx;
 	ld	hl,#1
 	add	hl,sp
 	ld	iy,#3
@@ -2924,7 +2915,7 @@ _crearExplosion:
 	ld	(hl),e
 	inc	hl
 	ld	(hl),d
-;alien6.c:371: explosiones[i].h=16;
+;alien6.c:368: explosiones[i].h=16;
 	ld	hl,#1
 	add	hl,sp
 	ld	iy,#3
@@ -2936,20 +2927,20 @@ _crearExplosion:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-;alien6.c:372: explosiones[i].w=4;
+;alien6.c:369: explosiones[i].w=4;
 	ld	a,0 (iy)
 	add	a, #0x08
 	ld	e,a
 	ld	a,1 (iy)
 	adc	a, #0x00
 	ld	d,a
-;alien6.c:370: if (!tipo){
+;alien6.c:367: if (!tipo){
 	ld	hl, #7+0
 	add	hl, sp
 	ld	a, (hl)
 	or	a, a
 	jr	NZ,00105$
-;alien6.c:371: explosiones[i].h=16;
+;alien6.c:368: explosiones[i].h=16;
 	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
@@ -2957,12 +2948,12 @@ _crearExplosion:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x10
-;alien6.c:372: explosiones[i].w=4;
+;alien6.c:369: explosiones[i].w=4;
 	ld	a,#0x04
 	ld	(de),a
 	jr	00106$
 00105$:
-;alien6.c:374: explosiones[i].h=8;
+;alien6.c:371: explosiones[i].h=8;
 	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
@@ -2970,14 +2961,14 @@ _crearExplosion:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x08
-;alien6.c:375: explosiones[i].w=2;
+;alien6.c:372: explosiones[i].w=2;
 	ld	a,#0x02
 	ld	(de),a
 00106$:
-;alien6.c:377: explosiones_activas++;
+;alien6.c:374: explosiones_activas++;
 	ld	hl, #_explosiones_activas+0
 	inc	(hl)
-;alien6.c:378: cpc_PutSpXOR((char *)explosion_sprite[tipo][0],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
+;alien6.c:375: cpc_PutSpXOR((char *)explosion_sprite[tipo][0],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
 	ld	iy,#0
 	add	iy,sp
 	ld	l,0 (iy)
@@ -3035,7 +3026,7 @@ _crearExplosion:
 	inc	sp
 	ret
 _crearExplosion_end::
-;alien6.c:381: void actualizarExplosiones(){
+;alien6.c:378: void actualizarExplosiones(){
 ;	---------------------------------
 ; Function actualizarExplosiones
 ; ---------------------------------
@@ -3044,16 +3035,16 @@ _actualizarExplosiones:
 	push	af
 	push	af
 	dec	sp
-;alien6.c:383: if (explosiones_activas>0){
+;alien6.c:380: if (explosiones_activas>0){
 	ld	a,(#_explosiones_activas + 0)
 	or	a, a
 	jp	Z,00108$
-;alien6.c:384: for (i=0;i<MAX_EXPLOSIONES;i++){
+;alien6.c:381: for (i=0;i<MAX_EXPLOSIONES;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
 00106$:
-;alien6.c:385: if (explosiones[i].activo==1){
+;alien6.c:382: if (explosiones[i].activo==1){
 	ld	iy,#0
 	add	iy,sp
 	ld	l,0 (iy)
@@ -3082,7 +3073,7 @@ _actualizarExplosiones:
 	ld	a,(hl)
 	dec	a
 	jr	NZ,00107$
-;alien6.c:386: cpc_PutSpXOR((char *)explosion_sprite[explosiones[i].tipo][explosiones[i].fase],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
+;alien6.c:383: cpc_PutSpXOR((char *)explosion_sprite[explosiones[i].tipo][explosiones[i].fase],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
 	ld	l, e
 	ld	h, d
 	ld	bc, #0x0009
@@ -3155,7 +3146,7 @@ _actualizarExplosiones:
 	add	hl,sp
 	ld	sp,hl
 00107$:
-;alien6.c:384: for (i=0;i<MAX_EXPLOSIONES;i++){
+;alien6.c:381: for (i=0;i<MAX_EXPLOSIONES;i++){
 	ld	iy,#0
 	add	iy,sp
 	inc	0 (iy)
@@ -3168,23 +3159,23 @@ _actualizarExplosiones:
 	inc	sp
 	ret
 _actualizarExplosiones_end::
-;alien6.c:392: void animarExplosiones(){
+;alien6.c:389: void animarExplosiones(){
 ;	---------------------------------
 ; Function animarExplosiones
 ; ---------------------------------
 _animarExplosiones_start::
 _animarExplosiones:
 	dec	sp
-;alien6.c:394: if (explosiones_activas>0){
+;alien6.c:391: if (explosiones_activas>0){
 	ld	a,(#_explosiones_activas + 0)
 	or	a, a
 	jr	Z,00111$
-;alien6.c:395: for (i=0;i<MAX_EXPLOSIONES;i++){
+;alien6.c:392: for (i=0;i<MAX_EXPLOSIONES;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
 00109$:
-;alien6.c:396: if (explosiones[i].activo==1){
+;alien6.c:393: if (explosiones[i].activo==1){
 	ld	iy,#0
 	add	iy,sp
 	ld	l,0 (iy)
@@ -3206,7 +3197,7 @@ _animarExplosiones:
 	ld	a,(bc)
 	dec	a
 	jr	NZ,00110$
-;alien6.c:397: if (explosiones[i].fase<3){
+;alien6.c:394: if (explosiones[i].fase<3){
 	push	de
 	pop	iy
 	inc	iy
@@ -3214,32 +3205,32 @@ _animarExplosiones:
 	ld	a,h
 	sub	a, #0x03
 	jr	NC,00102$
-;alien6.c:398: explosiones[i].fase++;
+;alien6.c:395: explosiones[i].fase++;
 	inc	h
 	ld	0 (iy), h
 	jr	00110$
 00102$:
-;alien6.c:402: explosiones[i].fase=0;
+;alien6.c:399: explosiones[i].fase=0;
 	ld	0 (iy), #0x00
-;alien6.c:403: explosiones[i].activo=0;
+;alien6.c:400: explosiones[i].activo=0;
 	xor	a, a
 	ld	(bc),a
-;alien6.c:404: explosiones[i].cx=0;
+;alien6.c:401: explosiones[i].cx=0;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:405: explosiones[i].cy=0;
+;alien6.c:402: explosiones[i].cy=0;
 	ld	hl,#0x0004
 	add	hl,de
 	ld	(hl),#0x00
-;alien6.c:406: explosiones_activas--;
+;alien6.c:403: explosiones_activas--;
 	ld	hl, #_explosiones_activas+0
 	dec	(hl)
 00110$:
-;alien6.c:395: for (i=0;i<MAX_EXPLOSIONES;i++){
+;alien6.c:392: for (i=0;i<MAX_EXPLOSIONES;i++){
 	ld	iy,#0
 	add	iy,sp
 	inc	0 (iy)
@@ -3250,14 +3241,14 @@ _animarExplosiones:
 	inc	sp
 	ret
 _animarExplosiones_end::
-;alien6.c:417: void inicializarDisparosMalos(){
+;alien6.c:414: void inicializarDisparosMalos(){
 ;	---------------------------------
 ; Function inicializarDisparosMalos
 ; ---------------------------------
 _inicializarDisparosMalos_start::
 _inicializarDisparosMalos:
 	dec	sp
-;alien6.c:420: for (k=0;k<MAX_DISPAROS_MALOS;k++){
+;alien6.c:417: for (k=0;k<MAX_DISPAROS_MALOS;k++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -3269,7 +3260,7 @@ _inicializarDisparosMalos:
 	ld	a,0 (iy)
 	sub	a, (hl)
 	jr	NC,00101$
-;alien6.c:421: disparos[k].activo=0;
+;alien6.c:418: disparos[k].activo=0;
 	ld	hl,#_disparos
 	add	hl,de
 	ld	c,l
@@ -3277,37 +3268,37 @@ _inicializarDisparosMalos:
 	ld	hl,#0x000C
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:422: disparos[k].sp0=shot2;
+;alien6.c:419: disparos[k].sp0=shot2;
 	ld	l, c
 	ld	h, b
 	ld	(hl),#<(_shot2)
 	inc	hl
 	ld	(hl),#>(_shot2)
-;alien6.c:423: disparos[k].cx=0;
+;alien6.c:420: disparos[k].cx=0;
 	ld	hl,#0x0008
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:424: disparos[k].cy=0;
+;alien6.c:421: disparos[k].cy=0;
 	ld	hl,#0x0009
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:425: disparos[k].ox=0;
+;alien6.c:422: disparos[k].ox=0;
 	ld	hl,#0x000A
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:426: disparos[k].oy=0;
+;alien6.c:423: disparos[k].oy=0;
 	ld	hl,#0x000B
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:427: disparos[k].nuevo=0;
+;alien6.c:424: disparos[k].nuevo=0;
 	ld	hl,#0x000F
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:428: disparos[k].dead=0;
+;alien6.c:425: disparos[k].dead=0;
 	ld	hl,#0x0010
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:429: disparos[k].lastmoved=0;
+;alien6.c:426: disparos[k].lastmoved=0;
 	ld	hl,#0x0011
 	add	hl,bc
 	xor	a, a
@@ -3319,20 +3310,20 @@ _inicializarDisparosMalos:
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-;alien6.c:420: for (k=0;k<MAX_DISPAROS_MALOS;k++){
+;alien6.c:417: for (k=0;k<MAX_DISPAROS_MALOS;k++){
 	ld	hl,#0x0015
 	add	hl,de
 	ex	de,hl
 	inc	0 (iy)
 	jr	00103$
 00101$:
-;alien6.c:431: disparos_activos_malos=0;
+;alien6.c:428: disparos_activos_malos=0;
 	ld	hl,#_disparos_activos_malos + 0
 	ld	(hl), #0x00
 	inc	sp
 	ret
 _inicializarDisparosMalos_end::
-;alien6.c:434: void borrarDisparosMalos(){
+;alien6.c:431: void borrarDisparosMalos(){
 ;	---------------------------------
 ; Function borrarDisparosMalos
 ; ---------------------------------
@@ -3341,11 +3332,11 @@ _borrarDisparosMalos:
 	ld	hl,#-7
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:437: if (disparos_activos_malos>0){
+;alien6.c:434: if (disparos_activos_malos>0){
 	ld	a,(#_disparos_activos_malos + 0)
 	or	a, a
 	jp	Z,00112$
-;alien6.c:438: for (k=0;k<MAX_DISPAROS_MALOS;k++){
+;alien6.c:435: for (k=0;k<MAX_DISPAROS_MALOS;k++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -3362,7 +3353,7 @@ _borrarDisparosMalos:
 	ld	a,0 (iy)
 	sub	a, (hl)
 	jp	NC,00112$
-;alien6.c:439: if ((disparosMalos[k].activo==1) && (disparosMalos[k].nuevo==0)){
+;alien6.c:436: if ((disparosMalos[k].activo==1) && (disparosMalos[k].nuevo==0)){
 	ld	a,#<(_disparosMalos)
 	ld	hl,#5
 	add	hl,sp
@@ -3388,7 +3379,7 @@ _borrarDisparosMalos:
 	ld	a,15 (iy)
 	or	a, a
 	jr	NZ,00111$
-;alien6.c:440: cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].oy]+disparosMalos[k].ox);
+;alien6.c:437: cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].oy]+disparosMalos[k].ox);
 	push	de
 	pop	iy
 	ld	l,11 (iy)
@@ -3430,7 +3421,7 @@ _borrarDisparosMalos:
 	ld	a,16 (iy)
 	or	a, a
 	jr	Z,00111$
-;alien6.c:442: disparosMalos[k].activo=0;
+;alien6.c:439: disparosMalos[k].activo=0;
 	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
@@ -3438,11 +3429,11 @@ _borrarDisparosMalos:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x00
-;alien6.c:443: disparos_activos_malos--;
+;alien6.c:440: disparos_activos_malos--;
 	ld	hl, #_disparos_activos_malos+0
 	dec	(hl)
 00111$:
-;alien6.c:438: for (k=0;k<MAX_DISPAROS_MALOS;k++){
+;alien6.c:435: for (k=0;k<MAX_DISPAROS_MALOS;k++){
 	ld	hl,#5
 	add	hl,sp
 	ld	a,(hl)
@@ -3462,7 +3453,7 @@ _borrarDisparosMalos:
 	ld	sp,hl
 	ret
 _borrarDisparosMalos_end::
-;alien6.c:450: void moverDisparosMalos(){
+;alien6.c:447: void moverDisparosMalos(){
 ;	---------------------------------
 ; Function moverDisparosMalos
 ; ---------------------------------
@@ -3471,11 +3462,11 @@ _moverDisparosMalos:
 	ld	hl,#-6
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:455: if (disparos_activos_malos>0){
+;alien6.c:452: if (disparos_activos_malos>0){
 	ld	a,(#_disparos_activos_malos + 0)
 	or	a, a
 	jp	Z,00117$
-;alien6.c:456: for (i=0;i<MAX_DISPAROS_MALOS;i++){
+;alien6.c:453: for (i=0;i<MAX_DISPAROS_MALOS;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -3492,7 +3483,7 @@ _moverDisparosMalos:
 	ld	a,0 (iy)
 	sub	a, (hl)
 	jp	NC,00117$
-;alien6.c:457: if ((disparosMalos[i].activo==1) && (disparosMalos[i].dead==0)){
+;alien6.c:454: if ((disparosMalos[i].activo==1) && (disparosMalos[i].dead==0)){
 	ld	a,#<(_disparosMalos)
 	ld	hl,#4
 	add	hl,sp
@@ -3518,19 +3509,19 @@ _moverDisparosMalos:
 	ld	a,(hl)
 	or	a, a
 	jp	NZ,00116$
-;alien6.c:458: if (disparosMalos[i].cy<200){
+;alien6.c:455: if (disparosMalos[i].cy<200){
 	ld	hl,#0x0009
 	add	hl,de
 	ld	b,(hl)
 	ld	a,b
 	sub	a, #0xC8
 	jr	NC,00106$
-;alien6.c:459: disparosMalos[i].cy=disparosMalos[i].cy + SALTO_DISPARO_MALO;
+;alien6.c:456: disparosMalos[i].cy=disparosMalos[i].cy + SALTO_DISPARO_MALO;
 	inc	b
 	inc	b
 	inc	b
 	ld	(hl),b
-;alien6.c:460: if (detectarColision(disparosMalos[i].cx,disparosMalos[i].cy,2,4,prota.cx,prota.cy,4,16)){  
+;alien6.c:457: if (detectarColision(disparosMalos[i].cx,disparosMalos[i].cy,2,4,prota.cx,prota.cy,4,16)){  
 	ld	hl, #(_prota + 0x0009) + 0
 	ld	c,(hl)
 	ld	a,(#(_prota + 0x0008) + 0)
@@ -3564,16 +3555,16 @@ _moverDisparosMalos:
 	ld	a,l
 	or	a, a
 	jr	Z,00116$
-;alien6.c:463: disparosMalos[i].dead=1;
+;alien6.c:460: disparosMalos[i].dead=1;
 	ld	iy,#2
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	(hl),#0x01
-;alien6.c:465: prota.dead=1;
+;alien6.c:462: prota.dead=1;
 	ld	hl,#_prota + 20
 	ld	(hl),#0x01
-;alien6.c:467: crearExplosion(0, prota.cx, prota.cy);
+;alien6.c:464: crearExplosion(0, prota.cx, prota.cy);
 	ld	a, (#(_prota + 0x0009) + 0)
 	ld	hl, #(_prota + 0x0008) + 0
 	ld	d,(hl)
@@ -3585,18 +3576,18 @@ _moverDisparosMalos:
 	push	af
 	inc	sp
 	call	_crearExplosion
-;alien6.c:469: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(2,2);
+;alien6.c:466: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(2,2);
 	inc	sp
 	ld	hl,#0x0202
 	ex	(sp),hl
 	call	_cpc_WyzStartEffect
 	pop	af
-;alien6.c:470: hostilidad=0;
+;alien6.c:467: hostilidad=0;
 	ld	hl,#_hostilidad + 0
 	ld	(hl), #0x00
 	jr	00116$
 00106$:
-;alien6.c:474: disparosMalos[i].dead=1;
+;alien6.c:471: disparosMalos[i].dead=1;
 	ld	hl, #2
 	add	hl, sp
 	ld	a, (hl)
@@ -3605,7 +3596,7 @@ _moverDisparosMalos:
 	ld	l, a
 	ld	(hl),#0x01
 00116$:
-;alien6.c:456: for (i=0;i<MAX_DISPAROS_MALOS;i++){
+;alien6.c:453: for (i=0;i<MAX_DISPAROS_MALOS;i++){
 	ld	hl,#4
 	add	hl,sp
 	ld	a,(hl)
@@ -3625,14 +3616,14 @@ _moverDisparosMalos:
 	ld	sp,hl
 	ret
 _moverDisparosMalos_end::
-;alien6.c:482: void crearDisparoMalo(unsigned char x, unsigned char y){
+;alien6.c:479: void crearDisparoMalo(unsigned char x, unsigned char y){
 ;	---------------------------------
 ; Function crearDisparoMalo
 ; ---------------------------------
 _crearDisparoMalo_start::
 _crearDisparoMalo:
 	push	af
-;alien6.c:485: while (disparosMalos[k].activo==1){
+;alien6.c:482: while (disparosMalos[k].activo==1){
 	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -3646,16 +3637,16 @@ _crearDisparoMalo:
 	ld	a,(hl)
 	dec	a
 	jr	NZ,00103$
-;alien6.c:486: k++;
+;alien6.c:483: k++;
 	ld	hl,#0x0015
 	add	hl,bc
 	ld	c,l
 	ld	b,h
 	jr	00101$
 00103$:
-;alien6.c:488: disparosMalos[k].activo=1;
+;alien6.c:485: disparosMalos[k].activo=1;
 	ld	(hl),#0x01
-;alien6.c:489: disparosMalos[k].cx=x+1;
+;alien6.c:486: disparosMalos[k].cx=x+1;
 	ld	hl,#0x0008
 	add	hl,de
 	ld	c,l
@@ -3671,7 +3662,7 @@ _crearDisparoMalo:
 	add	hl, sp
 	ld	a, (hl)
 	ld	(bc),a
-;alien6.c:490: disparosMalos[k].cy=y-1;
+;alien6.c:487: disparosMalos[k].cy=y-1;
 	ld	hl,#0x0009
 	add	hl,de
 	ld	c,l
@@ -3687,41 +3678,38 @@ _crearDisparoMalo:
 	add	hl, sp
 	ld	a, (hl)
 	ld	(bc),a
-;alien6.c:491: disparosMalos[k].ox=x+1;
+;alien6.c:488: disparosMalos[k].ox=x+1;
 	ld	hl,#0x000A
 	add	hl,de
 	ld	iy,#1
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
-;alien6.c:492: disparosMalos[k].oy=y-1;
+;alien6.c:489: disparosMalos[k].oy=y-1;
 	ld	hl,#0x000B
 	add	hl,de
 	ld	iy,#0
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
-;alien6.c:493: disparosMalos[k].sp0=shot3;
+;alien6.c:490: disparosMalos[k].sp0=shot3;
 	ld	l, e
 	ld	h, d
 	ld	(hl),#<(_shot3)
 	inc	hl
 	ld	(hl),#>(_shot3)
-;alien6.c:494: disparosMalos[k].nuevo=1;
+;alien6.c:491: disparosMalos[k].nuevo=1;
 	ld	hl,#0x000F
 	add	hl,de
 	ld	(hl),#0x01
-;alien6.c:495: disparosMalos[k].dead=0;
+;alien6.c:492: disparosMalos[k].dead=0;
 	ld	hl,#0x0010
 	add	hl,de
 	ld	(hl),#0x00
-;alien6.c:496: disparos_activos_malos++;
+;alien6.c:493: disparos_activos_malos++;
 	ld	hl, #_disparos_activos_malos+0
 	inc	(hl)
-;alien6.c:497: ultimo_disparo_malo=contador;
-	ld	hl,(_contador)
-	ld	(_ultimo_disparo_malo),hl
-;alien6.c:498: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
+;alien6.c:494: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 	ld	hl,#0x0000
 	push	hl
 	call	_cpc_WyzStartEffect
@@ -3729,7 +3717,7 @@ _crearDisparoMalo:
 	pop	af
 	ret
 _crearDisparoMalo_end::
-;alien6.c:501: void pintarDisparosMalo(){
+;alien6.c:497: void pintarDisparosMalo(){
 ;	---------------------------------
 ; Function pintarDisparosMalo
 ; ---------------------------------
@@ -3738,11 +3726,11 @@ _pintarDisparosMalo:
 	ld	hl,#-9
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:504: if (disparos_activos_malos>0){
+;alien6.c:500: if (disparos_activos_malos>0){
 	ld	a,(#_disparos_activos_malos + 0)
 	or	a, a
 	jp	Z,00111$
-;alien6.c:505: for (k=0;k<MAX_DISPAROS_MALOS;k++){
+;alien6.c:501: for (k=0;k<MAX_DISPAROS_MALOS;k++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -3759,7 +3747,7 @@ _pintarDisparosMalo:
 	ld	a,0 (iy)
 	sub	a, (hl)
 	jp	NC,00111$
-;alien6.c:506: if (disparosMalos[k].activo==1){
+;alien6.c:502: if (disparosMalos[k].activo==1){
 	ld	a,#<(_disparosMalos)
 	ld	hl,#7
 	add	hl,sp
@@ -3774,7 +3762,7 @@ _pintarDisparosMalo:
 	ld	a,12 (iy)
 	dec	a
 	jp	NZ,00110$
-;alien6.c:507: cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].cy]+disparosMalos[k].cx);
+;alien6.c:503: cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].cy]+disparosMalos[k].cx);
 	ld	hl,#0x0009
 	add	hl,de
 	ld	iy,#5
@@ -3825,7 +3813,7 @@ _pintarDisparosMalo:
 	add	hl,sp
 	ld	sp,hl
 	pop	de
-;alien6.c:508: disparosMalos[k].ox=disparosMalos[k].cx;
+;alien6.c:504: disparosMalos[k].ox=disparosMalos[k].cx;
 	ld	hl,#0x000A
 	add	hl,de
 	ld	c,l
@@ -3838,7 +3826,7 @@ _pintarDisparosMalo:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:509: disparosMalos[k].oy=disparosMalos[k].cy;
+;alien6.c:505: disparosMalos[k].oy=disparosMalos[k].cy;
 	ld	hl,#0x000B
 	add	hl,de
 	ld	c,l
@@ -3851,7 +3839,7 @@ _pintarDisparosMalo:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:510: if (disparosMalos[k].nuevo) disparosMalos[k].nuevo=0;
+;alien6.c:506: if (disparosMalos[k].nuevo) disparosMalos[k].nuevo=0;
 	ld	hl,#0x000F
 	add	hl,de
 	ld	a,(hl)
@@ -3859,7 +3847,7 @@ _pintarDisparosMalo:
 	jr	Z,00110$
 	ld	(hl),#0x00
 00110$:
-;alien6.c:505: for (k=0;k<MAX_DISPAROS_MALOS;k++){
+;alien6.c:501: for (k=0;k<MAX_DISPAROS_MALOS;k++){
 	ld	hl,#7
 	add	hl,sp
 	ld	a,(hl)
@@ -3879,21 +3867,21 @@ _pintarDisparosMalo:
 	ld	sp,hl
 	ret
 _pintarDisparosMalo_end::
-;alien6.c:516: void inicializarAddones(){
+;alien6.c:512: void inicializarAddones(){
 ;	---------------------------------
 ; Function inicializarAddones
 ; ---------------------------------
 _inicializarAddones_start::
 _inicializarAddones:
-;alien6.c:518: for (i=0;i<MAX_ADDONES;i++){
+;alien6.c:514: for (i=0;i<MAX_ADDONES;i++){
 	ld	d,#0x00
 	ld	bc,#0x0000
 00102$:
-;alien6.c:519: addones[i].activo=0;
+;alien6.c:515: addones[i].activo=0;
 	ld	hl,#_addones
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:518: for (i=0;i<MAX_ADDONES;i++){
+;alien6.c:514: for (i=0;i<MAX_ADDONES;i++){
 	ld	hl,#0x000A
 	add	hl,bc
 	ld	c,l
@@ -3902,30 +3890,30 @@ _inicializarAddones:
 	ld	a,d
 	sub	a, #0x02
 	jr	C,00102$
-;alien6.c:521: addones_activos=0;
+;alien6.c:517: addones_activos=0;
 	ld	hl,#_addones_activos + 0
 	ld	(hl), #0x00
-;alien6.c:523: addon_sprite[0]=&addon000;
+;alien6.c:519: addon_sprite[0]=&addon000;
 	ld	hl,#_addon000
 	ld	(_addon_sprite), hl
-;alien6.c:524: addon_sprite[1]=&addon001;
+;alien6.c:520: addon_sprite[1]=&addon001;
 	ld	hl,#_addon001
 	ld	((_addon_sprite + 0x0002)), hl
-;alien6.c:525: addon_sprite[2]=&addon002;
+;alien6.c:521: addon_sprite[2]=&addon002;
 	ld	hl,#_addon002
 	ld	((_addon_sprite + 0x0004)), hl
-;alien6.c:526: addon_sprite[3]=&addon003;
+;alien6.c:522: addon_sprite[3]=&addon003;
 	ld	hl,#_addon003
 	ld	((_addon_sprite + 0x0006)), hl
 	ret
 _inicializarAddones_end::
-;alien6.c:528: void crearAddon(unsigned char posx, unsigned char posy){
+;alien6.c:524: void crearAddon(unsigned char posx, unsigned char posy){
 ;	---------------------------------
 ; Function crearAddon
 ; ---------------------------------
 _crearAddon_start::
 _crearAddon:
-;alien6.c:532: while (addones[i].activo==1){
+;alien6.c:528: while (addones[i].activo==1){
 	ld	b,#0x00
 	ld	de,#0x0000
 00101$:
@@ -3934,52 +3922,52 @@ _crearAddon:
 	ld	a,(hl)
 	dec	a
 	jr	NZ,00120$
-;alien6.c:533: i++;
+;alien6.c:529: i++;
 	ld	hl,#0x000A
 	add	hl,de
 	ex	de,hl
 	inc	b
 	jr	00101$
 00120$:
-;alien6.c:535: addones[i].activo=1;
+;alien6.c:531: addones[i].activo=1;
 	ld	(hl),#0x01
-;alien6.c:537: aux=cpc_Random();
+;alien6.c:533: aux=cpc_Random();
 	push	hl
 	push	bc
 	call	_cpc_Random
 	ld	e,l
 	pop	bc
 	pop	hl
-;alien6.c:539: addones[i].tipo=0;
+;alien6.c:535: addones[i].tipo=0;
 	inc	hl
-;alien6.c:538: if (aux<108)
+;alien6.c:534: if (aux<108)
 	ld	a,e
 	sub	a, #0x6C
 	jr	NC,00111$
-;alien6.c:539: addones[i].tipo=0;
+;alien6.c:535: addones[i].tipo=0;
 	ld	(hl),#0x00
 	jr	00112$
 00111$:
-;alien6.c:540: else if (aux<216)
+;alien6.c:536: else if (aux<216)
 	ld	a,e
 	sub	a, #0xD8
 	jr	NC,00108$
-;alien6.c:541: addones[i].tipo=1;
+;alien6.c:537: addones[i].tipo=1;
 	ld	(hl),#0x01
 	jr	00112$
 00108$:
-;alien6.c:542: else if (aux<243)
+;alien6.c:538: else if (aux<243)
 	ld	a,e
 	sub	a, #0xF3
 	jr	NC,00105$
-;alien6.c:543: addones[i].tipo=2;
+;alien6.c:539: addones[i].tipo=2;
 	ld	(hl),#0x02
 	jr	00112$
 00105$:
-;alien6.c:545: addones[i].tipo=3;
+;alien6.c:541: addones[i].tipo=3;
 	ld	(hl),#0x03
 00112$:
-;alien6.c:546: addones[i].x=posx;
+;alien6.c:542: addones[i].x=posx;
 	ld	c,b
 	ld	b,#0x00
 	ld	l, c
@@ -4002,7 +3990,7 @@ _crearAddon:
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
-;alien6.c:547: addones[i].y=posy+10;
+;alien6.c:543: addones[i].y=posy+10;
 	ld	c, e
 	ld	b, d
 	inc	bc
@@ -4013,11 +4001,11 @@ _crearAddon:
 	ld	a, (hl)
 	add	a, #0x0A
 	ld	(bc),a
-;alien6.c:548: addones[i].moved=0;
+;alien6.c:544: addones[i].moved=0;
 	ld	hl,#0x0004
 	add	hl,de
 	ld	(hl),#0x00
-;alien6.c:549: addones[i].lastmoved=0;
+;alien6.c:545: addones[i].lastmoved=0;
 	ld	hl,#0x0006
 	add	hl,de
 	ld	(hl),#0x00
@@ -4027,16 +4015,16 @@ _crearAddon:
 	ld	(hl),#0x00
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:550: addones[i].speed=40;
+;alien6.c:546: addones[i].speed=40;
 	ld	hl,#0x0005
 	add	hl,de
 	ld	(hl),#0x28
-;alien6.c:552: addones_activos++;
+;alien6.c:548: addones_activos++;
 	ld	hl, #_addones_activos+0
 	inc	(hl)
 	ret
 _crearAddon_end::
-;alien6.c:555: void borrarAddones(){
+;alien6.c:551: void borrarAddones(){
 ;	---------------------------------
 ; Function borrarAddones
 ; ---------------------------------
@@ -4045,11 +4033,11 @@ _borrarAddones:
 	push	af
 	push	af
 	dec	sp
-;alien6.c:557: if (addones_activos>0){
+;alien6.c:553: if (addones_activos>0){
 	ld	a,(#_addones_activos + 0)
 	or	a, a
 	jp	Z,00109$
-;alien6.c:558: for (i=0;i<MAX_ADDONES;i++){
+;alien6.c:554: for (i=0;i<MAX_ADDONES;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -4060,7 +4048,7 @@ _borrarAddones:
 	inc	hl
 	ld	(hl), a
 00107$:
-;alien6.c:559: if ((addones[i].activo==1) && (addones[i].moved)){
+;alien6.c:555: if ((addones[i].activo==1) && (addones[i].moved)){
 	ld	a,#<(_addones)
 	ld	hl,#3
 	add	hl,sp
@@ -4087,7 +4075,7 @@ _borrarAddones:
 	ld	a,(hl)
 	or	a, a
 	jr	Z,00108$
-;alien6.c:560: cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
+;alien6.c:556: cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	inc	hl
@@ -4129,7 +4117,7 @@ _borrarAddones:
 	add	hl,sp
 	ld	sp,hl
 00108$:
-;alien6.c:558: for (i=0;i<MAX_ADDONES;i++){
+;alien6.c:554: for (i=0;i<MAX_ADDONES;i++){
 	ld	hl,#3
 	add	hl,sp
 	ld	a,(hl)
@@ -4151,7 +4139,7 @@ _borrarAddones:
 	inc	sp
 	ret
 _borrarAddones_end::
-;alien6.c:566: void moverAddones(){
+;alien6.c:562: void moverAddones(){
 ;	---------------------------------
 ; Function moverAddones
 ; ---------------------------------
@@ -4160,7 +4148,7 @@ _moverAddones:
 	ld	hl,#-13
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:570: lapso=getTime();
+;alien6.c:566: lapso=getTime();
 	call	_getTime
 	ld	iy,#0
 	add	iy,sp
@@ -4168,11 +4156,11 @@ _moverAddones:
 	ld	1 (iy),h
 	ld	2 (iy),e
 	ld	3 (iy),d
-;alien6.c:571: if (addones_activos>0){
+;alien6.c:567: if (addones_activos>0){
 	ld	a,(#_addones_activos + 0)
 	or	a, a
 	jp	Z,00111$
-;alien6.c:572: for (i=0;i<MAX_ADDONES;i++){
+;alien6.c:568: for (i=0;i<MAX_ADDONES;i++){
 	ld	iy,#4
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -4183,7 +4171,7 @@ _moverAddones:
 	inc	hl
 	ld	(hl), a
 00109$:
-;alien6.c:573: if ((addones[i].activo==1) && (lapso-addones[i].lastmoved>addones[i].speed)){
+;alien6.c:569: if ((addones[i].activo==1) && (lapso-addones[i].lastmoved>addones[i].speed)){
 	ld	a,#<(_addones)
 	ld	hl,#11
 	add	hl,sp
@@ -4258,7 +4246,7 @@ _moverAddones:
 	xor	a, #0x80
 00136$:
 	jp	P,00110$
-;alien6.c:575: addones[i].y++;
+;alien6.c:571: addones[i].y++;
 	ld	iy,#9
 	add	iy,sp
 	ld	l,0 (iy)
@@ -4269,19 +4257,19 @@ _moverAddones:
 	ld	d,(hl)
 	inc	d
 	ld	(hl),d
-;alien6.c:577: if (addones[i].y>199){
+;alien6.c:573: if (addones[i].y>199){
 	ld	a,#0xC7
 	sub	a, d
 	jr	NC,00110$
-;alien6.c:578: addones[i].activo=0;
+;alien6.c:574: addones[i].activo=0;
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	(hl),#0x00
-;alien6.c:579: addones_activos--;
+;alien6.c:575: addones_activos--;
 	ld	hl, #_addones_activos+0
 	dec	(hl)
 00110$:
-;alien6.c:572: for (i=0;i<MAX_ADDONES;i++){
+;alien6.c:568: for (i=0;i<MAX_ADDONES;i++){
 	ld	hl,#11
 	add	hl,sp
 	ld	a,(hl)
@@ -4303,7 +4291,7 @@ _moverAddones:
 	ld	sp,hl
 	ret
 _moverAddones_end::
-;alien6.c:586: void pintarAddones(){
+;alien6.c:582: void pintarAddones(){
 ;	---------------------------------
 ; Function pintarAddones
 ; ---------------------------------
@@ -4312,11 +4300,11 @@ _pintarAddones:
 	ld	hl,#-7
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:588: if (addones_activos>0){
+;alien6.c:584: if (addones_activos>0){
 	ld	a,(#_addones_activos + 0)
 	or	a, a
 	jp	Z,00109$
-;alien6.c:589: for (i=0;i<MAX_ADDONES;i++){
+;alien6.c:585: for (i=0;i<MAX_ADDONES;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -4327,7 +4315,7 @@ _pintarAddones:
 	inc	hl
 	ld	(hl), a
 00107$:
-;alien6.c:590: if ((addones[i].activo==1) && (addones[i].moved)){
+;alien6.c:586: if ((addones[i].activo==1) && (addones[i].moved)){
 	ld	a,#<(_addones)
 	ld	hl,#5
 	add	hl,sp
@@ -4365,7 +4353,7 @@ _pintarAddones:
 	ld	a,(hl)
 	or	a, a
 	jr	Z,00108$
-;alien6.c:591: cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
+;alien6.c:587: cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
 	ld	iy,#3
 	add	iy,sp
 	ld	l,0 (iy)
@@ -4408,7 +4396,7 @@ _pintarAddones:
 	ld	hl,#6
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:592: addones[i].moved=0;
+;alien6.c:588: addones[i].moved=0;
 	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
@@ -4417,7 +4405,7 @@ _pintarAddones:
 	ld	l, a
 	ld	(hl),#0x00
 00108$:
-;alien6.c:589: for (i=0;i<MAX_ADDONES;i++){
+;alien6.c:585: for (i=0;i<MAX_ADDONES;i++){
 	ld	hl,#5
 	add	hl,sp
 	ld	a,(hl)
@@ -4439,28 +4427,28 @@ _pintarAddones:
 	ld	sp,hl
 	ret
 _pintarAddones_end::
-;alien6.c:599: void inicializarAtaques(){
+;alien6.c:595: void inicializarAtaques(){
 ;	---------------------------------
 ; Function inicializarAtaques
 ; ---------------------------------
 _inicializarAtaques_start::
 _inicializarAtaques:
-;alien6.c:601: for (i=0;i<MAX_ATAQUES;i++){
+;alien6.c:597: for (i=0;i<MAX_ATAQUES;i++){
 	ld	d,#0x00
 	ld	bc,#0x0000
 00102$:
-;alien6.c:602: ataques[i].activo=0;
+;alien6.c:598: ataques[i].activo=0;
 	ld	hl,#_ataques
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:603: ataques[i].maxStep=19;
+;alien6.c:599: ataques[i].maxStep=19;
 	push	hl
 	pop	iy
 	inc	iy
 	inc	iy
 	inc	iy
 	ld	0 (iy), #0x13
-;alien6.c:604: ataques[i].trayectoria=trayectoria1;
+;alien6.c:600: ataques[i].trayectoria=trayectoria1;
 	inc	hl
 	inc	hl
 	inc	hl
@@ -4468,7 +4456,7 @@ _inicializarAtaques:
 	ld	(hl),#<(_trayectoria1)
 	inc	hl
 	ld	(hl),#>(_trayectoria1)
-;alien6.c:601: for (i=0;i<MAX_ATAQUES;i++){
+;alien6.c:597: for (i=0;i<MAX_ATAQUES;i++){
 	ld	hl,#0x0006
 	add	hl,bc
 	ld	c,l
@@ -4477,18 +4465,18 @@ _inicializarAtaques:
 	ld	a,d
 	sub	a, #0x03
 	jr	C,00102$
-;alien6.c:606: ataques_activos=0;
+;alien6.c:602: ataques_activos=0;
 	ld	hl,#_ataques_activos + 0
 	ld	(hl), #0x00
 	ret
 _inicializarAtaques_end::
-;alien6.c:609: void crearAtaque(unsigned char malo){
+;alien6.c:605: void crearAtaque(unsigned char malo){
 ;	---------------------------------
 ; Function crearAtaque
 ; ---------------------------------
 _crearAtaque_start::
 _crearAtaque:
-;alien6.c:612: while (ataques[i].activo==1){
+;alien6.c:608: while (ataques[i].activo==1){
 	ld	iy,#-1
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -4500,17 +4488,17 @@ _crearAtaque:
 	ld	a,(de)
 	dec	a
 	jr	NZ,00103$
-;alien6.c:613: i++;
+;alien6.c:609: i++;
 	ld	hl,#0x0006
 	add	hl,bc
 	ld	c,l
 	ld	b,h
 	jr	00101$
 00103$:
-;alien6.c:615: ataques[i].activo=1;
+;alien6.c:611: ataques[i].activo=1;
 	ld	a,#0x01
 	ld	(de),a
-;alien6.c:616: ataques[i].idMalo=malo;
+;alien6.c:612: ataques[i].idMalo=malo;
 	ld	l, e
 	ld	h, d
 	inc	hl
@@ -4518,31 +4506,31 @@ _crearAtaque:
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
-;alien6.c:617: ataques[i].step=0;
+;alien6.c:613: ataques[i].step=0;
 	inc	de
 	ld	l,e
 	ld	h,d
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:618: ataques_activos++;
+;alien6.c:614: ataques_activos++;
 	ld	hl, #_ataques_activos+0
 	inc	(hl)
 	ret
 _crearAtaque_end::
-;alien6.c:621: void malosACero(){
+;alien6.c:617: void malosACero(){
 ;	---------------------------------
 ; Function malosACero
 ; ---------------------------------
 _malosACero_start::
 _malosACero:
 	dec	sp
-;alien6.c:623: for (i=0;i < MAX_MALOS;i++){
+;alien6.c:619: for (i=0;i < MAX_MALOS;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
 	ld	de,#0x0000
 00102$:
-;alien6.c:624: malos[i].type=0;
+;alien6.c:620: malos[i].type=0;
 	ld	hl,#_malos
 	add	hl,de
 	ld	c,l
@@ -4550,75 +4538,75 @@ _malosACero:
 	ld	hl,#0x0008
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:625: malos[i].activo=0;
+;alien6.c:621: malos[i].activo=0;
 	ld	hl,#0x000D
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:626: malos[i].sp0=0;
+;alien6.c:622: malos[i].sp0=0;
 	ld	l, c
 	ld	h, b
 	xor	a, a
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-;alien6.c:627: malos[i].movement=0;
+;alien6.c:623: malos[i].movement=0;
 	ld	hl,#0x0009
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:628: malos[i].idMovement=0;
+;alien6.c:624: malos[i].idMovement=0;
 	ld	hl,#0x000A
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:629: malos[i].cx=0;
+;alien6.c:625: malos[i].cx=0;
 	ld	l, c
 	ld	h, b
 	inc	hl
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:630: malos[i].cy=0;
+;alien6.c:626: malos[i].cy=0;
 	ld	l, c
 	ld	h, b
 	inc	hl
 	inc	hl
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:631: malos[i].homeX=0;
+;alien6.c:627: malos[i].homeX=0;
 	ld	hl,#0x000B
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:632: malos[i].homeY=0;
+;alien6.c:628: malos[i].homeY=0;
 	ld	hl,#0x000C
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:633: malos[i].w=0;
+;alien6.c:629: malos[i].w=0;
 	ld	hl,#0x0007
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:634: malos[i].h=0;
+;alien6.c:630: malos[i].h=0;
 	ld	hl,#0x0006
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:635: malos[i].nuevo=0;
+;alien6.c:631: malos[i].nuevo=0;
 	ld	hl,#0x0010
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:636: malos[i].dead=0;
+;alien6.c:632: malos[i].dead=0;
 	ld	hl,#0x0011
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:637: malos[i].agresividad=0;
+;alien6.c:633: malos[i].agresividad=0;
 	ld	hl,#0x0013
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:638: malos[i].vidas=0;
+;alien6.c:634: malos[i].vidas=0;
 	ld	hl,#0x0012
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:639: malos[i].speed=0;
+;alien6.c:635: malos[i].speed=0;
 	ld	hl,#0x000F
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:623: for (i=0;i < MAX_MALOS;i++){
+;alien6.c:619: for (i=0;i < MAX_MALOS;i++){
 	ld	hl,#0x001C
 	add	hl,de
 	ex	de,hl
@@ -4631,7 +4619,7 @@ _malosACero:
 	inc	sp
 	ret
 _malosACero_end::
-;alien6.c:643: void cargarMalo(unsigned char malo, unsigned char tipo){
+;alien6.c:639: void cargarMalo(unsigned char malo, unsigned char tipo){
 ;	---------------------------------
 ; Function cargarMalo
 ; ---------------------------------
@@ -4640,7 +4628,7 @@ _cargarMalo:
 	ld	hl,#-11
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:644: malos[malo].type=tipo;
+;alien6.c:640: malos[malo].type=tipo;
 	ld	de,#_malos+0
 	ld	hl, #13+0
 	add	hl, sp
@@ -4662,47 +4650,47 @@ _cargarMalo:
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
-;alien6.c:647: malos[malo].activo=1;
+;alien6.c:643: malos[malo].activo=1;
 	ld	hl,#0x000D
 	add	hl,de
 	ld	iy,#9
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
-;alien6.c:649: malos[malo].w=4;
+;alien6.c:645: malos[malo].w=4;
 	ld	hl,#0x0007
 	add	hl,de
 	ld	iy,#7
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
-;alien6.c:650: malos[malo].h=15;
+;alien6.c:646: malos[malo].h=15;
 	ld	hl,#0x0006
 	add	hl,de
 	ld	iy,#5
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
-;alien6.c:651: malos[malo].agresividad=4;
+;alien6.c:647: malos[malo].agresividad=4;
 	ld	hl,#0x0013
 	add	hl,de
 	ld	iy,#3
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
-;alien6.c:652: malos[malo].vidas=1;
+;alien6.c:648: malos[malo].vidas=1;
 	ld	hl,#0x0012
 	add	hl,de
 	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
-;alien6.c:653: malos[malo].speed=40;
+;alien6.c:649: malos[malo].speed=40;
 	ld	hl,#0x000F
 	add	hl,de
 	ld	c,l
 	ld	b,h
-;alien6.c:645: switch(tipo) {
+;alien6.c:641: switch(tipo) {
 	ld	iy,#14
 	add	iy,sp
 	ld	a,0 (iy)
@@ -4731,9 +4719,9 @@ _cargarMalo:
 	jp	00101$
 	jp	00102$
 	jp	00103$
-;alien6.c:646: case 1:
+;alien6.c:642: case 1:
 00101$:
-;alien6.c:647: malos[malo].activo=1;
+;alien6.c:643: malos[malo].activo=1;
 	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
@@ -4741,13 +4729,13 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x01
-;alien6.c:648: malos[malo].sp0=baddie01;
+;alien6.c:644: malos[malo].sp0=baddie01;
 	ld	a,#<(_baddie01)
 	ld	(de),a
 	inc	de
 	ld	a,#>(_baddie01)
 	ld	(de),a
-;alien6.c:649: malos[malo].w=4;
+;alien6.c:645: malos[malo].w=4;
 	ld	hl, #7
 	add	hl, sp
 	ld	a, (hl)
@@ -4755,7 +4743,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x04
-;alien6.c:650: malos[malo].h=15;
+;alien6.c:646: malos[malo].h=15;
 	ld	hl, #5
 	add	hl, sp
 	ld	a, (hl)
@@ -4763,7 +4751,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x0F
-;alien6.c:651: malos[malo].agresividad=4;
+;alien6.c:647: malos[malo].agresividad=4;
 	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
@@ -4771,7 +4759,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x04
-;alien6.c:652: malos[malo].vidas=1;
+;alien6.c:648: malos[malo].vidas=1;
 	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
@@ -4779,14 +4767,14 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x01
-;alien6.c:653: malos[malo].speed=40;
+;alien6.c:649: malos[malo].speed=40;
 	ld	a,#0x28
 	ld	(bc),a
-;alien6.c:654: break;
+;alien6.c:650: break;
 	jp	00106$
-;alien6.c:655: case 2:
+;alien6.c:651: case 2:
 00102$:
-;alien6.c:656: malos[malo].activo=1;
+;alien6.c:652: malos[malo].activo=1;
 	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
@@ -4794,13 +4782,13 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x01
-;alien6.c:657: malos[malo].sp0=baddie02;
+;alien6.c:653: malos[malo].sp0=baddie02;
 	ld	a,#<(_baddie02)
 	ld	(de),a
 	inc	de
 	ld	a,#>(_baddie02)
 	ld	(de),a
-;alien6.c:658: malos[malo].w=4;
+;alien6.c:654: malos[malo].w=4;
 	ld	hl, #7
 	add	hl, sp
 	ld	a, (hl)
@@ -4808,7 +4796,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x04
-;alien6.c:659: malos[malo].h=8;
+;alien6.c:655: malos[malo].h=8;
 	ld	hl, #5
 	add	hl, sp
 	ld	a, (hl)
@@ -4816,7 +4804,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x08
-;alien6.c:660: malos[malo].agresividad=8;
+;alien6.c:656: malos[malo].agresividad=8;
 	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
@@ -4824,7 +4812,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x08
-;alien6.c:661: malos[malo].vidas=2;
+;alien6.c:657: malos[malo].vidas=2;
 	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
@@ -4832,14 +4820,14 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x02
-;alien6.c:662: malos[malo].speed=16;
+;alien6.c:658: malos[malo].speed=16;
 	ld	a,#0x10
 	ld	(bc),a
-;alien6.c:663: break;
+;alien6.c:659: break;
 	jr	00106$
-;alien6.c:664: case 3:
+;alien6.c:660: case 3:
 00103$:
-;alien6.c:665: malos[malo].activo=1;
+;alien6.c:661: malos[malo].activo=1;
 	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
@@ -4847,13 +4835,13 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x01
-;alien6.c:666: malos[malo].sp0=baddie03;
+;alien6.c:662: malos[malo].sp0=baddie03;
 	ld	a,#<(_baddie03)
 	ld	(de),a
 	inc	de
 	ld	a,#>(_baddie03)
 	ld	(de),a
-;alien6.c:667: malos[malo].w=4;
+;alien6.c:663: malos[malo].w=4;
 	ld	hl, #7
 	add	hl, sp
 	ld	a, (hl)
@@ -4861,7 +4849,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x04
-;alien6.c:668: malos[malo].h=8;
+;alien6.c:664: malos[malo].h=8;
 	ld	hl, #5
 	add	hl, sp
 	ld	a, (hl)
@@ -4869,7 +4857,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x08
-;alien6.c:669: malos[malo].agresividad=16;
+;alien6.c:665: malos[malo].agresividad=16;
 	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
@@ -4877,7 +4865,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x10
-;alien6.c:670: malos[malo].vidas=3;
+;alien6.c:666: malos[malo].vidas=3;
 	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
@@ -4885,14 +4873,14 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x03
-;alien6.c:671: malos[malo].speed=8;
+;alien6.c:667: malos[malo].speed=8;
 	ld	a,#0x08
 	ld	(bc),a
-;alien6.c:672: break;
+;alien6.c:668: break;
 	jr	00106$
-;alien6.c:673: default:
+;alien6.c:669: default:
 00104$:
-;alien6.c:674: malos[malo].activo=1;
+;alien6.c:670: malos[malo].activo=1;
 	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
@@ -4900,13 +4888,13 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x01
-;alien6.c:675: malos[malo].sp0=baddie01;
+;alien6.c:671: malos[malo].sp0=baddie01;
 	ld	a,#<(_baddie01)
 	ld	(de),a
 	inc	de
 	ld	a,#>(_baddie01)
 	ld	(de),a
-;alien6.c:676: malos[malo].w=4;
+;alien6.c:672: malos[malo].w=4;
 	ld	hl, #7
 	add	hl, sp
 	ld	a, (hl)
@@ -4914,7 +4902,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x04
-;alien6.c:677: malos[malo].h=15;
+;alien6.c:673: malos[malo].h=15;
 	ld	hl, #5
 	add	hl, sp
 	ld	a, (hl)
@@ -4922,7 +4910,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x0F
-;alien6.c:678: malos[malo].agresividad=32;
+;alien6.c:674: malos[malo].agresividad=32;
 	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
@@ -4930,7 +4918,7 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x20
-;alien6.c:679: malos[malo].vidas=1;
+;alien6.c:675: malos[malo].vidas=1;
 	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
@@ -4938,17 +4926,17 @@ _cargarMalo:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x01
-;alien6.c:680: malos[malo].speed=15;
+;alien6.c:676: malos[malo].speed=15;
 	ld	a,#0x0F
 	ld	(bc),a
-;alien6.c:682: }
+;alien6.c:678: }
 00106$:
 	ld	hl,#11
 	add	hl,sp
 	ld	sp,hl
 	ret
 _cargarMalo_end::
-;alien6.c:687: void inicializarMalos(){
+;alien6.c:683: void inicializarMalos(){
 ;	---------------------------------
 ; Function inicializarMalos
 ; ---------------------------------
@@ -4957,9 +4945,9 @@ _inicializarMalos:
 	ld	hl,#-7
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:690: malosACero();
+;alien6.c:686: malosACero();
 	call	_malosACero
-;alien6.c:692: switch(nivel) {
+;alien6.c:688: switch(nivel) {
 	ld	a,(#_nivel + 0)
 	xor	a, #0x80
 	sub	a, #0x81
@@ -4984,19 +4972,19 @@ _inicializarMalos:
 	jp	00101$
 	jp	00104$
 	jp	00107$
-;alien6.c:693: case 1:
+;alien6.c:689: case 1:
 00101$:
-;alien6.c:694: malos_activos=4;
+;alien6.c:690: malos_activos=4;
 	ld	hl,#_malos_activos + 0
 	ld	(hl), #0x04
-;alien6.c:695: for (i=0;i < malos_activos;i++){
+;alien6.c:691: for (i=0;i < malos_activos;i++){
 	ld	d,#0x00
 00115$:
 	ld	hl,#_malos_activos
 	ld	a,d
 	sub	a, (hl)
 	jr	NC,00102$
-;alien6.c:696: cargarMalo(i,1);
+;alien6.c:692: cargarMalo(i,1);
 	push	de
 	ld	a,#0x01
 	push	af
@@ -5006,35 +4994,35 @@ _inicializarMalos:
 	call	_cargarMalo
 	pop	af
 	pop	de
-;alien6.c:695: for (i=0;i < malos_activos;i++){
+;alien6.c:691: for (i=0;i < malos_activos;i++){
 	inc	d
 	jr	00115$
 00102$:
-;alien6.c:698: malos[0].cx=20;  // coloco en formación el segundo malo
+;alien6.c:694: malos[0].cx=20;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 2
 	ld	(hl),#0x14
-;alien6.c:699: malos[0].cy=17;  // coloco en formación el segundo malo
+;alien6.c:695: malos[0].cy=17;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 3
 	ld	(hl),#0x11
-;alien6.c:700: malos[1].cx=32;  // coloco en formación el segundo malo
+;alien6.c:696: malos[1].cx=32;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 30
 	ld	(hl),#0x20
-;alien6.c:701: malos[1].cy=17;  // coloco en formación el segundo malo		
+;alien6.c:697: malos[1].cy=17;  // coloco en formación el segundo malo		
 	ld	hl,#_malos + 31
 	ld	(hl),#0x11
-;alien6.c:702: malos[2].cx=44;  // coloco en formación el segundo malo
+;alien6.c:698: malos[2].cx=44;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 58
 	ld	(hl),#0x2C
-;alien6.c:703: malos[2].cy=17;  // coloco en formación el segundo malo
+;alien6.c:699: malos[2].cy=17;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 59
 	ld	(hl),#0x11
-;alien6.c:704: malos[3].cx=56;  // coloco en formación el segundo malo
+;alien6.c:700: malos[3].cx=56;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 86
 	ld	(hl),#0x38
-;alien6.c:705: malos[3].cy=17;  // coloco en formación el segundo malo		
+;alien6.c:701: malos[3].cy=17;  // coloco en formación el segundo malo		
 	ld	hl,#_malos + 87
 	ld	(hl),#0x11
-;alien6.c:706: for (i=0;i < malos_activos;i++){
+;alien6.c:702: for (i=0;i < malos_activos;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -5051,7 +5039,7 @@ _inicializarMalos:
 	ld	a,0 (iy)
 	sub	a, (hl)
 	jp	NC,00138$
-;alien6.c:707: malos[i].ox=malos[i].cx;
+;alien6.c:703: malos[i].ox=malos[i].cx;
 	ld	a,#<(_malos)
 	ld	hl,#5
 	add	hl,sp
@@ -5075,7 +5063,7 @@ _inicializarMalos:
 	ld	h,1 (iy)
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:708: malos[i].oy=malos[i].cy;
+;alien6.c:704: malos[i].oy=malos[i].cy;
 	ld	hl,#0x0005
 	add	hl,de
 	ld	c,l
@@ -5090,7 +5078,7 @@ _inicializarMalos:
 	ld	h,1 (iy)
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:709: malos[i].homeX=malos[i].cx;
+;alien6.c:705: malos[i].homeX=malos[i].cx;
 	ld	hl,#0x000B
 	add	hl,de
 	ld	c,l
@@ -5103,7 +5091,7 @@ _inicializarMalos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:710: malos[i].homeY=malos[i].cy;
+;alien6.c:706: malos[i].homeY=malos[i].cy;
 	ld	hl,#0x000C
 	add	hl,de
 	ld	c,l
@@ -5116,7 +5104,7 @@ _inicializarMalos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:711: malos[i].lastmoved=0;
+;alien6.c:707: malos[i].lastmoved=0;
 	ld	hl,#0x0018
 	add	hl,de
 	xor	a, a
@@ -5128,7 +5116,7 @@ _inicializarMalos:
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-;alien6.c:706: for (i=0;i < malos_activos;i++){
+;alien6.c:702: for (i=0;i < malos_activos;i++){
 	ld	hl,#5
 	add	hl,sp
 	ld	a,(hl)
@@ -5142,19 +5130,19 @@ _inicializarMalos:
 	add	iy,sp
 	inc	0 (iy)
 	jp	00118$
-;alien6.c:715: case 2:
+;alien6.c:711: case 2:
 00104$:
-;alien6.c:716: malos_activos=4;
+;alien6.c:712: malos_activos=4;
 	ld	hl,#_malos_activos + 0
 	ld	(hl), #0x04
-;alien6.c:717: for (i=0;i < malos_activos;i++){
+;alien6.c:713: for (i=0;i < malos_activos;i++){
 	ld	d,#0x00
 00121$:
 	ld	hl,#_malos_activos
 	ld	a,d
 	sub	a, (hl)
 	jr	NC,00105$
-;alien6.c:718: cargarMalo(i,2);
+;alien6.c:714: cargarMalo(i,2);
 	push	de
 	ld	a,#0x02
 	push	af
@@ -5164,35 +5152,35 @@ _inicializarMalos:
 	call	_cargarMalo
 	pop	af
 	pop	de
-;alien6.c:717: for (i=0;i < malos_activos;i++){
+;alien6.c:713: for (i=0;i < malos_activos;i++){
 	inc	d
 	jr	00121$
 00105$:
-;alien6.c:720: malos[0].cx=29;  // coloco en formación el segundo malo
+;alien6.c:716: malos[0].cx=29;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 2
 	ld	(hl),#0x1D
-;alien6.c:721: malos[0].cy=20;  // coloco en formación el segundo malo
+;alien6.c:717: malos[0].cy=20;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 3
 	ld	(hl),#0x14
-;alien6.c:722: malos[1].cx=38;  // coloco en formación el segundo malo
+;alien6.c:718: malos[1].cx=38;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 30
 	ld	(hl),#0x26
-;alien6.c:723: malos[1].cy=28;  // coloco en formación el segundo malo		
+;alien6.c:719: malos[1].cy=28;  // coloco en formación el segundo malo		
 	ld	hl,#_malos + 31
 	ld	(hl),#0x1C
-;alien6.c:724: malos[2].cx=47;  // coloco en formación el segundo malo
+;alien6.c:720: malos[2].cx=47;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 58
 	ld	(hl),#0x2F
-;alien6.c:725: malos[2].cy=20;  // coloco en formación el segundo malo
+;alien6.c:721: malos[2].cy=20;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 59
 	ld	(hl),#0x14
-;alien6.c:726: malos[3].cx=56;  // coloco en formación el segundo malo
+;alien6.c:722: malos[3].cx=56;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 86
 	ld	(hl),#0x38
-;alien6.c:727: malos[3].cy=28;  // coloco en formación el segundo malo		
+;alien6.c:723: malos[3].cy=28;  // coloco en formación el segundo malo		
 	ld	hl,#_malos + 87
 	ld	(hl),#0x1C
-;alien6.c:728: for (i=0;i < malos_activos;i++){
+;alien6.c:724: for (i=0;i < malos_activos;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -5209,7 +5197,7 @@ _inicializarMalos:
 	ld	a,0 (iy)
 	sub	a, (hl)
 	jp	NC,00138$
-;alien6.c:729: malos[i].ox=malos[i].cx;
+;alien6.c:725: malos[i].ox=malos[i].cx;
 	ld	a,#<(_malos)
 	ld	hl,#1
 	add	hl,sp
@@ -5233,7 +5221,7 @@ _inicializarMalos:
 	ld	h,1 (iy)
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:730: malos[i].oy=malos[i].cy;
+;alien6.c:726: malos[i].oy=malos[i].cy;
 	ld	hl,#0x0005
 	add	hl,de
 	ld	c,l
@@ -5248,7 +5236,7 @@ _inicializarMalos:
 	ld	h,1 (iy)
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:731: malos[i].homeX=malos[i].cx;
+;alien6.c:727: malos[i].homeX=malos[i].cx;
 	ld	hl,#0x000B
 	add	hl,de
 	ld	c,l
@@ -5261,7 +5249,7 @@ _inicializarMalos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:732: malos[i].homeY=malos[i].cy;
+;alien6.c:728: malos[i].homeY=malos[i].cy;
 	ld	hl,#0x000C
 	add	hl,de
 	ld	c,l
@@ -5274,7 +5262,7 @@ _inicializarMalos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:733: malos[i].lastmoved=0;
+;alien6.c:729: malos[i].lastmoved=0;
 	ld	hl,#0x0018
 	add	hl,de
 	xor	a, a
@@ -5286,7 +5274,7 @@ _inicializarMalos:
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-;alien6.c:728: for (i=0;i < malos_activos;i++){
+;alien6.c:724: for (i=0;i < malos_activos;i++){
 	ld	hl,#1
 	add	hl,sp
 	ld	a,(hl)
@@ -5300,19 +5288,19 @@ _inicializarMalos:
 	add	iy,sp
 	inc	0 (iy)
 	jp	00124$
-;alien6.c:737: case 3:
+;alien6.c:733: case 3:
 00107$:
-;alien6.c:738: malos_activos=5;
+;alien6.c:734: malos_activos=5;
 	ld	hl,#_malos_activos + 0
 	ld	(hl), #0x05
-;alien6.c:739: for (i=0;i < malos_activos;i++){
+;alien6.c:735: for (i=0;i < malos_activos;i++){
 	ld	d,#0x00
 00127$:
 	ld	hl,#_malos_activos
 	ld	a,d
 	sub	a, (hl)
 	jr	NC,00108$
-;alien6.c:740: cargarMalo(i,3);
+;alien6.c:736: cargarMalo(i,3);
 	push	de
 	ld	a,#0x03
 	push	af
@@ -5322,41 +5310,41 @@ _inicializarMalos:
 	call	_cargarMalo
 	pop	af
 	pop	de
-;alien6.c:739: for (i=0;i < malos_activos;i++){
+;alien6.c:735: for (i=0;i < malos_activos;i++){
 	inc	d
 	jr	00127$
 00108$:
-;alien6.c:742: malos[0].cx=20;  // coloco en formación el segundo malo
+;alien6.c:738: malos[0].cx=20;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 2
 	ld	(hl),#0x14
-;alien6.c:743: malos[0].cy=17;  // coloco en formación el segundo malo
+;alien6.c:739: malos[0].cy=17;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 3
 	ld	(hl),#0x11
-;alien6.c:744: malos[1].cx=29;  // coloco en formación el segundo malo
+;alien6.c:740: malos[1].cx=29;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 30
 	ld	(hl),#0x1D
-;alien6.c:745: malos[1].cy=17;  // coloco en formación el segundo malo		
+;alien6.c:741: malos[1].cy=17;  // coloco en formación el segundo malo		
 	ld	hl,#_malos + 31
 	ld	(hl),#0x11
-;alien6.c:746: malos[2].cx=38;  // coloco en formación el segundo malo
+;alien6.c:742: malos[2].cx=38;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 58
 	ld	(hl),#0x26
-;alien6.c:747: malos[2].cy=17;  // coloco en formación el segundo malo
+;alien6.c:743: malos[2].cy=17;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 59
 	ld	(hl),#0x11
-;alien6.c:748: malos[3].cx=47;  // coloco en formación el segundo malo
+;alien6.c:744: malos[3].cx=47;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 86
 	ld	(hl),#0x2F
-;alien6.c:749: malos[3].cy=17;  // coloco en formación el segundo malo
+;alien6.c:745: malos[3].cy=17;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 87
 	ld	(hl),#0x11
-;alien6.c:750: malos[4].cx=56;  // coloco en formación el segundo malo
+;alien6.c:746: malos[4].cx=56;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 114
 	ld	(hl),#0x38
-;alien6.c:751: malos[4].cy=17;  // coloco en formación el segundo malo			
+;alien6.c:747: malos[4].cy=17;  // coloco en formación el segundo malo			
 	ld	hl,#_malos + 115
 	ld	(hl),#0x11
-;alien6.c:752: for (i=0;i < malos_activos;i++){
+;alien6.c:748: for (i=0;i < malos_activos;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -5373,7 +5361,7 @@ _inicializarMalos:
 	ld	a,0 (iy)
 	sub	a, (hl)
 	jp	NC,00138$
-;alien6.c:753: malos[i].ox=malos[i].cx;
+;alien6.c:749: malos[i].ox=malos[i].cx;
 	ld	a,#<(_malos)
 	ld	hl,#1
 	add	hl,sp
@@ -5397,7 +5385,7 @@ _inicializarMalos:
 	ld	h,1 (iy)
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:754: malos[i].oy=malos[i].cy;
+;alien6.c:750: malos[i].oy=malos[i].cy;
 	ld	hl,#0x0005
 	add	hl,de
 	ld	c,l
@@ -5412,7 +5400,7 @@ _inicializarMalos:
 	ld	h,1 (iy)
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:755: malos[i].homeX=malos[i].cx;
+;alien6.c:751: malos[i].homeX=malos[i].cx;
 	ld	hl,#0x000B
 	add	hl,de
 	ld	c,l
@@ -5425,7 +5413,7 @@ _inicializarMalos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:756: malos[i].homeY=malos[i].cy;
+;alien6.c:752: malos[i].homeY=malos[i].cy;
 	ld	hl,#0x000C
 	add	hl,de
 	ld	c,l
@@ -5438,7 +5426,7 @@ _inicializarMalos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:757: malos[i].lastmoved=0;
+;alien6.c:753: malos[i].lastmoved=0;
 	ld	hl,#0x0018
 	add	hl,de
 	xor	a, a
@@ -5450,7 +5438,7 @@ _inicializarMalos:
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-;alien6.c:752: for (i=0;i < malos_activos;i++){
+;alien6.c:748: for (i=0;i < malos_activos;i++){
 	ld	hl,#1
 	add	hl,sp
 	ld	a,(hl)
@@ -5464,19 +5452,19 @@ _inicializarMalos:
 	add	iy,sp
 	inc	0 (iy)
 	jp	00130$
-;alien6.c:761: default:
+;alien6.c:757: default:
 00110$:
-;alien6.c:762: malos_activos=5;
+;alien6.c:758: malos_activos=5;
 	ld	hl,#_malos_activos + 0
 	ld	(hl), #0x05
-;alien6.c:763: for (i=0;i < malos_activos;i++){
+;alien6.c:759: for (i=0;i < malos_activos;i++){
 	ld	d,#0x00
 00133$:
 	ld	hl,#_malos_activos
 	ld	a,d
 	sub	a, (hl)
 	jr	NC,00111$
-;alien6.c:764: cargarMalo(i,3);
+;alien6.c:760: cargarMalo(i,3);
 	push	de
 	ld	a,#0x03
 	push	af
@@ -5486,41 +5474,41 @@ _inicializarMalos:
 	call	_cargarMalo
 	pop	af
 	pop	de
-;alien6.c:763: for (i=0;i < malos_activos;i++){
+;alien6.c:759: for (i=0;i < malos_activos;i++){
 	inc	d
 	jr	00133$
 00111$:
-;alien6.c:766: malos[0].cx=20;  // coloco en formación el segundo malo
+;alien6.c:762: malos[0].cx=20;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 2
 	ld	(hl),#0x14
-;alien6.c:767: malos[0].cy=17;  // coloco en formación el segundo malo
+;alien6.c:763: malos[0].cy=17;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 3
 	ld	(hl),#0x11
-;alien6.c:768: malos[1].cx=29;  // coloco en formación el segundo malo
+;alien6.c:764: malos[1].cx=29;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 30
 	ld	(hl),#0x1D
-;alien6.c:769: malos[1].cy=17;  // coloco en formación el segundo malo		
+;alien6.c:765: malos[1].cy=17;  // coloco en formación el segundo malo		
 	ld	hl,#_malos + 31
 	ld	(hl),#0x11
-;alien6.c:770: malos[2].cx=38;  // coloco en formación el segundo malo
+;alien6.c:766: malos[2].cx=38;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 58
 	ld	(hl),#0x26
-;alien6.c:771: malos[2].cy=17;  // coloco en formación el segundo malo
+;alien6.c:767: malos[2].cy=17;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 59
 	ld	(hl),#0x11
-;alien6.c:772: malos[3].cx=47;  // coloco en formación el segundo malo
+;alien6.c:768: malos[3].cx=47;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 86
 	ld	(hl),#0x2F
-;alien6.c:773: malos[3].cy=17;  // coloco en formación el segundo malo
+;alien6.c:769: malos[3].cy=17;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 87
 	ld	(hl),#0x11
-;alien6.c:774: malos[4].cx=56;  // coloco en formación el segundo malo
+;alien6.c:770: malos[4].cx=56;  // coloco en formación el segundo malo
 	ld	hl,#_malos + 114
 	ld	(hl),#0x38
-;alien6.c:775: malos[4].cy=17;  // coloco en formación el segundo malo			
+;alien6.c:771: malos[4].cy=17;  // coloco en formación el segundo malo			
 	ld	hl,#_malos + 115
 	ld	(hl),#0x11
-;alien6.c:776: for (i=0;i < malos_activos;i++){
+;alien6.c:772: for (i=0;i < malos_activos;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -5537,7 +5525,7 @@ _inicializarMalos:
 	ld	a,0 (iy)
 	sub	a, (hl)
 	jp	NC,00138$
-;alien6.c:777: malos[i].ox=malos[i].cx;
+;alien6.c:773: malos[i].ox=malos[i].cx;
 	ld	a,#<(_malos)
 	ld	hl,#1
 	add	hl,sp
@@ -5561,7 +5549,7 @@ _inicializarMalos:
 	ld	h,1 (iy)
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:778: malos[i].oy=malos[i].cy;
+;alien6.c:774: malos[i].oy=malos[i].cy;
 	ld	hl,#0x0005
 	add	hl,de
 	ld	c,l
@@ -5576,7 +5564,7 @@ _inicializarMalos:
 	ld	h,1 (iy)
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:779: malos[i].homeX=malos[i].cx;
+;alien6.c:775: malos[i].homeX=malos[i].cx;
 	ld	hl,#0x000B
 	add	hl,de
 	ld	c,l
@@ -5589,7 +5577,7 @@ _inicializarMalos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:780: malos[i].homeY=malos[i].cy;
+;alien6.c:776: malos[i].homeY=malos[i].cy;
 	ld	hl,#0x000C
 	add	hl,de
 	ld	c,l
@@ -5602,7 +5590,7 @@ _inicializarMalos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:781: malos[i].lastmoved=0;
+;alien6.c:777: malos[i].lastmoved=0;
 	ld	hl,#0x0018
 	add	hl,de
 	xor	a, a
@@ -5614,7 +5602,7 @@ _inicializarMalos:
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-;alien6.c:776: for (i=0;i < malos_activos;i++){
+;alien6.c:772: for (i=0;i < malos_activos;i++){
 	ld	hl,#1
 	add	hl,sp
 	ld	a,(hl)
@@ -5628,14 +5616,14 @@ _inicializarMalos:
 	add	iy,sp
 	inc	0 (iy)
 	jp	00136$
-;alien6.c:784: }
+;alien6.c:780: }
 00138$:
 	ld	hl,#7
 	add	hl,sp
 	ld	sp,hl
 	ret
 _inicializarMalos_end::
-;alien6.c:787: void borrarMalos(){
+;alien6.c:783: void borrarMalos(){
 ;	---------------------------------
 ; Function borrarMalos
 ; ---------------------------------
@@ -5644,11 +5632,11 @@ _borrarMalos:
 	ld	hl,#-7
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:789: if (malos_activos>0){
+;alien6.c:785: if (malos_activos>0){
 	ld	a,(#_malos_activos + 0)
 	or	a, a
 	jp	Z,00117$
-;alien6.c:790: for (i=0;i<MAX_MALOS;i++){
+;alien6.c:786: for (i=0;i<MAX_MALOS;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -5665,7 +5653,7 @@ _borrarMalos:
 	inc	hl
 	ld	(hl), a
 00115$:
-;alien6.c:791: if ((malos[i].activo==1) && (malos[i].nuevo==0) && (malos[i].moved)){
+;alien6.c:787: if ((malos[i].activo==1) && (malos[i].nuevo==0) && (malos[i].moved)){
 	ld	a,#<(_malos)
 	ld	hl,#3
 	add	hl,sp
@@ -5701,7 +5689,7 @@ _borrarMalos:
 	ld	a,(hl)
 	or	a, a
 	jp	Z,00116$
-;alien6.c:792: if((malos[i].ox>0)&&(malos[i].ox<160)&&(malos[i].oy>0)&&(malos[i].oy<200))
+;alien6.c:788: if((malos[i].ox>0)&&(malos[i].ox<160)&&(malos[i].oy>0)&&(malos[i].oy<200))
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	de, #0x0004
@@ -5724,7 +5712,7 @@ _borrarMalos:
 	ld	a,l
 	sub	a, #0xC8
 	jr	NC,00102$
-;alien6.c:793: cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].oy]+malos[i].ox);
+;alien6.c:789: cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].oy]+malos[i].ox);
 	ld	h,#0x00
 	add	hl, hl
 	ld	bc,#_direccionLinea
@@ -5770,7 +5758,7 @@ _borrarMalos:
 	add	hl,sp
 	ld	sp,hl
 00102$:
-;alien6.c:794: if (malos[i].dead){
+;alien6.c:790: if (malos[i].dead){
 	ld	a,#<(_malos)
 	ld	hl,#5
 	add	hl,sp
@@ -5785,15 +5773,15 @@ _borrarMalos:
 	ld	a,17 (iy)
 	or	a, a
 	jr	Z,00116$
-;alien6.c:795: malos[i].activo=0;
+;alien6.c:791: malos[i].activo=0;
 	ld	hl,#0x000D
 	add	hl,de
 	ld	(hl),#0x00
-;alien6.c:796: malos_activos--;
+;alien6.c:792: malos_activos--;
 	ld	hl, #_malos_activos+0
 	dec	(hl)
 00116$:
-;alien6.c:790: for (i=0;i<MAX_MALOS;i++){
+;alien6.c:786: for (i=0;i<MAX_MALOS;i++){
 	ld	hl,#5
 	add	hl,sp
 	ld	a,(hl)
@@ -5824,7 +5812,7 @@ _borrarMalos:
 	ld	sp,hl
 	ret
 _borrarMalos_end::
-;alien6.c:805: void moverMalos(){
+;alien6.c:801: void moverMalos(){
 ;	---------------------------------
 ; Function moverMalos
 ; ---------------------------------
@@ -5833,7 +5821,7 @@ _moverMalos:
 	ld	hl,#-28
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:810: lapso=getTime();
+;alien6.c:806: lapso=getTime();
 	call	_getTime
 	ld	iy,#0
 	add	iy,sp
@@ -5841,14 +5829,14 @@ _moverMalos:
 	ld	1 (iy),h
 	ld	2 (iy),e
 	ld	3 (iy),d
-;alien6.c:811: formMoved=0;
+;alien6.c:807: formMoved=0;
 	ld	hl,#_formMoved + 0
 	ld	(hl), #0x00
-;alien6.c:813: if (malos_activos>0){
+;alien6.c:809: if (malos_activos>0){
 	ld	a,(#_malos_activos + 0)
 	or	a, a
 	jp	Z,00156$
-;alien6.c:814: for (i=0;i<MAX_MALOS;i++){
+;alien6.c:810: for (i=0;i<MAX_MALOS;i++){
 	ld	iy,#5
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -5871,7 +5859,7 @@ _moverMalos:
 	inc	hl
 	ld	(hl), a
 00154$:
-;alien6.c:815: if ((malos[i].activo==1) && (lapso-malos[i].lastmoved>malos[i].speed)){
+;alien6.c:811: if ((malos[i].activo==1) && (lapso-malos[i].lastmoved>malos[i].speed)){
 	ld	a,#<(_malos)
 	ld	hl,#22
 	add	hl,sp
@@ -5948,36 +5936,36 @@ _moverMalos:
 	xor	a, #0x80
 00266$:
 	jp	P,00155$
-;alien6.c:817: if (formMoved==0){ 
+;alien6.c:813: if (formMoved==0){ 
 	ld	a,(#_formMoved + 0)
 	or	a, a
 	jr	NZ,00104$
-;alien6.c:818: stepCount++;
+;alien6.c:814: stepCount++;
 	ld	hl, #_stepCount+0
 	inc	(hl)
-;alien6.c:819: if (stepCount>39){	//Si llego a 40 pasos me doy la vuelta
+;alien6.c:815: if (stepCount>39){	//Si llego a 40 pasos me doy la vuelta
 	ld	a,#0x27
 	ld	iy,#_stepCount
 	sub	a, 0 (iy)
 	jr	NC,00102$
-;alien6.c:820: stepCount=0;
+;alien6.c:816: stepCount=0;
 	ld	hl,#_stepCount + 0
 	ld	(hl), #0x00
-;alien6.c:821: velXForm=-velXForm;
+;alien6.c:817: velXForm=-velXForm;
 	xor	a, a
 	ld	iy,#_velXForm
 	sub	a, 0 (iy)
 	ld	(#_velXForm + 0),a
 00102$:
-;alien6.c:823: formMoved=1;
+;alien6.c:819: formMoved=1;
 	ld	hl,#_formMoved + 0
 	ld	(hl), #0x01
 00104$:
-;alien6.c:826: if (formMoved)
+;alien6.c:822: if (formMoved)
 	ld	a,(#_formMoved + 0)
 	or	a, a
 	jr	Z,00106$
-;alien6.c:827: malos[i].homeX=malos[i].homeX+velXForm;
+;alien6.c:823: malos[i].homeX=malos[i].homeX+velXForm;
 	ld	a,#<(_malos)
 	ld	hl,#26
 	add	hl,sp
@@ -5995,7 +5983,7 @@ _moverMalos:
 	add	a, (hl)
 	ld	(de),a
 00106$:
-;alien6.c:829: if (malos[i].movement==0){	
+;alien6.c:825: if (malos[i].movement==0){	
 	ld	a,#<(_malos)
 	ld	hl,#24
 	add	hl,sp
@@ -6026,7 +6014,7 @@ _moverMalos:
 	ld	h, (hl)
 	ld	l, a
 	ld	c,(hl)
-;alien6.c:831: if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
+;alien6.c:827: if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
 	ld	hl,#14
 	add	hl,sp
 	ld	iy,#16
@@ -6038,7 +6026,7 @@ _moverMalos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-;alien6.c:834: malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
+;alien6.c:830: malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
 	ld	hl,#12
 	add	hl,sp
 	ld	a,0 (iy)
@@ -6048,7 +6036,7 @@ _moverMalos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-;alien6.c:842: malos[i].cy++;
+;alien6.c:838: malos[i].cy++;
 	ld	hl,#10
 	add	hl,sp
 	ld	a,0 (iy)
@@ -6058,16 +6046,16 @@ _moverMalos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-;alien6.c:829: if (malos[i].movement==0){	
+;alien6.c:825: if (malos[i].movement==0){	
 	ld	a,c
 	or	a, a
 	jr	NZ,00142$
-;alien6.c:830: if (ataques_activos<max_ataques_activos)
+;alien6.c:826: if (ataques_activos<max_ataques_activos)
 	ld	hl,#_max_ataques_activos
 	ld	a,(#_ataques_activos + 0)
 	sub	a, (hl)
 	jp	NC,00143$
-;alien6.c:831: if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
+;alien6.c:827: if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
 	call	_cpc_Random
 	ld	d,l
 	ld	hl, #14
@@ -6080,7 +6068,7 @@ _moverMalos:
 	ld	a,d
 	sub	a, h
 	jr	NC,00108$
-;alien6.c:832: crearAtaque(i);
+;alien6.c:828: crearAtaque(i);
 	ld	hl, #5+0
 	add	hl, sp
 	ld	a, (hl)
@@ -6090,7 +6078,7 @@ _moverMalos:
 	inc	sp
 	jp	00143$
 00108$:
-;alien6.c:834: malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
+;alien6.c:830: malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
 	ld	iy,#12
 	add	iy,sp
 	ld	l,0 (iy)
@@ -6103,11 +6091,11 @@ _moverMalos:
 	ld	(hl),a
 	jp	00143$
 00142$:
-;alien6.c:836: } else if (malos[i].movement==1){	
+;alien6.c:832: } else if (malos[i].movement==1){	
 	ld	a,c
 	dec	a
 	jp	NZ,00139$
-;alien6.c:838: while (!(ataques[j].idMalo==i)&&(ataques[j].activo==1)){ 	//busco el ataque que le corresponde a este malo
+;alien6.c:834: while (!(ataques[j].idMalo==i)&&(ataques[j].activo==1)){ 	//busco el ataque que le corresponde a este malo
 	ld	iy,#4
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -6139,7 +6127,7 @@ _moverMalos:
 	ld	a,(de)
 	dec	a
 	jr	NZ,00115$
-;alien6.c:839: j++;
+;alien6.c:835: j++;
 	ld	hl,#8
 	add	hl,sp
 	ld	a,(hl)
@@ -6154,7 +6142,7 @@ _moverMalos:
 	inc	0 (iy)
 	jr	00113$
 00115$:
-;alien6.c:841: malos[i].cx=malos[i].cx+ataques[j].trayectoria[ataques[j].step]; //muevo al malo
+;alien6.c:837: malos[i].cx=malos[i].cx+ataques[j].trayectoria[ataques[j].step]; //muevo al malo
 	ld	hl, #12
 	add	hl, sp
 	ld	a, (hl)
@@ -6215,7 +6203,7 @@ _moverMalos:
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	(hl),a
-;alien6.c:842: malos[i].cy++;
+;alien6.c:838: malos[i].cy++;
 	ld	iy,#10
 	add	iy,sp
 	ld	l,0 (iy)
@@ -6225,11 +6213,11 @@ _moverMalos:
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	(hl),d
-;alien6.c:843: if (malos[i].cy>200){	// si me salgo de la pantalla inicio el camino a la formación
+;alien6.c:839: if (malos[i].cy>200){	// si me salgo de la pantalla inicio el camino a la formación
 	ld	a,#0xC8
 	sub	a, d
 	jr	NC,00120$
-;alien6.c:844: malos[i].movement=2;
+;alien6.c:840: malos[i].movement=2;
 	ld	hl, #20
 	add	hl, sp
 	ld	a, (hl)
@@ -6237,7 +6225,7 @@ _moverMalos:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x02
-;alien6.c:845: malos[i].cy=-10;  //coloco al malo fuera de la pantalla por arriba para que tarde un poco en llegar
+;alien6.c:841: malos[i].cy=-10;  //coloco al malo fuera de la pantalla por arriba para que tarde un poco en llegar
 	ld	hl, #10
 	add	hl, sp
 	ld	a, (hl)
@@ -6245,23 +6233,23 @@ _moverMalos:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0xF6
-;alien6.c:846: ataques[j].activo=0;
+;alien6.c:842: ataques[j].activo=0;
 	ld	iy,#8
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	(hl),#0x00
-;alien6.c:847: ataques[j].idMalo=0;
+;alien6.c:843: ataques[j].idMalo=0;
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	inc	hl
 	ld	(hl),#0x00
-;alien6.c:848: ataques_activos--;
+;alien6.c:844: ataques_activos--;
 	ld	hl, #_ataques_activos+0
 	dec	(hl)
 	jp	00143$
 00120$:
-;alien6.c:849: }else if (ataques[j].step<ataques[j].maxStep)	//actualizo próximas siguiente paso en caso de que reiniciar el ciclo de la trayectoria
+;alien6.c:845: }else if (ataques[j].step<ataques[j].maxStep)	//actualizo próximas siguiente paso en caso de que reiniciar el ciclo de la trayectoria
 	ld	hl, #6
 	add	hl, sp
 	ld	a, (hl)
@@ -6282,7 +6270,7 @@ _moverMalos:
 	ld	a,d
 	sub	a, h
 	jr	NC,00117$
-;alien6.c:850: ataques[j].step++;
+;alien6.c:846: ataques[j].step++;
 	inc	d
 	ld	hl, #6
 	add	hl, sp
@@ -6293,7 +6281,7 @@ _moverMalos:
 	ld	(hl),d
 	jp	00143$
 00117$:
-;alien6.c:852: ataques[j].step=0;
+;alien6.c:848: ataques[j].step=0;
 	ld	hl, #6
 	add	hl, sp
 	ld	a, (hl)
@@ -6303,11 +6291,11 @@ _moverMalos:
 	ld	(hl),#0x00
 	jp	00143$
 00139$:
-;alien6.c:855: }else if (malos[i].movement==2){
+;alien6.c:851: }else if (malos[i].movement==2){
 	ld	a,c
 	sub	a, #0x02
 	jp	NZ,00143$
-;alien6.c:857: if ((malos[i].cx=malos[i].homeX) && (malos[i].cy==malos[i].homeY)){
+;alien6.c:853: if ((malos[i].cx=malos[i].homeX) && (malos[i].cy==malos[i].homeY)){
 	ld	iy,#16
 	add	iy,sp
 	ld	a,0 (iy)
@@ -6356,7 +6344,7 @@ _moverMalos:
 	ld	a,d
 	sub	a, e
 	jr	NZ,00133$
-;alien6.c:858: malos[i].movement=0;
+;alien6.c:854: malos[i].movement=0;
 	ld	hl, #20
 	add	hl, sp
 	ld	a, (hl)
@@ -6366,7 +6354,7 @@ _moverMalos:
 	ld	(hl),#0x00
 	jr	00143$
 00133$:
-;alien6.c:862: if (malos[i].cx<malos[i].homeX)
+;alien6.c:858: if (malos[i].cx<malos[i].homeX)
 	ld	iy,#12
 	add	iy,sp
 	ld	l,0 (iy)
@@ -6377,18 +6365,18 @@ _moverMalos:
 	ld	a,e
 	sub	a, h
 	jr	NC,00125$
-;alien6.c:863: malos[i].cx++;
+;alien6.c:859: malos[i].cx++;
 	inc	e
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	(hl),e
 	jr	00126$
 00125$:
-;alien6.c:864: else if (malos[i].cx>malos[i].homeX)
+;alien6.c:860: else if (malos[i].cx>malos[i].homeX)
 	ld	a,h
 	sub	a, e
 	jr	NC,00126$
-;alien6.c:865: malos[i].cx--;
+;alien6.c:861: malos[i].cx--;
 	dec	e
 	ld	hl, #12
 	add	hl, sp
@@ -6398,7 +6386,7 @@ _moverMalos:
 	ld	l, a
 	ld	(hl),e
 00126$:
-;alien6.c:867: if (malos[i].cy<malos[i].homeY)
+;alien6.c:863: if (malos[i].cy<malos[i].homeY)
 	ld	hl, #10
 	add	hl, sp
 	ld	a, (hl)
@@ -6416,7 +6404,7 @@ _moverMalos:
 	ld	a,d
 	sub	a, h
 	jr	NC,00130$
-;alien6.c:868: malos[i].cy++;
+;alien6.c:864: malos[i].cy++;
 	inc	d
 	ld	hl, #10
 	add	hl, sp
@@ -6427,11 +6415,11 @@ _moverMalos:
 	ld	(hl),d
 	jr	00143$
 00130$:
-;alien6.c:869: else if (malos[i].cy>malos[i].homeY)
+;alien6.c:865: else if (malos[i].cy>malos[i].homeY)
 	ld	a,h
 	sub	a, d
 	jr	NC,00143$
-;alien6.c:870: malos[i].cy--;
+;alien6.c:866: malos[i].cy--;
 	dec	d
 	ld	hl, #10
 	add	hl, sp
@@ -6441,7 +6429,7 @@ _moverMalos:
 	ld	l, a
 	ld	(hl),d
 00143$:
-;alien6.c:875: if ((disparos_activos_malos<MAX_DISPAROS_MALOS) && (cpc_Random() < malos[i].agresividad) && (hostilidad)){
+;alien6.c:871: if ((disparos_activos_malos<MAX_DISPAROS_MALOS) && (cpc_Random() < malos[i].agresividad) && (hostilidad)){
 	ld	hl,#_MAX_DISPAROS_MALOS
 	ld	a,(#_disparos_activos_malos + 0)
 	sub	a, (hl)
@@ -6465,7 +6453,7 @@ _moverMalos:
 	ld	a,(#_hostilidad + 0)
 	or	a, a
 	jr	Z,00145$
-;alien6.c:876: crearDisparoMalo(malos[i].cx,malos[i].cy);
+;alien6.c:872: crearDisparoMalo(malos[i].cx,malos[i].cy);
 	ld	hl, #10
 	add	hl, sp
 	ld	a, (hl)
@@ -6484,7 +6472,7 @@ _moverMalos:
 	call	_crearDisparoMalo
 	pop	af
 00145$:
-;alien6.c:878: malos[i].lastmoved=lapso;
+;alien6.c:874: malos[i].lastmoved=lapso;
 	ld	iy,#16
 	add	iy,sp
 	ld	a,0 (iy)
@@ -6497,7 +6485,7 @@ _moverMalos:
 	add	hl, sp
 	ld	bc, #0x0004
 	ldir
-;alien6.c:879: malos[i].moved=1;
+;alien6.c:875: malos[i].moved=1;
 	ld	a,0 (iy)
 	add	a, #0x0E
 	ld	l, a
@@ -6506,7 +6494,7 @@ _moverMalos:
 	ld	h, a
 	ld	(hl),#0x01
 00155$:
-;alien6.c:814: for (i=0;i<MAX_MALOS;i++){
+;alien6.c:810: for (i=0;i<MAX_MALOS;i++){
 	ld	hl,#26
 	add	hl,sp
 	ld	a,(hl)
@@ -6546,7 +6534,7 @@ _moverMalos:
 	ld	sp,hl
 	ret
 _moverMalos_end::
-;alien6.c:885: void pintarMalos(){
+;alien6.c:881: void pintarMalos(){
 ;	---------------------------------
 ; Function pintarMalos
 ; ---------------------------------
@@ -6555,11 +6543,11 @@ _pintarMalos:
 	ld	hl,#-7
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:887: if (malos_activos>0){
+;alien6.c:883: if (malos_activos>0){
 	ld	a,(#_malos_activos + 0)
 	or	a, a
 	jp	Z,00116$
-;alien6.c:888: for (i=0;i<MAX_MALOS;i++){
+;alien6.c:884: for (i=0;i<MAX_MALOS;i++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -6576,7 +6564,7 @@ _pintarMalos:
 	inc	hl
 	ld	(hl), a
 00114$:
-;alien6.c:889: if ((malos[i].activo==1) && (malos[i].moved)){
+;alien6.c:885: if ((malos[i].activo==1) && (malos[i].moved)){
 	ld	a,#<(_malos)
 	ld	hl,#3
 	add	hl,sp
@@ -6605,7 +6593,7 @@ _pintarMalos:
 	ld	a,(hl)
 	or	a, a
 	jp	Z,00115$
-;alien6.c:891: if((malos[i].cx>0)&&(malos[i].cx<160)&&(malos[i].cy>0)&&(malos[i].cy<200))
+;alien6.c:887: if((malos[i].cx>0)&&(malos[i].cx<160)&&(malos[i].cy>0)&&(malos[i].cy<200))
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	inc	hl
@@ -6629,7 +6617,7 @@ _pintarMalos:
 	ld	a,l
 	sub	a, #0xC8
 	jr	NC,00102$
-;alien6.c:892: cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].cy]+malos[i].cx);
+;alien6.c:888: cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].cy]+malos[i].cx);
 	ld	h,#0x00
 	add	hl, hl
 	ld	bc,#_direccionLinea
@@ -6675,7 +6663,7 @@ _pintarMalos:
 	add	hl,sp
 	ld	sp,hl
 00102$:
-;alien6.c:893: malos[i].ox=malos[i].cx;
+;alien6.c:889: malos[i].ox=malos[i].cx;
 	ld	a,#<(_malos)
 	ld	hl,#5
 	add	hl,sp
@@ -6695,7 +6683,7 @@ _pintarMalos:
 	inc	hl
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:894: malos[i].oy=malos[i].cy;
+;alien6.c:890: malos[i].oy=malos[i].cy;
 	ld	hl,#0x0005
 	add	hl,de
 	ld	c,l
@@ -6704,7 +6692,7 @@ _pintarMalos:
 	pop	iy
 	ld	a,3 (iy)
 	ld	(bc),a
-;alien6.c:895: if (malos[i].nuevo) malos[i].nuevo=0;
+;alien6.c:891: if (malos[i].nuevo) malos[i].nuevo=0;
 	ld	hl,#0x0010
 	add	hl,de
 	ld	a,(hl)
@@ -6712,12 +6700,12 @@ _pintarMalos:
 	jr	Z,00107$
 	ld	(hl),#0x00
 00107$:
-;alien6.c:896: malos[i].moved=0;
+;alien6.c:892: malos[i].moved=0;
 	ld	hl,#0x000E
 	add	hl,de
 	ld	(hl),#0x00
 00115$:
-;alien6.c:888: for (i=0;i<MAX_MALOS;i++){
+;alien6.c:884: for (i=0;i<MAX_MALOS;i++){
 	ld	hl,#5
 	add	hl,sp
 	ld	a,(hl)
@@ -6748,20 +6736,20 @@ _pintarMalos:
 	ld	sp,hl
 	ret
 _pintarMalos_end::
-;alien6.c:905: void inicializarDisparos(){
+;alien6.c:901: void inicializarDisparos(){
 ;	---------------------------------
 ; Function inicializarDisparos
 ; ---------------------------------
 _inicializarDisparos_start::
 _inicializarDisparos:
 	dec	sp
-;alien6.c:908: for (k=0;k<MAX_DISPAROS;k++){
+;alien6.c:904: for (k=0;k<MAX_DISPAROS;k++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
 	ld	de,#0x0000
 00102$:
-;alien6.c:909: disparos[k].activo=0;
+;alien6.c:905: disparos[k].activo=0;
 	ld	hl,#_disparos
 	add	hl,de
 	ld	c,l
@@ -6769,37 +6757,37 @@ _inicializarDisparos:
 	ld	hl,#0x000C
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:910: disparos[k].sp0=shot2;
+;alien6.c:906: disparos[k].sp0=shot2;
 	ld	l, c
 	ld	h, b
 	ld	(hl),#<(_shot2)
 	inc	hl
 	ld	(hl),#>(_shot2)
-;alien6.c:911: disparos[k].cx=0;
+;alien6.c:907: disparos[k].cx=0;
 	ld	hl,#0x0008
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:912: disparos[k].cy=0;
+;alien6.c:908: disparos[k].cy=0;
 	ld	hl,#0x0009
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:913: disparos[k].ox=0;
+;alien6.c:909: disparos[k].ox=0;
 	ld	hl,#0x000A
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:914: disparos[k].oy=0;
+;alien6.c:910: disparos[k].oy=0;
 	ld	hl,#0x000B
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:915: disparos[k].nuevo=0;
+;alien6.c:911: disparos[k].nuevo=0;
 	ld	hl,#0x000F
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:916: disparos[k].dead=0;
+;alien6.c:912: disparos[k].dead=0;
 	ld	hl,#0x0010
 	add	hl,bc
 	ld	(hl),#0x00
-;alien6.c:917: disparos[k].lastmoved=0;
+;alien6.c:913: disparos[k].lastmoved=0;
 	ld	hl,#0x0011
 	add	hl,bc
 	xor	a, a
@@ -6811,7 +6799,7 @@ _inicializarDisparos:
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-;alien6.c:908: for (k=0;k<MAX_DISPAROS;k++){
+;alien6.c:904: for (k=0;k<MAX_DISPAROS;k++){
 	ld	hl,#0x0015
 	add	hl,de
 	ex	de,hl
@@ -6821,13 +6809,138 @@ _inicializarDisparos:
 	ld	a,0 (iy)
 	sub	a, #0x02
 	jr	C,00102$
-;alien6.c:919: disparos_activos=0;
+;alien6.c:915: disparos_activos=0;
 	ld	hl,#_disparos_activos + 0
 	ld	(hl), #0x00
 	inc	sp
 	ret
 _inicializarDisparos_end::
-;alien6.c:922: void borrarDisparos(){
+;alien6.c:918: void crearDisparo(unsigned char x, unsigned char y){
+;	---------------------------------
+; Function crearDisparo
+; ---------------------------------
+_crearDisparo_start::
+_crearDisparo:
+	push	af
+;alien6.c:921: while (disparos[k].activo==1){
+	ld	iy,#1
+	add	iy,sp
+	ld	0 (iy),#0x00
+	ld	de,#0x0000
+00101$:
+	ld	hl,#_disparos
+	add	hl,de
+	ex	(sp), hl
+	ld	iy,#0
+	add	iy,sp
+	ld	a,0 (iy)
+	add	a, #0x0C
+	ld	c,a
+	ld	a,1 (iy)
+	adc	a, #0x00
+	ld	b,a
+	ld	a,(bc)
+	dec	a
+	jr	NZ,00103$
+;alien6.c:922: k++;
+	ld	hl,#0x0015
+	add	hl,de
+	ex	de,hl
+	jr	00101$
+00103$:
+;alien6.c:924: disparos[k].activo=1;
+	ld	a,#0x01
+	ld	(bc),a
+;alien6.c:925: disparos[k].cx=x+1;
+	ld	iy,#0
+	add	iy,sp
+	ld	a,0 (iy)
+	add	a, #0x08
+	ld	c,a
+	ld	a,1 (iy)
+	adc	a, #0x00
+	ld	b,a
+	ld	hl, #4+0
+	add	hl, sp
+	ld	e, (hl)
+	inc	e
+	ld	a,e
+	ld	(bc),a
+;alien6.c:926: disparos[k].cy=y-1;
+	ld	iy,#0
+	add	iy,sp
+	ld	a,0 (iy)
+	add	a, #0x09
+	ld	c,a
+	ld	a,1 (iy)
+	adc	a, #0x00
+	ld	b,a
+	ld	hl, #5+0
+	add	hl, sp
+	ld	d, (hl)
+	dec	d
+	ld	a,d
+	ld	(bc),a
+;alien6.c:927: disparos[k].ox=x+1;
+	ld	iy,#0
+	add	iy,sp
+	ld	a,0 (iy)
+	add	a, #0x0A
+	ld	c,a
+	ld	a,1 (iy)
+	adc	a, #0x00
+	ld	b,a
+	ld	a,e
+	ld	(bc),a
+;alien6.c:928: disparos[k].oy=y-1;
+	ld	a,0 (iy)
+	add	a, #0x0B
+	ld	l, a
+	ld	a, 1 (iy)
+	adc	a, #0x00
+	ld	h, a
+	ld	(hl),d
+;alien6.c:929: disparos[k].sp0=shot2;
+	pop	hl
+	push	hl
+	ld	(hl),#<(_shot2)
+	inc	hl
+	ld	(hl),#>(_shot2)
+;alien6.c:930: disparos[k].nuevo=1;
+	ld	a,0 (iy)
+	add	a, #0x0F
+	ld	l, a
+	ld	a, 1 (iy)
+	adc	a, #0x00
+	ld	h, a
+	ld	(hl),#0x01
+;alien6.c:931: disparos[k].dead=0;
+	ld	a,0 (iy)
+	add	a, #0x10
+	ld	e,a
+	ld	a,1 (iy)
+	adc	a, #0x00
+	ld	d,a
+	xor	a, a
+	ld	(de),a
+;alien6.c:932: disparos_activos++;
+	ld	hl, #_disparos_activos+0
+	inc	(hl)
+;alien6.c:933: prota.lastShot = getTime();
+	call	_getTime
+	ld	c,l
+	ld	b,h
+	ld	((_prota + 0x001a)), bc
+	ld	((_prota + 0x001a) + 2), de
+;alien6.c:934: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
+	ld	hl,#0x0000
+	push	hl
+	call	_cpc_WyzStartEffect
+	pop	af
+	pop	af
+	ret
+_crearDisparo_end::
+;alien6.c:937: void borrarDisparos(){
 ;	---------------------------------
 ; Function borrarDisparos
 ; ---------------------------------
@@ -6836,17 +6949,17 @@ _borrarDisparos:
 	ld	hl,#-7
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:925: if (disparos_activos>0){
+;alien6.c:940: if (disparos_activos>0){
 	ld	a,(#_disparos_activos + 0)
 	or	a, a
 	jp	Z,00111$
-;alien6.c:926: for (k=0;k<MAX_DISPAROS;k++){
+;alien6.c:941: for (k=0;k<MAX_DISPAROS;k++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
 	ld	bc,#0x0000
 00109$:
-;alien6.c:927: if ((disparos[k].activo==1) && (disparos[k].nuevo==0)){
+;alien6.c:942: if ((disparos[k].activo==1) && (disparos[k].nuevo==0)){
 	ld	hl,#_disparos
 	add	hl,bc
 	ex	de,hl
@@ -6866,7 +6979,7 @@ _borrarDisparos:
 	ld	a,15 (iy)
 	or	a, a
 	jp	NZ,00110$
-;alien6.c:928: cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].oy]+disparos[k].ox);
+;alien6.c:943: cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].oy]+disparos[k].ox);
 	push	de
 	pop	iy
 	ld	l,11 (iy)
@@ -6932,13 +7045,13 @@ _borrarDisparos:
 	ld	sp,hl
 	pop	de
 	pop	bc
-;alien6.c:929: if (disparos[k].dead){
+;alien6.c:944: if (disparos[k].dead){
 	push	de
 	pop	iy
 	ld	a,16 (iy)
 	or	a, a
 	jr	Z,00110$
-;alien6.c:930: disparos[k].activo=0;
+;alien6.c:945: disparos[k].activo=0;
 	ld	hl, #5
 	add	hl, sp
 	ld	a, (hl)
@@ -6946,11 +7059,11 @@ _borrarDisparos:
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl),#0x00
-;alien6.c:931: disparos_activos--;
+;alien6.c:946: disparos_activos--;
 	ld	hl, #_disparos_activos+0
 	dec	(hl)
 00110$:
-;alien6.c:926: for (k=0;k<MAX_DISPAROS;k++){
+;alien6.c:941: for (k=0;k<MAX_DISPAROS;k++){
 	ld	hl,#0x0015
 	add	hl,bc
 	ld	c,l
@@ -6967,7 +7080,7 @@ _borrarDisparos:
 	ld	sp,hl
 	ret
 _borrarDisparos_end::
-;alien6.c:938: void moverDisparos(){
+;alien6.c:953: void moverDisparos(){
 ;	---------------------------------
 ; Function moverDisparos
 ; ---------------------------------
@@ -6976,11 +7089,11 @@ _moverDisparos:
 	ld	hl,#-25
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:943: if (disparos_activos>0){
+;alien6.c:958: if (disparos_activos>0){
 	ld	a,(#_disparos_activos + 0)
 	or	a, a
 	jp	Z,00128$
-;alien6.c:944: for (i=0;i<MAX_DISPAROS;i++){
+;alien6.c:959: for (i=0;i<MAX_DISPAROS;i++){
 	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -7003,7 +7116,7 @@ _moverDisparos:
 	inc	hl
 	ld	(hl), a
 00126$:
-;alien6.c:945: if ((disparos[i].activo==1) && (disparos[i].dead==0)){
+;alien6.c:960: if ((disparos[i].activo==1) && (disparos[i].dead==0)){
 	ld	a,#<(_disparos)
 	ld	hl,#19
 	add	hl,sp
@@ -7024,18 +7137,18 @@ _moverDisparos:
 	ld	a,(de)
 	or	a, a
 	jp	NZ,00127$
-;alien6.c:946: if (disparos[i].cy>16){
+;alien6.c:961: if (disparos[i].cy>16){
 	ld	iy,#0x0009
 	add	iy, bc
 	ld	b, 0 (iy)
 	ld	a,#0x10
 	sub	a, b
 	jp	NC,00116$
-;alien6.c:947: disparos[i].cy=disparos[i].cy - SALTO_DISPARO;
+;alien6.c:962: disparos[i].cy=disparos[i].cy - SALTO_DISPARO;
 	ld	a,b
 	add	a,#0xFC
 	ld	0 (iy), a
-;alien6.c:948: for (j=0;j<MAX_MALOS;j++){	//compruebo colisiones con los malos.
+;alien6.c:963: for (j=0;j<MAX_MALOS;j++){	//compruebo colisiones con los malos.
 	ld	a,#<(_disparos)
 	ld	hl,#21
 	add	hl,sp
@@ -7082,7 +7195,7 @@ _moverDisparos:
 	inc	hl
 	ld	(hl), a
 00124$:
-;alien6.c:949: if (malos[j].activo==1){
+;alien6.c:964: if (malos[j].activo==1){
 	ld	a,#<(_malos)
 	ld	hl,#11
 	add	hl,sp
@@ -7114,7 +7227,7 @@ _moverDisparos:
 	ld	a,(hl)
 	dec	a
 	jp	NZ,00125$
-;alien6.c:950: if (detectarColision(disparos[i].cx,disparos[i].cy,2,6,malos[j].cx,malos[j].cy,malos[j].w,malos[j].h)){  
+;alien6.c:965: if (detectarColision(disparos[i].cx,disparos[i].cy,2,6,malos[j].cx,malos[j].cy,malos[j].w,malos[j].h)){  
 	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
@@ -7225,7 +7338,7 @@ _moverDisparos:
 	pop	de
 	or	a, a
 	jp	Z,00125$
-;alien6.c:953: disparos[i].dead=1;
+;alien6.c:968: disparos[i].dead=1;
 	ld	iy,#17
 	add	iy,sp
 	ld	a,0 (iy)
@@ -7236,7 +7349,7 @@ _moverDisparos:
 	ld	b,a
 	ld	a,#0x01
 	ld	(bc),a
-;alien6.c:955: malos[j].vidas--;
+;alien6.c:970: malos[j].vidas--;
 	ld	iy,#9
 	add	iy,sp
 	ld	a,0 (iy)
@@ -7248,10 +7361,10 @@ _moverDisparos:
 	ld	a,(bc)
 	add	a,#0xFF
 	ld	(bc),a
-;alien6.c:956: if (malos[j].vidas==0){
+;alien6.c:971: if (malos[j].vidas==0){
 	or	a, a
 	jr	NZ,00108$
-;alien6.c:957: malos[j].dead=1;
+;alien6.c:972: malos[j].dead=1;
 	ld	a,0 (iy)
 	add	a, #0x11
 	ld	c,a
@@ -7260,7 +7373,7 @@ _moverDisparos:
 	ld	b,a
 	ld	a,#0x01
 	ld	(bc),a
-;alien6.c:959: crearExplosion(0, malos[j].cx, malos[j].cy);
+;alien6.c:974: crearExplosion(0, malos[j].cx, malos[j].cy);
 	ld	a,(de)
 	ld	iy,#3
 	add	iy,sp
@@ -7282,7 +7395,7 @@ _moverDisparos:
 	call	_cpc_WyzStartEffect
 	pop	af
 	pop	de
-;alien6.c:963: score+=10;
+;alien6.c:978: score+=10;
 	ld	hl,#_score
 	ld	a,(hl)
 	add	a, #0x0A
@@ -7291,17 +7404,17 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-;alien6.c:964: cambio_score=1;
+;alien6.c:979: cambio_score=1;
 	ld	hl,#_cambio_score + 0
 	ld	(hl), #0x01
-;alien6.c:966: if (cpc_Random()<25)
+;alien6.c:981: if (cpc_Random()<25)
 	push	de
 	call	_cpc_Random
 	pop	de
 	ld	a,l
 	sub	a, #0x19
 	jr	NC,00125$
-;alien6.c:967: crearAddon(malos[j].cx, malos[j].cy);
+;alien6.c:982: crearAddon(malos[j].cx, malos[j].cy);
 	ld	a,(de)
 	ld	iy,#3
 	add	iy,sp
@@ -7316,7 +7429,7 @@ _moverDisparos:
 	pop	af
 	jr	00125$
 00108$:
-;alien6.c:970: crearExplosion(1, malos[j].cx, malos[j].cy+malos[i].h);
+;alien6.c:985: crearExplosion(1, malos[j].cx, malos[j].cy+malos[i].h);
 	ld	a,(de)
 	ld	e,a
 	ld	a,#<(_malos)
@@ -7346,14 +7459,14 @@ _moverDisparos:
 	ld	e, #0x01
 	push	de
 	call	_crearExplosion
-;alien6.c:972: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(2,2);
+;alien6.c:987: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(2,2);
 	inc	sp
 	ld	hl,#0x0202
 	ex	(sp),hl
 	call	_cpc_WyzStartEffect
 	pop	af
 00125$:
-;alien6.c:948: for (j=0;j<MAX_MALOS;j++){	//compruebo colisiones con los malos.
+;alien6.c:963: for (j=0;j<MAX_MALOS;j++){	//compruebo colisiones con los malos.
 	ld	hl,#11
 	add	hl,sp
 	ld	a,(hl)
@@ -7371,11 +7484,11 @@ _moverDisparos:
 	jp	C,00124$
 	jr	00127$
 00116$:
-;alien6.c:981: disparos[i].dead=1;
+;alien6.c:996: disparos[i].dead=1;
 	ld	a,#0x01
 	ld	(de),a
 00127$:
-;alien6.c:944: for (i=0;i<MAX_DISPAROS;i++){
+;alien6.c:959: for (i=0;i<MAX_DISPAROS;i++){
 	ld	hl,#23
 	add	hl,sp
 	ld	a,(hl)
@@ -7415,111 +7528,7 @@ _moverDisparos:
 	ld	sp,hl
 	ret
 _moverDisparos_end::
-;alien6.c:989: void crearDisparo(unsigned char x, unsigned char y){
-;	---------------------------------
-; Function crearDisparo
-; ---------------------------------
-_crearDisparo_start::
-_crearDisparo:
-	push	af
-;alien6.c:992: while (disparos[k].activo==1){
-	ld	iy,#1
-	add	iy,sp
-	ld	0 (iy),#0x00
-	ld	bc,#0x0000
-00101$:
-	ld	hl,#_disparos
-	add	hl,bc
-	ex	de,hl
-	ld	hl,#0x000C
-	add	hl,de
-	ld	a,(hl)
-	dec	a
-	jr	NZ,00103$
-;alien6.c:993: k++;
-	ld	hl,#0x0015
-	add	hl,bc
-	ld	c,l
-	ld	b,h
-	jr	00101$
-00103$:
-;alien6.c:995: disparos[k].activo=1;
-	ld	(hl),#0x01
-;alien6.c:996: disparos[k].cx=x+1;
-	ld	hl,#0x0008
-	add	hl,de
-	ld	c,l
-	ld	b,h
-	ld	hl,#1
-	add	hl,sp
-	ld	iy,#4
-	add	iy,sp
-	ld	a,0 (iy)
-	inc	a
-	ld	(hl),a
-	ld	hl, #1+0
-	add	hl, sp
-	ld	a, (hl)
-	ld	(bc),a
-;alien6.c:997: disparos[k].cy=y-1;
-	ld	hl,#0x0009
-	add	hl,de
-	ld	c,l
-	ld	b,h
-	ld	hl,#0
-	add	hl,sp
-	ld	iy,#5
-	add	iy,sp
-	ld	a,0 (iy)
-	add	a,#0xFF
-	ld	(hl),a
-	ld	hl, #0+0
-	add	hl, sp
-	ld	a, (hl)
-	ld	(bc),a
-;alien6.c:998: disparos[k].ox=x+1;
-	ld	hl,#0x000A
-	add	hl,de
-	ld	iy,#1
-	add	iy,sp
-	ld	a,0 (iy)
-	ld	(hl),a
-;alien6.c:999: disparos[k].oy=y-1;
-	ld	hl,#0x000B
-	add	hl,de
-	ld	iy,#0
-	add	iy,sp
-	ld	a,0 (iy)
-	ld	(hl),a
-;alien6.c:1000: disparos[k].sp0=shot2;
-	ld	l, e
-	ld	h, d
-	ld	(hl),#<(_shot2)
-	inc	hl
-	ld	(hl),#>(_shot2)
-;alien6.c:1001: disparos[k].nuevo=1;
-	ld	hl,#0x000F
-	add	hl,de
-	ld	(hl),#0x01
-;alien6.c:1002: disparos[k].dead=0;
-	ld	hl,#0x0010
-	add	hl,de
-	ld	(hl),#0x00
-;alien6.c:1003: disparos_activos++;
-	ld	hl, #_disparos_activos+0
-	inc	(hl)
-;alien6.c:1004: ultimo_disparo=contador;
-	ld	hl,(_contador)
-	ld	(_ultimo_disparo),hl
-;alien6.c:1005: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
-	ld	hl,#0x0000
-	push	hl
-	call	_cpc_WyzStartEffect
-	pop	af
-	pop	af
-	ret
-_crearDisparo_end::
-;alien6.c:1008: void pintarDisparos(){
+;alien6.c:1006: void pintarDisparos(){
 ;	---------------------------------
 ; Function pintarDisparos
 ; ---------------------------------
@@ -7528,17 +7537,17 @@ _pintarDisparos:
 	ld	hl,#-9
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:1011: if (disparos_activos>0){
+;alien6.c:1009: if (disparos_activos>0){
 	ld	a,(#_disparos_activos + 0)
 	or	a, a
 	jp	Z,00110$
-;alien6.c:1012: for (k=0;k<MAX_DISPAROS;k++){
+;alien6.c:1010: for (k=0;k<MAX_DISPAROS;k++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
 	ld	de,#0x0000
 00108$:
-;alien6.c:1013: if (disparos[k].activo==1){
+;alien6.c:1011: if (disparos[k].activo==1){
 	ld	hl,#_disparos
 	add	hl,de
 	ld	iy,#7
@@ -7562,7 +7571,7 @@ _pintarDisparos:
 	ld	a,(hl)
 	dec	a
 	jp	NZ,00109$
-;alien6.c:1014: cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].cy]+disparos[k].cx);
+;alien6.c:1012: cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].cy]+disparos[k].cx);
 	ld	hl,#5
 	add	hl,sp
 	ld	iy,#7
@@ -7635,7 +7644,7 @@ _pintarDisparos:
 	add	hl,sp
 	ld	sp,hl
 	pop	de
-;alien6.c:1015: disparos[k].ox=disparos[k].cx;
+;alien6.c:1013: disparos[k].ox=disparos[k].cx;
 	ld	iy,#7
 	add	iy,sp
 	ld	a,0 (iy)
@@ -7652,7 +7661,7 @@ _pintarDisparos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:1016: disparos[k].oy=disparos[k].cy;
+;alien6.c:1014: disparos[k].oy=disparos[k].cy;
 	ld	iy,#7
 	add	iy,sp
 	ld	a,0 (iy)
@@ -7669,7 +7678,7 @@ _pintarDisparos:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:1017: if (disparos[k].nuevo) disparos[k].nuevo=0;
+;alien6.c:1015: if (disparos[k].nuevo) disparos[k].nuevo=0;
 	ld	iy,#7
 	add	iy,sp
 	ld	a,0 (iy)
@@ -7684,7 +7693,7 @@ _pintarDisparos:
 	xor	a, a
 	ld	(bc),a
 00109$:
-;alien6.c:1012: for (k=0;k<MAX_DISPAROS;k++){
+;alien6.c:1010: for (k=0;k<MAX_DISPAROS;k++){
 	ld	hl,#0x0015
 	add	hl,de
 	ex	de,hl
@@ -7700,43 +7709,50 @@ _pintarDisparos:
 	ld	sp,hl
 	ret
 _pintarDisparos_end::
-;alien6.c:1023: void inicializarProta(){
+;alien6.c:1021: void inicializarProta(){
 ;	---------------------------------
 ; Function inicializarProta
 ; ---------------------------------
 _inicializarProta_start::
 _inicializarProta:
-;alien6.c:1024: prota.activo=1;
+;alien6.c:1022: prota.activo=1;
 	ld	hl,#_prota + 15
 	ld	(hl),#0x01
-;alien6.c:1025: prota.sp0=nave;
+;alien6.c:1023: prota.sp0=nave;
 	ld	hl,#_nave
 	ld	(_prota), hl
-;alien6.c:1026: prota.cx=39;
+;alien6.c:1024: prota.cx=39;
 	ld	hl,#_prota + 8
 	ld	(hl),#0x27
-;alien6.c:1027: prota.cy=178;
+;alien6.c:1025: prota.cy=178;
 	ld	hl,#_prota + 9
 	ld	(hl),#0xB2
-;alien6.c:1028: prota.ox=39;
+;alien6.c:1026: prota.ox=39;
 	ld	hl,#_prota + 10
 	ld	(hl),#0x27
-;alien6.c:1029: prota.oy=179;
+;alien6.c:1027: prota.oy=179;
 	ld	hl,#_prota + 11
 	ld	(hl),#0xB3
-;alien6.c:1030: prota.moved=0;
+;alien6.c:1028: prota.moved=0;
 	ld	hl,#_prota + 17
 	ld	(hl),#0x00
-;alien6.c:1031: prota.dead=0;
+;alien6.c:1029: prota.dead=0;
 	ld	hl,#_prota + 20
 	ld	(hl),#0x00
-;alien6.c:1032: prota.speed=PROTA_SPEED;
+;alien6.c:1030: prota.speed=PROTA_SPEED;
 	ld	hl,#_prota + 18
 	ld	(hl),#0x0A
-;alien6.c:1033: prota.lastmoved=0;
+;alien6.c:1031: prota.lastmoved=0;
 	ld	hl,#0x0000
 	ld	((_prota + 0x0016)),hl
 	ld	((_prota + 0x0016) + 2), hl
+;alien6.c:1032: prota.lastShot=0;
+	ld	hl,#0x0000
+	ld	((_prota + 0x001a)),hl
+	ld	((_prota + 0x001a) + 2), hl
+;alien6.c:1033: prota.reloadSpeed=20; //Velocidad de recarga
+	ld	hl,#_prota + 30
+	ld	(hl),#0x14
 	ret
 _inicializarProta_end::
 ;alien6.c:1036: void borrarProta(){
@@ -7797,10 +7813,13 @@ _borrarProta_end::
 ; ---------------------------------
 _moverProta_start::
 _moverProta:
+	ld	hl,#-8
+	add	hl,sp
+	ld	sp,hl
 ;alien6.c:1048: if (!prota.dead){
-	ld	a, (#_prota + 20)
+	ld	a,(#_prota + 20)
 	or	a, a
-	ret	NZ
+	jp	NZ,00118$
 ;alien6.c:1049: if (cpc_TestKey(KEY_RIGHT)==1 && prota.cx<=75)   // DERECHA
 	ld	a,#0x01
 	push	af
@@ -7893,7 +7912,7 @@ _moverProta:
 	ld	hl,#(_prota + 0x0011)
 	ld	(hl),#0x01
 00111$:
-;alien6.c:1069: if ((cpc_TestKey(KEY_FIRE)==1) && (disparos_activos < MAX_DISPAROS) && (contador>ultimo_disparo+5))   // ESPACIO
+;alien6.c:1069: if ((cpc_TestKey(KEY_FIRE)==1) && (getTime()-prota.lastShot>prota.reloadSpeed))   // ESPACIO
 	push	de
 	ld	a,#0x04
 	push	af
@@ -7902,26 +7921,66 @@ _moverProta:
 	inc	sp
 	pop	de
 	dec	l
-	ret	NZ
-	ld	a,(#_disparos_activos + 0)
-	sub	a, #0x02
-	ret	NC
-	ld	a,(#_ultimo_disparo + 0)
-	add	a, #0x05
-	ld	b,a
-	ld	a,(#_ultimo_disparo + 1)
-	adc	a, #0x00
-	ld	c,a
-	ld	a,b
-	ld	iy,#_contador
+	jp	NZ,00118$
+	push	de
+	call	_getTime
+	ld	iy,#6
+	add	iy,sp
+	ld	3 (iy),d
+	ld	2 (iy),e
+	ld	1 (iy),h
+	ld	0 (iy),l
+	pop	de
+	ld	hl, (#_prota + 26)
+	ld	bc, (#_prota + 28)
+	ld	iy,#0
+	add	iy,sp
+	ld	0 (iy),l
+	ld	1 (iy),h
+	ld	2 (iy),c
+	ld	3 (iy),b
+	ld	hl,#0
+	add	hl,sp
+	ld	iy,#4
+	add	iy,sp
+	ld	a,0 (iy)
+	sub	a, (hl)
+	ld	(hl),a
+	ld	a,1 (iy)
+	inc	hl
+	sbc	a, (hl)
+	ld	(hl),a
+	ld	a,2 (iy)
+	inc	hl
+	sbc	a, (hl)
+	ld	(hl),a
+	ld	a,3 (iy)
+	inc	hl
+	sbc	a, (hl)
+	ld	(hl),a
+	ld	a, (#_prota + 30)
+	ld	0 (iy),a
+	rla
+	sbc	a, a
+	ld	1 (iy),a
+	ld	2 (iy),a
+	ld	3 (iy),a
+	ld	hl,#4
+	add	hl,sp
+	ld	a,(hl)
+	ld	iy,#0
+	add	iy,sp
 	sub	a, 0 (iy)
-	ld	a,c
-	ld	iy,#_contador
+	inc	hl
+	ld	a,(hl)
 	sbc	a, 1 (iy)
-	jp	PO, 00179$
-	xor	a, #0x80
-00179$:
-	ret	P
+	inc	hl
+	ld	a,(hl)
+	sbc	a, 2 (iy)
+	inc	hl
+	ld	a,(hl)
+	sbc	a, 3 (iy)
+	jr	NC,00118$
 ;alien6.c:1071: crearDisparo(prota.cx, prota.cy);
 	ld	hl, #(_prota + 0x0009) + 0
 	ld	b,(hl)
@@ -7932,6 +7991,10 @@ _moverProta:
 	inc	sp
 	call	_crearDisparo
 	pop	af
+00118$:
+	ld	hl,#8
+	add	hl,sp
+	ld	sp,hl
 	ret
 _moverProta_end::
 ;alien6.c:1076: void pintarProta(){
@@ -9359,20 +9422,10 @@ _inicializarNivel:
 	call	_inicializarAtaques
 ;alien6.c:1369: inicializarAddones();
 	call	_inicializarAddones
-;alien6.c:1371: contador=0;
-	ld	hl,#_contador + 0
-	ld	(hl), #0x00
-	ld	hl,#_contador + 1
-	ld	(hl), #0x00
-;alien6.c:1372: ultimo_disparo=0;
-	ld	hl,#_ultimo_disparo + 0
-	ld	(hl), #0x00
-	ld	hl,#_ultimo_disparo + 1
-	ld	(hl), #0x00
-;alien6.c:1373: hostilidad=0;  //este flag hace que los enemigos disparen
+;alien6.c:1371: hostilidad=0;  //este flag hace que los enemigos disparen
 	ld	hl,#_hostilidad + 0
 	ld	(hl), #0x00
-;alien6.c:1375: explosiones_lastUpdated=0; //La última vez que se actualizaron las explosiones
+;alien6.c:1373: explosiones_lastUpdated=0; //La última vez que se actualizaron las explosiones
 	xor	a, a
 	ld	(#_explosiones_lastUpdated + 0),a
 	ld	(#_explosiones_lastUpdated + 1),a
@@ -9408,18 +9461,11 @@ _game:
 	call	_cpc_ClrScr
 ;alien6.c:1381: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOn();
 	call	_cpc_WyzSetPlayerOn
-;alien6.c:1385: inicializarNivel();
+;alien6.c:1384: inicializarNivel();
 	call	_inicializarNivel
-;alien6.c:1387: while(1)
+;alien6.c:1386: while(1)
 00135$:
-;alien6.c:1389: contador++;
-	ld	hl, #_contador+0
-	inc	(hl)
-	jr	NZ,00213$
-	ld	hl, #_contador+1
-	inc	(hl)
-00213$:
-;alien6.c:1396: if ((ESTRELLAS_ACTIVADAS) && (getTime()-lastMovedEstrella>VELOCIDAD_ESTRELLAS)){
+;alien6.c:1393: if ((ESTRELLAS_ACTIVADAS) && (getTime()-lastMovedEstrella>VELOCIDAD_ESTRELLAS)){
 	call	_getTime
 	ld	iy,#4
 	add	iy,sp
@@ -9461,14 +9507,14 @@ _game:
 	ld	a,#0x00
 	sbc	a, b
 	jr	NC,00104$
-;alien6.c:1397: estrellasMovidas=1;
+;alien6.c:1394: estrellasMovidas=1;
 	ld	hl,#_estrellasMovidas + 0
 	ld	(hl), #0x01
-;alien6.c:1398: moverEstrellas();
+;alien6.c:1395: moverEstrellas();
 	call	_moverEstrellas
-;alien6.c:1399: borrarEstrellas();
+;alien6.c:1396: borrarEstrellas();
 	call	_borrarEstrellas
-;alien6.c:1400: lastMovedEstrella=getTime();
+;alien6.c:1397: lastMovedEstrella=getTime();
 	call	_getTime
 	ld	iy,#0
 	add	iy,sp
@@ -9482,7 +9528,7 @@ _game:
 	ld	bc, #4
 	ldir
 00104$:
-;alien6.c:1405: if ((explosiones_activas>0)&&((getTime()-explosiones_lastUpdated)>VELOCIDAD_EXPLOSIONES)){
+;alien6.c:1402: if ((explosiones_activas>0)&&((getTime()-explosiones_lastUpdated)>VELOCIDAD_EXPLOSIONES)){
 	ld	a,(#_explosiones_activas + 0)
 	or	a, a
 	jr	Z,00107$
@@ -9527,14 +9573,14 @@ _game:
 	ld	a,#0x00
 	sbc	a, b
 	jr	NC,00107$
-;alien6.c:1406: actualizarExplosiones();
+;alien6.c:1403: actualizarExplosiones();
 	call	_actualizarExplosiones
-;alien6.c:1407: animarExplosiones();
+;alien6.c:1404: animarExplosiones();
 	call	_animarExplosiones
-;alien6.c:1408: actualizarExplosiones();
+;alien6.c:1405: actualizarExplosiones();
 	call	_actualizarExplosiones
 00107$:
-;alien6.c:1414: if ((getTime()-prota.lastmoved)>prota.speed){
+;alien6.c:1411: if ((getTime()-prota.lastmoved)>prota.speed){
 	call	_getTime
 	ld	iy,#0
 	add	iy,sp
@@ -9576,61 +9622,61 @@ _game:
 	ld	a,c
 	sbc	a, 3 (iy)
 	jr	NC,00110$
-;alien6.c:1415: prota.lastmoved=getTime();
+;alien6.c:1412: prota.lastmoved=getTime();
 	call	_getTime
 	ld	c,l
 	ld	b,h
 	ld	((_prota + 0x0016)), bc
 	ld	((_prota + 0x0016) + 2), de
-;alien6.c:1416: moverProta();	//mover al prota
+;alien6.c:1413: moverProta();	//mover al prota
 	call	_moverProta
-;alien6.c:1417: borrarProta();	//borro al prota
+;alien6.c:1414: borrarProta();	//borro al prota
 	call	_borrarProta
-;alien6.c:1418: pintarProta();	//Pinto al protagonista
+;alien6.c:1415: pintarProta();	//Pinto al protagonista
 	call	_pintarProta
 00110$:
-;alien6.c:1421: borrarAddones();
+;alien6.c:1418: borrarAddones();
 	call	_borrarAddones
-;alien6.c:1422: moverAddones();
+;alien6.c:1419: moverAddones();
 	call	_moverAddones
-;alien6.c:1423: pintarAddones();
+;alien6.c:1420: pintarAddones();
 	call	_pintarAddones
-;alien6.c:1425: moverMalos();		//Muevo los malos
+;alien6.c:1422: moverMalos();		//Muevo los malos
 	call	_moverMalos
-;alien6.c:1426: borrarMalos();		//Borro los malos
+;alien6.c:1423: borrarMalos();		//Borro los malos
 	call	_borrarMalos
-;alien6.c:1427: pintarMalos();		//Pinto los malos
+;alien6.c:1424: pintarMalos();		//Pinto los malos
 	call	_pintarMalos
-;alien6.c:1429: moverDisparos();  		//Mover disparos
+;alien6.c:1426: moverDisparos();  		//Mover disparos
 	call	_moverDisparos
-;alien6.c:1430: borrarDisparos();		//Borro disparos
+;alien6.c:1427: borrarDisparos();		//Borro disparos
 	call	_borrarDisparos
-;alien6.c:1431: pintarDisparos();		//Pinto Disparos
+;alien6.c:1428: pintarDisparos();		//Pinto Disparos
 	call	_pintarDisparos
-;alien6.c:1433: moverDisparosMalos();	//mover disparos
+;alien6.c:1430: moverDisparosMalos();	//mover disparos
 	call	_moverDisparosMalos
-;alien6.c:1434: borrarDisparosMalos();	//borro disparos
+;alien6.c:1431: borrarDisparosMalos();	//borro disparos
 	call	_borrarDisparosMalos
-;alien6.c:1435: pintarDisparosMalo();	//Pinto Disparos
+;alien6.c:1432: pintarDisparosMalo();	//Pinto Disparos
 	call	_pintarDisparosMalo
-;alien6.c:1438: if ((ESTRELLAS_ACTIVADAS) && (estrellasMovidas)){
+;alien6.c:1435: if ((ESTRELLAS_ACTIVADAS) && (estrellasMovidas)){
 	ld	a,(#_estrellasMovidas + 0)
 	or	a, a
 	jr	Z,00112$
-;alien6.c:1439: pintarEstrellas();
+;alien6.c:1436: pintarEstrellas();
 	call	_pintarEstrellas
-;alien6.c:1440: estrellasMovidas=0;
+;alien6.c:1437: estrellasMovidas=0;
 	ld	hl,#_estrellasMovidas + 0
 	ld	(hl), #0x00
 00112$:
-;alien6.c:1444: if (cambio_score){
+;alien6.c:1441: if (cambio_score){
 	ld	a,(#_cambio_score + 0)
 	or	a, a
 	jr	Z,00115$
-;alien6.c:1445: cambio_score=0;
+;alien6.c:1442: cambio_score=0;
 	ld	hl,#_cambio_score + 0
 	ld	(hl), #0x00
-;alien6.c:1446: sprintf(aux_txt,"%05d",score);
+;alien6.c:1443: sprintf(aux_txt,"%05d",score);
 	ld	de,#_aux_txt
 	ld	hl,(_score)
 	push	hl
@@ -9641,7 +9687,7 @@ _game:
 	ld	hl,#6
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:1447: cpc_PrintGphStr(aux_txt,0xc050);
+;alien6.c:1444: cpc_PrintGphStr(aux_txt,0xc050);
 	ld	hl,#_aux_txt
 	ld	bc,#0xC050
 	push	bc
@@ -9650,7 +9696,7 @@ _game:
 	pop	af
 	pop	af
 00115$:
-;alien6.c:1450: if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_activos_malos)){
+;alien6.c:1447: if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_activos_malos)){
 	ld	a, (#_prota + 20)
 	or	a, a
 	jr	Z,00117$
@@ -9663,13 +9709,13 @@ _game:
 	ld	a,(#_disparos_activos_malos + 0)
 	or	a, a
 	jr	NZ,00117$
-;alien6.c:1451: state = STATE_LOSE;
+;alien6.c:1448: state = STATE_LOSE;
 	ld	hl,#_state + 0
 	ld	(hl), #0x07
-;alien6.c:1452: break;
+;alien6.c:1449: break;
 	jr	00137$
 00117$:
-;alien6.c:1455: if (cpc_TestKey(KEY_ESC)==1){			// ESC
+;alien6.c:1452: if (cpc_TestKey(KEY_ESC)==1){			// ESC
 	ld	a,#0x05
 	push	af
 	inc	sp
@@ -9677,12 +9723,12 @@ _game:
 	inc	sp
 	dec	l
 	jr	NZ,00125$
-;alien6.c:1456: state = STATE_MENU;
+;alien6.c:1453: state = STATE_MENU;
 	ld	hl,#_state + 0
 	ld	(hl), #0x02
-;alien6.c:1457: break;
+;alien6.c:1454: break;
 	jr	00137$
-;alien6.c:1460: if ((DEBUG) && (cpc_TestKey(KEY_DEBUG)==1)){			// DEBUG
+;alien6.c:1457: if ((DEBUG) && (cpc_TestKey(KEY_DEBUG)==1)){			// DEBUG
 00125$:
 	ld	a,#0x0A
 	push	af
@@ -9691,9 +9737,9 @@ _game:
 	inc	sp
 	dec	l
 	jr	NZ,00128$
-;alien6.c:1461: debug();
+;alien6.c:1458: debug();
 	call	_debug
-;alien6.c:1464: if ((DEBUG) && (cpc_TestKey(KEY_HOSTILITY)==1)){			// DEBUG
+;alien6.c:1461: if ((DEBUG) && (cpc_TestKey(KEY_HOSTILITY)==1)){			// DEBUG
 00128$:
 	ld	a,#0x0B
 	push	af
@@ -9702,14 +9748,14 @@ _game:
 	inc	sp
 	dec	l
 	jr	NZ,00127$
-;alien6.c:1465: hostilidad=!hostilidad;
+;alien6.c:1462: hostilidad=!hostilidad;
 	ld	a,(#_hostilidad + 0)
 	sub	a,#0x01
 	ld	a,#0x00
 	rla
 	ld	(#_hostilidad + 0),a
 00127$:
-;alien6.c:1469: if ((malos_activos==0) && (explosiones_activas==0) && (!disparos_activos) && (!disparos_activos_malos)){
+;alien6.c:1466: if ((malos_activos==0) && (explosiones_activas==0) && (!disparos_activos) && (!disparos_activos_malos)){
 	ld	a,(#_malos_activos + 0)
 	or	a, a
 	jp	NZ,00135$
@@ -9722,13 +9768,13 @@ _game:
 	ld	a,(#_disparos_activos_malos + 0)
 	or	a, a
 	jp	NZ,00135$
-;alien6.c:1470: state = STATE_LEVELUP;
+;alien6.c:1467: state = STATE_LEVELUP;
 	ld	hl,#_state + 0
 	ld	(hl), #0x08
-;alien6.c:1477: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+;alien6.c:1474: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
 00137$:
 	call	_cpc_WyzSetPlayerOff
-;alien6.c:1479: return state;
+;alien6.c:1476: return state;
 	ld	iy,#_state
 	ld	l,0 (iy)
 	pop	af
@@ -9740,43 +9786,43 @@ _game_end::
 ___str_40:
 	.ascii "%05d"
 	.db 0x00
-;alien6.c:1483: void InitialSetUp() {
+;alien6.c:1480: void InitialSetUp() {
 ;	---------------------------------
 ; Function InitialSetUp
 ; ---------------------------------
 _InitialSetUp_start::
 _InitialSetUp:
-;alien6.c:1487: interrupciones();
+;alien6.c:1484: interrupciones();
 	call	_interrupciones
-;alien6.c:1490: cpc_SetMode(0);				//hardware call to set mode 1
+;alien6.c:1487: cpc_SetMode(0);				//hardware call to set mode 1
 	xor	a, a
 	push	af
 	inc	sp
 	call	_cpc_SetMode
 	inc	sp
-;alien6.c:1491: set_colours();
+;alien6.c:1488: set_colours();
 	call	_set_colours
-;alien6.c:1492: cpc_ClrScr();				//fills scr with ink 0
+;alien6.c:1489: cpc_ClrScr();				//fills scr with ink 0
 	call	_cpc_ClrScr
-;alien6.c:1494: letrasColorAzul();
+;alien6.c:1491: letrasColorAzul();
 	call	_letrasColorAzul
-;alien6.c:1496: inicializarTeclado();
+;alien6.c:1493: inicializarTeclado();
 	call	_inicializarTeclado
-;alien6.c:1498: nivel=1;
+;alien6.c:1495: nivel=1;
 	ld	hl,#_nivel + 0
 	ld	(hl), #0x01
-;alien6.c:1499: prota.vidas=3;
+;alien6.c:1496: prota.vidas=3;
 	ld	hl,#_prota+21
 	ld	(hl),#0x03
-;alien6.c:1502: cambio_score=0;
+;alien6.c:1499: cambio_score=0;
 	ld	hl,#_cambio_score + 0
 	ld	(hl), #0x00
-;alien6.c:1503: score=0;
+;alien6.c:1500: score=0;
 	ld	hl,#_score + 0
 	ld	(hl), #0x00
 	ld	hl,#_score + 1
 	ld	(hl), #0x00
-;alien6.c:1506: cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
+;alien6.c:1503: cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
 	ld	hl,#_SOUND_TABLE_0
 	ld	bc,#_SONG_TABLE_0
 	push	bc
@@ -9789,30 +9835,30 @@ _InitialSetUp:
 	ld	hl,#8
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:1507: cpc_WyzLoadSong(0);
+;alien6.c:1504: cpc_WyzLoadSong(0);
 	xor	a, a
 	push	af
 	inc	sp
 	call	_cpc_WyzLoadSong
 	inc	sp
-;alien6.c:1508: cpc_WyzSetPlayerOn();
+;alien6.c:1505: cpc_WyzSetPlayerOn();
 	call	_cpc_WyzSetPlayerOn
-;alien6.c:1511: state = INITIAL_STATE;
+;alien6.c:1508: state = INITIAL_STATE;
 	ld	hl,#_state + 0
 	ld	(hl), #0x02
 	ret
 _InitialSetUp_end::
-;alien6.c:1516: int main() {
+;alien6.c:1513: int main() {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main_start::
 _main:
-;alien6.c:1518: InitialSetUp();
+;alien6.c:1515: InitialSetUp();
 	call	_InitialSetUp
-;alien6.c:1520: while (state != STATE_EXIT) {
+;alien6.c:1517: while (state != STATE_EXIT) {
 00110$:
-;alien6.c:1521: switch(state) {
+;alien6.c:1518: switch(state) {
 	ld	a,(#_state + 0)
 	cp	a,#0x05
 	jp	Z,00113$
@@ -9845,73 +9891,73 @@ _main:
 	jp	00107$
 	jp	00106$
 	jp	00102$
-;alien6.c:1522: case STATE_MENU:
+;alien6.c:1519: case STATE_MENU:
 00101$:
-;alien6.c:1523: state = menu();
+;alien6.c:1520: state = menu();
 	call	_menu
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1524: break;
+;alien6.c:1521: break;
 	jr	00110$
-;alien6.c:1526: case STATE_REDEFINE:
+;alien6.c:1523: case STATE_REDEFINE:
 00102$:
-;alien6.c:1527: state = redefineKeys();
+;alien6.c:1524: state = redefineKeys();
 	call	_redefineKeys
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1528: break;
+;alien6.c:1525: break;
 	jr	00110$
-;alien6.c:1530: case STATE_HELP:
+;alien6.c:1527: case STATE_HELP:
 00103$:
-;alien6.c:1531: state = help();
+;alien6.c:1528: state = help();
 	call	_help
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1532: break;
+;alien6.c:1529: break;
 	jr	00110$
-;alien6.c:1534: case STATE_GAME:
+;alien6.c:1531: case STATE_GAME:
 00104$:
-;alien6.c:1535: state = game();
+;alien6.c:1532: state = game();
 	call	_game
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1536: break;
+;alien6.c:1533: break;
 	jr	00110$
-;alien6.c:1538: case STATE_WIN:
+;alien6.c:1535: case STATE_WIN:
 00105$:
-;alien6.c:1539: state = win();
+;alien6.c:1536: state = win();
 	call	_win
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1540: break;
+;alien6.c:1537: break;
 	jp	00110$
-;alien6.c:1542: case STATE_LEVELUP:
+;alien6.c:1539: case STATE_LEVELUP:
 00106$:
-;alien6.c:1543: state = levelUp();
+;alien6.c:1540: state = levelUp();
 	call	_levelUp
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1544: break;
+;alien6.c:1541: break;
 	jp	00110$
-;alien6.c:1546: case STATE_LOSE:
+;alien6.c:1543: case STATE_LOSE:
 00107$:
-;alien6.c:1547: state = gameOver();
+;alien6.c:1544: state = gameOver();
 	call	_gameOver
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1548: break;
+;alien6.c:1545: break;
 	jp	00110$
-;alien6.c:1550: default:
+;alien6.c:1547: default:
 00108$:
-;alien6.c:1551: state = STATE_EXIT;
+;alien6.c:1548: state = STATE_EXIT;
 	ld	iy,#_state
 	ld	0 (iy),#0x05
-;alien6.c:1553: }
+;alien6.c:1550: }
 	jp	00110$
-;alien6.c:1555: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+;alien6.c:1552: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
 00113$:
 	call	_cpc_WyzSetPlayerOff
-;alien6.c:1557: return 0;  
+;alien6.c:1554: return 0;  
 	ld	hl,#0x0000
 	ret
 _main_end::
@@ -10656,14 +10702,8 @@ __xinit__lastMovedEstrella:
 	.byte #0x00,#0x00,#0x00,#0x00	;  0
 __xinit__estrellasMovidas:
 	.db #0x00	; 0
-__xinit__ultimo_disparo:
-	.dw #0x0000
 __xinit__MAX_DISPAROS_MALOS:
 	.db #0x03	; 3
-__xinit__ultimo_disparo_malo:
-	.dw #0x0000
-__xinit__contador:
-	.dw #0x0000
 __xinit__score:
 	.dw #0x0000
 __xinit__cambio_score:

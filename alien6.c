@@ -66,11 +66,9 @@ long lastMovedEstrella = 0;
 unsigned char estrellasMovidas = 0;
 TIPO_DISPARO disparos [5];
 unsigned char disparos_activos;
-int ultimo_disparo=0;
 TIPO_DISPARO disparosMalos[4];
 unsigned char disparos_activos_malos;
 unsigned char MAX_DISPAROS_MALOS = 3;
-int ultimo_disparo_malo=0;
 TIPO_NAVE prota;
 TIPO_MALO malos[6];
 unsigned char malos_activos;
@@ -85,7 +83,6 @@ char previous_state;
 //General
 char nivel;
 char hostilidad;
-int contador=0;
 int score=0;
 unsigned char cambio_score=0;
 char aux_txt[6];
@@ -494,7 +491,6 @@ void crearDisparoMalo(unsigned char x, unsigned char y){
 	disparosMalos[k].nuevo=1;
 	disparosMalos[k].dead=0;
 	disparos_activos_malos++;
-	ultimo_disparo_malo=contador;
 	if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 }
 
@@ -919,6 +915,25 @@ void inicializarDisparos(){
 	disparos_activos=0;
 }
 
+void crearDisparo(unsigned char x, unsigned char y){
+	unsigned char k;
+	k=0;
+	while (disparos[k].activo==1){
+		k++;
+	}
+	disparos[k].activo=1;
+	disparos[k].cx=x+1;
+	disparos[k].cy=y-1;
+	disparos[k].ox=x+1;
+	disparos[k].oy=y-1;
+	disparos[k].sp0=shot2;
+	disparos[k].nuevo=1;
+	disparos[k].dead=0;
+	disparos_activos++;
+	prota.lastShot = getTime();
+	if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
+}
+
 void borrarDisparos(){
 	unsigned char k;
 	k=0;
@@ -986,24 +1001,7 @@ void moverDisparos(){
 
 }
 
-void crearDisparo(unsigned char x, unsigned char y){
-	unsigned char k;
-	k=0;
-	while (disparos[k].activo==1){
-		k++;
-	}
-	disparos[k].activo=1;
-	disparos[k].cx=x+1;
-	disparos[k].cy=y-1;
-	disparos[k].ox=x+1;
-	disparos[k].oy=y-1;
-	disparos[k].sp0=shot2;
-	disparos[k].nuevo=1;
-	disparos[k].dead=0;
-	disparos_activos++;
-	ultimo_disparo=contador;
-	if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
-}
+
 
 void pintarDisparos(){
 	unsigned char k;
@@ -1031,6 +1029,8 @@ void inicializarProta(){
 	prota.dead=0;
 	prota.speed=PROTA_SPEED;
 	prota.lastmoved=0;
+	prota.lastShot=0;
+	prota.reloadSpeed=20; //Velocidad de recarga
 }
 
 void borrarProta(){
@@ -1066,7 +1066,7 @@ void moverProta(){
 			prota.cy+=2;
 			prota.moved=1;
 		}
-		if ((cpc_TestKey(KEY_FIRE)==1) && (disparos_activos < MAX_DISPAROS) && (contador>ultimo_disparo+5))   // ESPACIO
+		if ((cpc_TestKey(KEY_FIRE)==1) && (getTime()-prota.lastShot>prota.reloadSpeed))   // ESPACIO
 		{
 			crearDisparo(prota.cx, prota.cy);
 		}
@@ -1368,27 +1368,24 @@ void inicializarNivel(){
 	
 	inicializarAddones();
 	
-	contador=0;
-	ultimo_disparo=0;
 	hostilidad=0;  //este flag hace que los enemigos disparen
 	
 	explosiones_lastUpdated=0; //La última vez que se actualizaron las explosiones
 }
+
+//Bucle principal de juego
 unsigned char game()
 {
 	cpc_ClrScr();				//fills scr with ink 0
 	
 	if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOn();
 	
-	//scr_waitVSYNC();
 	
 	inicializarNivel();
 	
 	while(1)
 	{
-		contador++;
 
-		
 		//Espera al barrido
 		//scr_waitVSYNC();
 		
