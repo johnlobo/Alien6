@@ -177,12 +177,12 @@ DEF _pintarProta_end 0x4C1D
 DEF _inicializarTeclado_end 0x4CAE
 DEF _mostrarVidasProta 0x4CAE
 DEF _mostrarVidasProta_start 0x4CAE
-DEF _mostrarNivel 0x4D09
-DEF _mostrarNivel_start 0x4D09
 DEF _mostrarVidasProta_end 0x4D09
+DEF _pintarBanderasNivel 0x4D09
+DEF _pintarBanderasNivel_start 0x4D09
 DEF _inicializarPartida 0x4DF3
 DEF _inicializarPartida_start 0x4DF3
-DEF _mostrarNivel_end 0x4DF3
+DEF _pintarBanderasNivel_end 0x4DF3
 DEF _debug 0x4E08
 DEF _debug_start 0x4E08
 DEF _inicializarPartida_end 0x4E08

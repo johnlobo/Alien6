@@ -214,9 +214,9 @@ _CODE                               00002038    00005892 =       22674. bytes (R
      00004CAE  _inicializarTeclado_end            alien6
      00004CAE  _mostrarVidasProta                 alien6
      00004CAE  _mostrarVidasProta_start           alien6
-     00004D09  _mostrarNivel                      alien6
-     00004D09  _mostrarNivel_start                alien6
      00004D09  _mostrarVidasProta_end             alien6
+     00004D09  _pintarBanderasNivel               alien6
+     00004D09  _pintarBanderasNivel_start         alien6
      00004DF3  _inicializarPartida                alien6
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 Hexadecimal  [32-Bits]
@@ -228,7 +228,7 @@ _CODE                               00002038    00005892 =       22674. bytes (R
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00004DF3  _inicializarPartida_start          alien6
-     00004DF3  _mostrarNivel_end                  alien6
+     00004DF3  _pintarBanderasNivel_end           alien6
      00004E08  _debug                             alien6
      00004E08  _debug_start                       alien6
      00004E08  _inicializarPartida_end            alien6

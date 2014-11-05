@@ -1106,7 +1106,7 @@ void mostrarVidasProta(){
 	}
 }
 
-void mostrarNivel(){
+void pintarBanderasNivel(){
 	unsigned char i;
 	unsigned char avance;
 	unsigned char aux;
@@ -1352,7 +1352,7 @@ void inicializarNivel(){
 	pintarMalos();
 	pintarProta();
 	mostrarVidasProta();
-	mostrarNivel();
+	pintarBanderasNivel();
 	
 	stepCount=19;
 	velXForm=1;

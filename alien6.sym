@@ -319,9 +319,6 @@ Symbol Table
   0 _menu                                                          3492 GR
   0 _menu_end                                                      352D GR
   0 _menu_start                                                    3492 GR
-  0 _mostrarNivel                                                  2CD1 GR
-  0 _mostrarNivel_end                                              2DBB GR
-  0 _mostrarNivel_start                                            2CD1 GR
   0 _mostrarVidasProta                                             2C76 GR
   0 _mostrarVidasProta_end                                         2CD1 GR
   0 _mostrarVidasProta_start                                       2C76 GR
@@ -355,6 +352,9 @@ Symbol Table
   0 _pintarAddones                                                 1512 GR
   0 _pintarAddones_end                                             15EB GR
   0 _pintarAddones_start                                           1512 GR
+  0 _pintarBanderasNivel                                           2CD1 GR
+  0 _pintarBanderasNivel_end                                       2DBB GR
+  0 _pintarBanderasNivel_start                                     2CD1 GR
   0 _pintarDisparos                                                28B5 GR
   0 _pintarDisparosMalo                                            11A6 GR
   0 _pintarDisparosMalo_end                                        1298 GR

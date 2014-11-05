@@ -70,6 +70,7 @@ S _inicializarProta_end Def2A35
 S _pixelEstrella_start Def0892
 S _pause_start Def0793
 S _crearDisparo_start Def2415
+S _pintarBanderasNivel Def2CD1
 S _moverEstrellas_end Def0B8C
 S _crearAtaque Def161E
 S _moverDisparos Def25C5
@@ -103,6 +104,7 @@ S _moverDisparosMalos_start Def100C
 S _GetMode0PixelColorByte_start Def08A0
 S _borrarEstrellas Def0A0B
 S _pintarMenu_end Def3431
+S _pintarBanderasNivel_start Def2CD1
 S _inicializarAtaques_end Def161E
 S _cargarMalo Def16E3
 S _letrasColorRojo_end Def0892
@@ -127,6 +129,7 @@ S _crearAddon_start Def12CD
 S _moverDisparosMalos_end Def110D
 S _GetMode0PixelColorByte_end Def0901
 S _menu_start Def3492
+S _pintarBanderasNivel_end Def2DBB
 S _gameOver_start Def304A
 S _moverDisparos_end Def28B5
 S _crearAtaque_end Def1657
@@ -138,7 +141,6 @@ S _mostrarVidasProta Def2C76
 S _cargarMalo_start Def16E3
 S _SONG_0 Def015A
 S _borrarAddones Def1356
-S _mostrarNivel Def2CD1
 S _interrupciones_start Def0136
 S _debug Def2DD0
 S _InitialSetUp_start Def3848
@@ -170,7 +172,6 @@ S _InitialSetUp_end Def389F
 S _borrarMalos_start Def1CC9
 S _animarExplosiones Def0E5A
 S _mostrarVidasProta_start Def2C76
-S _mostrarNivel_start Def2CD1
 S _borrarAddones_start Def1356
 S _pintarEstrellas_end Def0B2D
 S _pintarDisparos Def28B5
@@ -200,7 +201,6 @@ S _win_start Def31E4
 S _mostrarVidasProta_end Def2CD1
 S _borrarProta_start Def2A35
 S _crearExplosion_start Def0C20
-S _mostrarNivel_end Def2DBB
 S _borrarAddones_end Def140C
 S _getTime_start Def0777
 S _pintarDisparosMalo Def11A6

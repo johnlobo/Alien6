@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW64)
-; This file was generated Wed Nov 05 10:54:46 2014
+; This file was generated Wed Nov 05 11:04:56 2014
 ;--------------------------------------------------------
 	.module alien6
 	.optsdcc -mz80
@@ -22,7 +22,7 @@
 	.globl _help
 	.globl _debug
 	.globl _inicializarPartida
-	.globl _mostrarNivel
+	.globl _pintarBanderasNivel
 	.globl _mostrarVidasProta
 	.globl _inicializarTeclado
 	.globl _pintarProta
@@ -8216,12 +8216,12 @@ _mostrarVidasProta:
 	inc	sp
 	ret
 _mostrarVidasProta_end::
-;alien6.c:1109: void mostrarNivel(){
+;alien6.c:1109: void pintarBanderasNivel(){
 ;	---------------------------------
-; Function mostrarNivel
+; Function pintarBanderasNivel
 ; ---------------------------------
-_mostrarNivel_start::
-_mostrarNivel:
+_pintarBanderasNivel_start::
+_pintarBanderasNivel:
 	ld	hl,#-8
 	add	hl,sp
 	ld	sp,hl
@@ -8353,7 +8353,7 @@ _mostrarNivel:
 	add	hl,sp
 	ld	sp,hl
 	ret
-_mostrarNivel_end::
+_pintarBanderasNivel_end::
 ;alien6.c:1129: void inicializarPartida(){
 ;	---------------------------------
 ; Function inicializarPartida
@@ -9394,8 +9394,8 @@ _inicializarNivel:
 	call	_pintarProta
 ;alien6.c:1354: mostrarVidasProta();
 	call	_mostrarVidasProta
-;alien6.c:1355: mostrarNivel();
-	call	_mostrarNivel
+;alien6.c:1355: pintarBanderasNivel();
+	call	_pintarBanderasNivel
 ;alien6.c:1357: stepCount=19;
 	ld	hl,#_stepCount + 0
 	ld	(hl), #0x13

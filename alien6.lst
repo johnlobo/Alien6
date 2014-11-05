@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW64)
-                              4 ; This file was generated Wed Nov 05 10:54:46 2014
+                              4 ; This file was generated Wed Nov 05 11:04:56 2014
                               5 ;--------------------------------------------------------
                               6 	.module alien6
                               7 	.optsdcc -mz80
@@ -22,7 +22,7 @@
                              22 	.globl _help
                              23 	.globl _debug
                              24 	.globl _inicializarPartida
-                             25 	.globl _mostrarNivel
+                             25 	.globl _pintarBanderasNivel
                              26 	.globl _mostrarVidasProta
                              27 	.globl _inicializarTeclado
                              28 	.globl _pintarProta
@@ -8239,12 +8239,12 @@
    2CCF 33            [ 6] 8216 	inc	sp
    2CD0 C9            [10] 8217 	ret
    2CD1                    8218 _mostrarVidasProta_end::
-                           8219 ;alien6.c:1109: void mostrarNivel(){
+                           8219 ;alien6.c:1109: void pintarBanderasNivel(){
                            8220 ;	---------------------------------
-                           8221 ; Function mostrarNivel
+                           8221 ; Function pintarBanderasNivel
                            8222 ; ---------------------------------
-   2CD1                    8223 _mostrarNivel_start::
-   2CD1                    8224 _mostrarNivel:
+   2CD1                    8223 _pintarBanderasNivel_start::
+   2CD1                    8224 _pintarBanderasNivel:
    2CD1 21 F8 FF      [10] 8225 	ld	hl,#-8
    2CD4 39            [11] 8226 	add	hl,sp
    2CD5 F9            [ 6] 8227 	ld	sp,hl
@@ -8376,7 +8376,7 @@
    2DB8 39            [11] 8353 	add	hl,sp
    2DB9 F9            [ 6] 8354 	ld	sp,hl
    2DBA C9            [10] 8355 	ret
-   2DBB                    8356 _mostrarNivel_end::
+   2DBB                    8356 _pintarBanderasNivel_end::
                            8357 ;alien6.c:1129: void inicializarPartida(){
                            8358 ;	---------------------------------
                            8359 ; Function inicializarPartida
@@ -9507,8 +9507,8 @@
    35B2 CDrA0r2B      [17] 9394 	call	_pintarProta
                            9395 ;alien6.c:1354: mostrarVidasProta();
    35B5 CDr76r2C      [17] 9396 	call	_mostrarVidasProta
-                           9397 ;alien6.c:1355: mostrarNivel();
-   35B8 CDrD1r2C      [17] 9398 	call	_mostrarNivel
+                           9397 ;alien6.c:1355: pintarBanderasNivel();
+   35B8 CDrD1r2C      [17] 9398 	call	_pintarBanderasNivel
                            9399 ;alien6.c:1357: stepCount=19;
    35BB 21rB8r02      [10] 9400 	ld	hl,#_stepCount + 0
    35BE 36 13         [10] 9401 	ld	(hl), #0x13
