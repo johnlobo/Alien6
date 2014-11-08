@@ -26,60 +26,55 @@ Symbol Table
   0 _GetMode0PixelColorByte                                        08A0 GR
   0 _GetMode0PixelColorByte_end                                    0901 GR
   0 _GetMode0PixelColorByte_start                                  08A0 GR
-  0 _InitialSetUp                                                  3848 GR
-  0 _InitialSetUp_end                                              389F GR
-  0 _InitialSetUp_start                                            3848 GR
+  0 _InitialSetUp                                                  376B GR
+  0 _InitialSetUp_end                                              37A0 GR
+  0 _InitialSetUp_start                                            376B GR
   2 _MAX_DISPAROS_MALOS                                            02C8 GR
   0 _RULE_TABLE_0                                                  0002 R
   0 _SONG_0                                                        015A GR
   0 _SONG_TABLE_0                                                  0000 R
   0 _SOUND_TABLE_0                                                 008F R
-  0 ___str_0                                                       2E5A R
-  0 ___str_1                                                       2E70 R
-  0 ___str_10                                                      2FE9 R
-  0 ___str_11                                                      3007 R
-  0 ___str_12                                                      3026 R
-  0 ___str_13                                                      30CE R
-  0 ___str_14                                                      30E5 R
-  0 ___str_15                                                      30FD R
-  0 ___str_16                                                      319D R
-  0 ___str_17                                                      31B4 R
-  0 ___str_18                                                      31CC R
-  0 ___str_19                                                      3268 R
-  0 ___str_2                                                       2E8C R
-  0 ___str_20                                                      327F R
-  0 ___str_21                                                      3297 R
-  0 ___str_22                                                      3384 R
-  0 ___str_23                                                      338F R
-  0 ___str_24                                                      3399 R
-  0 ___str_25                                                      33A3 R
-  0 ___str_26                                                      33AD R
-  0 ___str_27                                                      33B7 R
-  0 ___str_28                                                      3431 R
-  0 ___str_29                                                      3446 R
-  0 ___str_3                                                       2F3F R
+  0 ___str_0                                                       2E65 R
+  0 ___str_1                                                       2E7B R
+  0 ___str_10                                                      3032 R
+  0 ___str_11                                                      30D2 R
+  0 ___str_12                                                      30E9 R
+  0 ___str_13                                                      3101 R
+  0 ___str_14                                                      319D R
+  0 ___str_15                                                      31B4 R
+  0 ___str_16                                                      31CC R
+  0 ___str_17                                                      32B3 R
+  0 ___str_18                                                      32BE R
+  0 ___str_19                                                      32C8 R
+  0 ___str_2                                                       2E97 R
+  0 ___str_20                                                      32D2 R
+  0 ___str_21                                                      32DC R
+  0 ___str_22                                                      32E6 R
+  0 ___str_23                                                      3360 R
+  0 ___str_24                                                      3375 R
+  0 ___str_25                                                      337D R
+  0 ___str_26                                                      3385 R
+  0 ___str_27                                                      3398 R
+  0 ___str_28                                                      33A2 R
+  0 ___str_29                                                      33B7 R
+  0 ___str_3                                                       2EAA R
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-  0 ___str_30                                                      344E R
-  0 ___str_31                                                      3456 R
-  0 ___str_32                                                      3469 R
-  0 ___str_33                                                      3473 R
-  0 ___str_34                                                      3488 R
-  0 ___str_35                                                      35F0 R
-  0 ___str_36                                                      35F4 R
-  0 ___str_37                                                      35FF R
-  0 ___str_38                                                      3603 R
-  0 ___str_39                                                      3608 R
-  0 ___str_4                                                       2F59 R
-  0 ___str_40                                                      3843 R
-  0 ___str_5                                                       2F74 R
-  0 ___str_6                                                       2F87 R
-  0 ___str_7                                                       2FA1 R
-  0 ___str_8                                                       2FB4 R
-  0 ___str_9                                                       2FCC R
+  0 ___str_30                                                      3519 R
+  0 ___str_31                                                      351D R
+  0 ___str_32                                                      3528 R
+  0 ___str_33                                                      352C R
+  0 ___str_34                                                      3531 R
+  0 ___str_35                                                      3766 R
+  0 ___str_4                                                       2F15 R
+  0 ___str_5                                                       2F2F R
+  0 ___str_6                                                       2F52 R
+  0 ___str_7                                                       2F73 R
+  0 ___str_8                                                       3003 R
+  0 ___str_9                                                       301A R
     __divuschar_rrx_s                                              **** GX
     __moduchar_rrx_s                                               **** GX
   7 __xinit__MAX_DISPAROS_MALOS                                    02C8 R
@@ -118,16 +113,16 @@ Symbol Table
   7 __xinit__tintas                                                0014 R
   7 __xinit__toque000                                              022F R
   7 __xinit__toque001                                              023F R
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
   7 __xinit__toque002                                              024F R
   7 __xinit__toque003                                              025F R
   7 __xinit__trayectoria1                                          0000 R
   1 _aStars                                                        0000 GR
   0 _actualizarExplosiones                                         0D96 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
   0 _actualizarExplosiones_end                                     0E5A GR
   0 _actualizarExplosiones_start                                   0D96 GR
   2 _addon000                                                      027B GR
@@ -149,28 +144,28 @@ Symbol Table
   2 _baddie01                                                      0069 GR
   2 _baddie02                                                      01EF GR
   2 _baddie03                                                      020F GR
-  0 _borrarAddones                                                 1356 GR
-  0 _borrarAddones_end                                             140C GR
-  0 _borrarAddones_start                                           1356 GR
-  0 _borrarDisparos                                                24DB GR
+  0 _borrarAddones                                                 1346 GR
+  0 _borrarAddones_end                                             13FC GR
+  0 _borrarAddones_start                                           1346 GR
+  0 _borrarDisparos                                                24D0 GR
   0 _borrarDisparosMalos                                           0F38 GR
   0 _borrarDisparosMalos_end                                       100C GR
   0 _borrarDisparosMalos_start                                     0F38 GR
-  0 _borrarDisparos_end                                            25C5 GR
-  0 _borrarDisparos_start                                          24DB GR
+  0 _borrarDisparos_end                                            25BA GR
+  0 _borrarDisparos_start                                          24D0 GR
   0 _borrarEstrellas                                               0A0B GR
   0 _borrarEstrellas_end                                           0A83 GR
   0 _borrarEstrellas_start                                         0A0B GR
-  0 _borrarMalos                                                   1CC9 GR
-  0 _borrarMalos_end                                               1E00 GR
-  0 _borrarMalos_start                                             1CC9 GR
-  0 _borrarProta                                                   2A35 GR
-  0 _borrarProta_end                                               2A7B GR
-  0 _borrarProta_start                                             2A35 GR
+  0 _borrarMalos                                                   1CB9 GR
+  0 _borrarMalos_end                                               1DF0 GR
+  0 _borrarMalos_start                                             1CB9 GR
+  0 _borrarProta                                                   2A1C GR
+  0 _borrarProta_end                                               2A62 GR
+  0 _borrarProta_start                                             2A1C GR
   2 _cambio_score                                                  02CB GR
-  0 _cargarMalo                                                    16E3 GR
-  0 _cargarMalo_end                                                189A GR
-  0 _cargarMalo_start                                              16E3 GR
+  0 _cargarMalo                                                    16D3 GR
+  0 _cargarMalo_end                                                188A GR
+  0 _cargarMalo_start                                              16D3 GR
     _cpc_AnyKeyPressed                                             **** GX
     _cpc_AssignKey                                                 **** GX
     _cpc_ClrScr                                                    **** GX
@@ -178,40 +173,36 @@ Symbol Table
     _cpc_PrintGphStrXY                                             **** GX
     _cpc_PutSpXOR                                                  **** GX
     _cpc_Random                                                    **** GX
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
     _cpc_RedefineKey                                               **** GX
     _cpc_ScanKeyboard                                              **** GX
     _cpc_SetColour                                                 **** GX
     _cpc_SetInkGphStr                                              **** GX
     _cpc_SetMode                                                   **** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
     _cpc_TestKey                                                   **** GX
-    _cpc_WyzInitPlayer                                             **** GX
-    _cpc_WyzLoadSong                                               **** GX
-    _cpc_WyzSetPlayerOff                                           **** GX
-    _cpc_WyzSetPlayerOn                                            **** GX
     _cpc_WyzStartEffect                                            **** GX
-  0 _crearAddon                                                    12CD GR
-  0 _crearAddon_end                                                1356 GR
-  0 _crearAddon_start                                              12CD GR
-  0 _crearAtaque                                                   161E GR
-  0 _crearAtaque_end                                               1657 GR
-  0 _crearAtaque_start                                             161E GR
-  0 _crearDisparo                                                  2415 GR
-  0 _crearDisparoMalo                                              110D GR
-  0 _crearDisparoMalo_end                                          11A6 GR
-  0 _crearDisparoMalo_start                                        110D GR
-  0 _crearDisparo_end                                              24DB GR
-  0 _crearDisparo_start                                            2415 GR
+  0 _crearAddon                                                    12BD GR
+  0 _crearAddon_end                                                1346 GR
+  0 _crearAddon_start                                              12BD GR
+  0 _crearAtaque                                                   160E GR
+  0 _crearAtaque_end                                               1647 GR
+  0 _crearAtaque_start                                             160E GR
+  0 _crearDisparo                                                  2412 GR
+  0 _crearDisparoMalo                                              1105 GR
+  0 _crearDisparoMalo_end                                          1196 GR
+  0 _crearDisparoMalo_start                                        1105 GR
+  0 _crearDisparo_end                                              24D0 GR
+  0 _crearDisparo_start                                            2412 GR
   0 _crearExplosion                                                0C20 GR
   0 _crearExplosion_end                                            0D96 GR
   0 _crearExplosion_start                                          0C20 GR
-  0 _debug                                                         2DD0 GR
-  0 _debug_end                                                     2E5A GR
-  0 _debug_start                                                   2DD0 GR
+  0 _debug                                                         2DB7 GR
+  0 _debug_end                                                     2E65 GR
+  0 _debug_start                                                   2DB7 GR
   0 _detectarColision                                              07BC GR
   0 _detectarColision_end                                          0848 GR
   0 _detectarColision_start                                        07BC GR
@@ -233,17 +224,12 @@ Symbol Table
   2 _fire001                                                       0273 GR
   2 _fire002                                                       0277 GR
   1 _formMoved                                                     02B9 GR
-  0 _game                                                          360E GR
-  0 _gameOver                                                      304A GR
-  0 _gameOver_end                                                  30CE GR
-  0 _gameOver_start                                                304A GR
-  0 _game_end                                                      3843 GR
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
-  0 _game_start                                                    360E GR
+  0 _game                                                          3537 GR
+  0 _gameOver                                                      2F7F GR
+  0 _gameOver_end                                                  3003 GR
+  0 _gameOver_start                                                2F7F GR
+  0 _game_end                                                      3766 GR
+  0 _game_start                                                    3537 GR
   0 _getTime                                                       0777 GR
   0 _getTime_end                                                   0785 GR
   0 _getTime_start                                                 0777 GR
@@ -252,43 +238,48 @@ Symbol Table
   0 _halt_me_end                                                   078B GR
   0 _halt_me_start                                                 0785 GR
   2 _heart                                                         01B9 GR
-  0 _help                                                          2E9F GR
-  0 _help_end                                                      2F3F GR
-  0 _help_start                                                    2E9F GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  0 _help                                                          2EC3 GR
+  0 _help_end                                                      2F15 GR
+  0 _help_start                                                    2EC3 GR
   1 _hostilidad                                                    02AF GR
-  0 _inicializarAddones                                            1298 GR
-  0 _inicializarAddones_end                                        12CD GR
-  0 _inicializarAddones_start                                      1298 GR
-  0 _inicializarAtaques                                            15EB GR
-  0 _inicializarAtaques_end                                        161E GR
-  0 _inicializarAtaques_start                                      15EB GR
-  0 _inicializarDisparos                                           23A7 GR
+  0 _inicializarAddones                                            1288 GR
+  0 _inicializarAddones_end                                        12BD GR
+  0 _inicializarAddones_start                                      1288 GR
+  0 _inicializarAtaques                                            15DB GR
+  0 _inicializarAtaques_end                                        160E GR
+  0 _inicializarAtaques_start                                      15DB GR
+  0 _inicializarDisparos                                           23A4 GR
   0 _inicializarDisparosMalos                                      0EC6 GR
   0 _inicializarDisparosMalos_end                                  0F38 GR
   0 _inicializarDisparosMalos_start                                0EC6 GR
-  0 _inicializarDisparos_end                                       2415 GR
-  0 _inicializarDisparos_start                                     23A7 GR
+  0 _inicializarDisparos_end                                       2412 GR
+  0 _inicializarDisparos_start                                     23A4 GR
   0 _inicializarEstrellas                                          0901 GR
   0 _inicializarEstrellas_end                                      0A0B GR
   0 _inicializarEstrellas_start                                    0901 GR
   0 _inicializarExplosiones                                        0B8C GR
   0 _inicializarExplosiones_end                                    0C20 GR
   0 _inicializarExplosiones_start                                  0B8C GR
-  0 _inicializarMalos                                              189A GR
-  0 _inicializarMalos_end                                          1CC9 GR
-  0 _inicializarMalos_start                                        189A GR
-  0 _inicializarNivel                                              352D GR
-  0 _inicializarNivel_end                                          35F0 GR
-  0 _inicializarNivel_start                                        352D GR
-  0 _inicializarPartida                                            2DBB GR
-  0 _inicializarPartida_end                                        2DD0 GR
-  0 _inicializarPartida_start                                      2DBB GR
-  0 _inicializarProta                                              29EF GR
-  0 _inicializarProta_end                                          2A35 GR
-  0 _inicializarProta_start                                        29EF GR
-  0 _inicializarTeclado                                            2BE5 GR
-  0 _inicializarTeclado_end                                        2C76 GR
-  0 _inicializarTeclado_start                                      2BE5 GR
+  0 _inicializarMalos                                              188A GR
+  0 _inicializarMalos_end                                          1CB9 GR
+  0 _inicializarMalos_start                                        188A GR
+  0 _inicializarNivel                                              3456 GR
+  0 _inicializarNivel_end                                          3519 GR
+  0 _inicializarNivel_start                                        3456 GR
+  0 _inicializarPartida                                            2DA2 GR
+  0 _inicializarPartida_end                                        2DB7 GR
+  0 _inicializarPartida_start                                      2DA2 GR
+  0 _inicializarProta                                              29D6 GR
+  0 _inicializarProta_end                                          2A1C GR
+  0 _inicializarProta_start                                        29D6 GR
+  0 _inicializarTeclado                                            2BCC GR
+  0 _inicializarTeclado_end                                        2C5D GR
+  0 _inicializarTeclado_start                                      2BCC GR
   0 _interrupciones                                                0136 GR
   0 _interrupciones_end                                            015A GR
   0 _interrupciones_start                                          0136 GR
@@ -298,48 +289,48 @@ Symbol Table
   0 _letrasColorAzul_start                                         0848 GR
   0 _letrasColorRojo                                               086D GR
   0 _letrasColorRojo_end                                           0892 GR
+  0 _letrasColorRojo_start                                         086D GR
+  0 _levelUp                                                       304A GR
+  0 _levelUp_end                                                   30D2 GR
+  0 _levelUp_start                                                 304A GR
+  0 _main                                                          37A0 GR
+  0 _main_end                                                      3853 GR
+  0 _main_start                                                    37A0 GR
+  1 _malos                                                         012E GR
+  0 _malosACero                                                    1647 GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-  0 _letrasColorRojo_start                                         086D GR
-  0 _levelUp                                                       3115 GR
-  0 _levelUp_end                                                   319D GR
-  0 _levelUp_start                                                 3115 GR
-  0 _main                                                          389F GR
-  0 _main_end                                                      3955 GR
-  0 _main_start                                                    389F GR
-  1 _malos                                                         012E GR
-  0 _malosACero                                                    1657 GR
-  0 _malosACero_end                                                16E3 GR
-  0 _malosACero_start                                              1657 GR
+  0 _malosACero_end                                                16D3 GR
+  0 _malosACero_start                                              1647 GR
   1 _malos_activos                                                 01D6 GR
   1 _max_ataques_activos                                           02CD GR
-  0 _menu                                                          3492 GR
-  0 _menu_end                                                      352D GR
-  0 _menu_start                                                    3492 GR
-  0 _mostrarVidasProta                                             2C76 GR
-  0 _mostrarVidasProta_end                                         2CD1 GR
-  0 _mostrarVidasProta_start                                       2C76 GR
-  0 _moverAddones                                                  140C GR
-  0 _moverAddones_end                                              1512 GR
-  0 _moverAddones_start                                            140C GR
-  0 _moverDisparos                                                 25C5 GR
+  0 _menu                                                          33C1 GR
+  0 _menu_end                                                      3456 GR
+  0 _menu_start                                                    33C1 GR
+  0 _mostrarVidasProta                                             2C5D GR
+  0 _mostrarVidasProta_end                                         2CB8 GR
+  0 _mostrarVidasProta_start                                       2C5D GR
+  0 _moverAddones                                                  13FC GR
+  0 _moverAddones_end                                              1502 GR
+  0 _moverAddones_start                                            13FC GR
+  0 _moverDisparos                                                 25BA GR
   0 _moverDisparosMalos                                            100C GR
-  0 _moverDisparosMalos_end                                        110D GR
+  0 _moverDisparosMalos_end                                        1105 GR
   0 _moverDisparosMalos_start                                      100C GR
-  0 _moverDisparos_end                                             28B5 GR
-  0 _moverDisparos_start                                           25C5 GR
+  0 _moverDisparos_end                                             289C GR
+  0 _moverDisparos_start                                           25BA GR
   0 _moverEstrellas                                                0B2D GR
   0 _moverEstrellas_end                                            0B8C GR
   0 _moverEstrellas_start                                          0B2D GR
-  0 _moverMalos                                                    1E00 GR
-  0 _moverMalos_end                                                226C GR
-  0 _moverMalos_start                                              1E00 GR
-  0 _moverProta                                                    2A7B GR
-  0 _moverProta_end                                                2BA0 GR
-  0 _moverProta_start                                              2A7B GR
+  0 _moverMalos                                                    1DF0 GR
+  0 _moverMalos_end                                                2269 GR
+  0 _moverMalos_start                                              1DF0 GR
+  0 _moverProta                                                    2A62 GR
+  0 _moverProta_end                                                2B87 GR
+  0 _moverProta_start                                              2A62 GR
   2 _nFPS                                                          02BB GR
   2 _nStar                                                         02C0 GR
   2 _nTimeLast                                                     02BC GR
@@ -349,35 +340,35 @@ Symbol Table
   0 _pause                                                         0793 GR
   0 _pause_end                                                     07A1 GR
   0 _pause_start                                                   0793 GR
-  0 _pintarAddones                                                 1512 GR
-  0 _pintarAddones_end                                             15EB GR
-  0 _pintarAddones_start                                           1512 GR
-  0 _pintarBanderasNivel                                           2CD1 GR
-  0 _pintarBanderasNivel_end                                       2DBB GR
-  0 _pintarBanderasNivel_start                                     2CD1 GR
-  0 _pintarDisparos                                                28B5 GR
-  0 _pintarDisparosMalo                                            11A6 GR
-  0 _pintarDisparosMalo_end                                        1298 GR
+  0 _pintarAddones                                                 1502 GR
+  0 _pintarAddones_end                                             15DB GR
+  0 _pintarAddones_start                                           1502 GR
+  0 _pintarBanderasNivel                                           2CB8 GR
+  0 _pintarBanderasNivel_end                                       2DA2 GR
+  0 _pintarBanderasNivel_start                                     2CB8 GR
+  0 _pintarDisparos                                                289C GR
+  0 _pintarDisparosMalo                                            1196 GR
+  0 _pintarDisparosMalo_end                                        1288 GR
+  0 _pintarDisparosMalo_start                                      1196 GR
+  0 _pintarDisparos_end                                            29D6 GR
+  0 _pintarDisparos_start                                          289C GR
+  0 _pintarEstrellas                                               0A83 GR
+  0 _pintarEstrellas_end                                           0B2D GR
+  0 _pintarEstrellas_start                                         0A83 GR
+  0 _pintarMalos                                                   2269 GR
+  0 _pintarMalos_end                                               23A4 GR
+  0 _pintarMalos_start                                             2269 GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-  0 _pintarDisparosMalo_start                                      11A6 GR
-  0 _pintarDisparos_end                                            29EF GR
-  0 _pintarDisparos_start                                          28B5 GR
-  0 _pintarEstrellas                                               0A83 GR
-  0 _pintarEstrellas_end                                           0B2D GR
-  0 _pintarEstrellas_start                                         0A83 GR
-  0 _pintarMalos                                                   226C GR
-  0 _pintarMalos_end                                               23A7 GR
-  0 _pintarMalos_start                                             226C GR
-  0 _pintarMenu                                                    33C2 GR
-  0 _pintarMenu_end                                                3431 GR
-  0 _pintarMenu_start                                              33C2 GR
-  0 _pintarProta                                                   2BA0 GR
-  0 _pintarProta_end                                               2BE5 GR
-  0 _pintarProta_start                                             2BA0 GR
+  0 _pintarMenu                                                    32F1 GR
+  0 _pintarMenu_end                                                3360 GR
+  0 _pintarMenu_start                                              32F1 GR
+  0 _pintarProta                                                   2B87 GR
+  0 _pintarProta_end                                               2BCC GR
+  0 _pintarProta_start                                             2B87 GR
   0 _pixelEstrella                                                 0892 GR
   0 _pixelEstrella_end                                             08A0 GR
   0 _pixelEstrella_start                                           0892 GR
@@ -385,9 +376,9 @@ Symbol Table
   1 _previous_state                                                02AD GR
   1 _prota                                                         010F GR
   2 _redFlag                                                       01E3 GR
-  0 _redefineKeys                                                  32AF GR
-  0 _redefineKeys_end                                              3384 GR
-  0 _redefineKeys_start                                            32AF GR
+  0 _redefineKeys                                                  31E4 GR
+  0 _redefineKeys_end                                              32B3 GR
+  0 _redefineKeys_start                                            31E4 GR
   2 _score                                                         02C9 GR
   0 _scr_waitVSYNC                                                 078B GR
   0 _scr_waitVSYNC_end                                             0793 GR
@@ -411,27 +402,22 @@ Symbol Table
   2 _trayectoria1                                                  0000 GR
   1 _velXForm                                                      02B6 GR
   1 _velYForm                                                      02B7 GR
-  0 _win                                                           31E4 GR
-  0 _win_end                                                       3268 GR
-  0 _win_start                                                     31E4 GR
+  0 _win                                                           3119 GR
+  0 _win_end                                                       319D GR
+  0 _win_start                                                     3119 GR
   0 desborde                                                       0151 R
   0 int_original                                                   0149 R
   0 interrupcion                                                   014B R
   0 term                                                           0159 R
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
   0 wait_vs                                                        078B R
 
 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size 3955   flags    0
+   0 _CODE                                      size 3853   flags    0
    1 _DATA                                      size  2EB   flags    0
    2 _INITIALIZED                               size  2CC   flags    0
    3 _DABS                                      size    0   flags    8

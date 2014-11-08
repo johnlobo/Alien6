@@ -41,7 +41,7 @@
 #define ESTRELLAS_ACTIVADAS 1
 #define VELOCIDAD_ESTRELLAS 10
 
-#define MAX_DISPAROS 2
+#define MAX_DISPAROS 6
 #define SALTO_DISPARO 4
 #define SALTO_DISPARO_MALO 3
 
@@ -49,7 +49,7 @@
 #define MAX_EXPLOSIONES 6
 #define MAX_ATAQUES 3
 #define PROTA_SPEED 10
-#define SONIDO_ACTIVADO 1
+#define SONIDO_ACTIVADO 0
 
 #define MAX_ADDONES 2
 #define VELOCIDAD_EXPLOSIONES 40
@@ -824,9 +824,9 @@ void moverMalos(){
 				//Movimiento del malo en formación 
 				if (malos[i].movement==0){	
 					if (ataques_activos<max_ataques_activos)
-					if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
-						crearAtaque(i);
-					} else 
+					//if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
+						//crearAtaque(i);
+				//	} else 
 					malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
 					//Movimiento del malo atacando				
 				} else if (malos[i].movement==1){	
@@ -900,7 +900,6 @@ void pintarMalos(){
 //Inicializar los disparos del prota
 void inicializarDisparos(){
 	unsigned char k;
-	k=0;
 	for (k=0;k<MAX_DISPAROS;k++){
 		disparos[k].activo=0;
 		disparos[k].sp0=shot2;
@@ -963,7 +962,6 @@ void moverDisparos(){
 					for (j=0;j<MAX_MALOS;j++){	//compruebo colisiones con los malos.
 						if (malos[j].activo==1){
 							if (detectarColision(disparos[i].cx,disparos[i].cy,2,6,malos[j].cx,malos[j].cy,malos[j].w,malos[j].h)){  
-								//matarMalo(i,j);
 								//matar disparo
 								disparos[i].dead=1;
 								//matar malo
@@ -1030,7 +1028,7 @@ void inicializarProta(){
 	prota.speed=PROTA_SPEED;
 	prota.lastmoved=0;
 	prota.lastShot=0;
-	prota.reloadSpeed=20; //Velocidad de recarga
+	prota.reloadSpeed=40; //Velocidad de recarga
 }
 
 void borrarProta(){
@@ -1141,6 +1139,8 @@ void debug(){
 	cpc_PrintGphStrXY(aux_txt,2*2,1*8);
 	sprintf(aux_txt,"MALOS;ACTIVOS;%03u",malos_activos);
 	cpc_PrintGphStrXY(aux_txt,2*2,2*8);
+	sprintf(aux_txt,"EXPLOSIONES;ACTIVAS;%03u",explosiones_activas);
+	cpc_PrintGphStrXY(aux_txt,2*2,3*8);
 	pause(6);
 
 	while (!cpc_AnyKeyPressed());
@@ -1154,20 +1154,11 @@ char help() {
 	cpc_SetMode(0);				//hardware call to set mode 1
 
 	letrasColorAzul();
-	cpc_PrintGphStrXY("BANQUERO:PONDRA;TU;DINERO",20,0*11);
-	cpc_PrintGphStrXY(";;;;;;;;;FUERA;DEL;ALCANCE",20,1*11);
-	cpc_PrintGphStrXY(";;;;;;;;;DEL;FISCO",20,2*11);
+	cpc_PrintGphStrXY("DEFIENDE:LA:GALAXIA:DE:LA",0*2,0*8);
+	cpc_PrintGphStrXY("INVASION:DE:LAS:TROPAS:ALIENIGENAS",0*2,1*8);
 
-	cpc_PrintGphStrXY("PROMOTOR:TE;DARA;SOBRES;A",20,4*11);
-	cpc_PrintGphStrXY(";;;;;;;;;CAMBIO;DE",20,5*11);
-	cpc_PrintGphStrXY(";;;;;;;;;ADJUDICACIONES",20,6*11);
-
-	cpc_PrintGphStrXY("JUEZ:SU;MAZA;HARA;CAER;SOBRE",20,8*11);
-	cpc_PrintGphStrXY(";;;;;;;;;TI;EL;PESO;DE;LA;LEY",20,9*11);
-
-	cpc_PrintGphStrXY("LARCENAS:SIMPATICO;LADRONZUELO",20,11*11);
-
-	cpc_PrintGphStrXY("TECLAS:;CURSORES;Y;BARRA;DE;ESPACIO",3,16*11);
+	cpc_PrintGphStrXY("LA;VICTORIA;TE;REPORTARA;GRANDES",0*2,2*8);
+	cpc_PrintGphStrXY("RECOMPENSAS",0*2,2*8);
 
 
 	while (!cpc_AnyKeyPressed());
@@ -1241,8 +1232,6 @@ unsigned char redefineKeys()
 	cpc_SetMode(0);				//hardware call to set mode 1
 	cpc_ClrScr();				//fills scr with ink 0
 
-	if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOn();
-	
 	letrasColorAzul();
 
 	cpc_PrintGphStrXY("PULSA;PARA",12*2,15*8);
@@ -1269,8 +1258,6 @@ unsigned char redefineKeys()
 	cpc_WyzStartEffect(2,1);	//(Channel, SFX #)
 	pause(6);
 	
-	if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
-	
 	return STATE_MENU;
 }
 
@@ -1293,8 +1280,7 @@ void pintarMenu(){
 
 char menu() {
 	char choice=-1;
-	
-	if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOn();
+
 
 	pintarMenu();
 
@@ -1319,7 +1305,6 @@ char menu() {
 
 	while (cpc_AnyKeyPressed());
 	
-	if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
 
 	return choice; 
 }
@@ -1378,9 +1363,6 @@ unsigned char game()
 {
 	cpc_ClrScr();				//fills scr with ink 0
 	
-	if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOn();
-	
-	
 	inicializarNivel();
 	
 	while(1)
@@ -1388,7 +1370,9 @@ unsigned char game()
 
 		//Espera al barrido
 		//scr_waitVSYNC();
-		
+		if ((DEBUG) && (cpc_TestKey(KEY_DEBUG)==1)){			// DEBUG
+			debug();
+		}
 		//Bloque de movimiento 
 		if ((ESTRELLAS_ACTIVADAS) && (getTime()-lastMovedEstrella>VELOCIDAD_ESTRELLAS)){
 			estrellasMovidas=1;
@@ -1414,19 +1398,22 @@ unsigned char game()
 			borrarProta();	//borro al prota
 			pintarProta();	//Pinto al protagonista
 		}
-
+		//addones
 		borrarAddones();
 		moverAddones();
 		pintarAddones();
-
-		moverMalos();		//Muevo los malos
-		borrarMalos();		//Borro los malos
-		pintarMalos();		//Pinto los malos
-
+		
+		//disparos
 		moverDisparos();  		//Mover disparos
 		borrarDisparos();		//Borro disparos
 		pintarDisparos();		//Pinto Disparos
-
+		
+		//malos
+		moverMalos();		//Muevo los malos
+		borrarMalos();		//Borro los malos
+		pintarMalos();		//Pinto los malos
+		
+		//disparos malos
 		moverDisparosMalos();	//mover disparos
 		borrarDisparosMalos();	//borro disparos
 		pintarDisparosMalo();	//Pinto Disparos
@@ -1454,11 +1441,9 @@ unsigned char game()
 			break;
 		}
 		
-		if ((DEBUG) && (cpc_TestKey(KEY_DEBUG)==1)){			// DEBUG
-			debug();
-		}
-		
-		if ((DEBUG) && (cpc_TestKey(KEY_HOSTILITY)==1)){			// DEBUG
+
+		// Hostilidad
+		if ((DEBUG) && (cpc_TestKey(KEY_HOSTILITY)==1)){			
 			hostilidad=!hostilidad;
 		}
 		
@@ -1470,8 +1455,6 @@ unsigned char game()
 		
 	}
 	
-	//apago la música
-	if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
 	
 	return state;
 }
@@ -1484,8 +1467,8 @@ void InitialSetUp() {
 	interrupciones();
 	//halt_me();
 	
-	cpc_SetMode(0);				//hardware call to set mode 1
 	set_colours();
+	cpc_SetMode(0);				//hardware call to set mode 0
 	cpc_ClrScr();				//fills scr with ink 0
 	
 	letrasColorAzul();
