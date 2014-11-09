@@ -41,9 +41,9 @@
 #define ESTRELLAS_ACTIVADAS 1
 #define VELOCIDAD_ESTRELLAS 10
 
-#define MAX_DISPAROS 6
+#define MAX_DISPAROS 2
 #define SALTO_DISPARO 4
-#define SALTO_DISPARO_MALO 3
+#define SALTO_DISPARO_MALO 2
 
 #define MAX_MALOS 6
 #define MAX_EXPLOSIONES 6
@@ -52,7 +52,7 @@
 #define SONIDO_ACTIVADO 0
 
 #define MAX_ADDONES 2
-#define VELOCIDAD_EXPLOSIONES 40
+#define VELOCIDAD_EXPLOSIONES 30
 
 unsigned int timer0 = 0;
 unsigned int timer1 = 0;
@@ -455,7 +455,6 @@ void moverDisparosMalos(){
 				if (disparosMalos[i].cy<200){
 					disparosMalos[i].cy=disparosMalos[i].cy + SALTO_DISPARO_MALO;
 					if (detectarColision(disparosMalos[i].cx,disparosMalos[i].cy,2,4,prota.cx,prota.cy,4,16)){  
-						//matarMalo(i,j);
 						//matar disparo
 						disparosMalos[i].dead=1;
 						//matar malo
@@ -503,7 +502,8 @@ void pintarDisparosMalo(){
 				cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].cy]+disparosMalos[k].cx);
 				disparosMalos[k].ox=disparosMalos[k].cx;
 				disparosMalos[k].oy=disparosMalos[k].cy;
-				if (disparosMalos[k].nuevo) disparosMalos[k].nuevo=0;
+				if (disparosMalos[k].nuevo) 
+					disparosMalos[k].nuevo=0;
 			}
 		}
 	}
@@ -516,10 +516,10 @@ void inicializarAddones(){
 	}
 	addones_activos=0;
 	//inicializar los sprites de los addones
-	addon_sprite[0]=&addon000;
-	addon_sprite[1]=&addon001;
-	addon_sprite[2]=&addon002;
-	addon_sprite[3]=&addon003;
+	addon_sprite[0]=&addones000;
+	addon_sprite[1]=&addones001;
+	addon_sprite[2]=&addones002;
+	addon_sprite[3]=&addones003;
 }
 void crearAddon(unsigned char posx, unsigned char posy){
 	unsigned char i;
@@ -1022,13 +1022,13 @@ void inicializarProta(){
 	prota.cx=39;
 	prota.cy=178;
 	prota.ox=39;
-	prota.oy=179;
+	prota.oy=178;
 	prota.moved=0;
 	prota.dead=0;
 	prota.speed=PROTA_SPEED;
 	prota.lastmoved=0;
 	prota.lastShot=0;
-	prota.reloadSpeed=40; //Velocidad de recarga
+	prota.reloadSpeed=80; //Velocidad de recarga
 }
 
 void borrarProta(){
@@ -1064,7 +1064,7 @@ void moverProta(){
 			prota.cy+=2;
 			prota.moved=1;
 		}
-		if ((cpc_TestKey(KEY_FIRE)==1) && (getTime()-prota.lastShot>prota.reloadSpeed))   // ESPACIO
+		if ((cpc_TestKey(KEY_FIRE)==1) && (disparos_activos<MAX_DISPAROS) && (getTime()-prota.lastShot>prota.reloadSpeed))   // ESPACIO
 		{
 			crearDisparo(prota.cx, prota.cy);
 		}
@@ -1387,6 +1387,7 @@ unsigned char game()
 			actualizarExplosiones();
 			animarExplosiones();
 			actualizarExplosiones();
+			explosiones_lastUpdated=getTime();
 		}
 		
 		

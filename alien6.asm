@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW64)
-; This file was generated Sat Nov 08 12:17:11 2014
+; This file was generated Sun Nov 09 04:31:55 2014
 ;--------------------------------------------------------
 	.module alien6
 	.optsdcc -mz80
@@ -98,13 +98,14 @@
 	.globl _nFPS
 	.globl _timer1
 	.globl _timer0
-	.globl _addon003
-	.globl _addon002
-	.globl _addon001
-	.globl _addon000
+	.globl _addones003
+	.globl _addones002
+	.globl _addones001
+	.globl _addones000
 	.globl _fire002
 	.globl _fire001
 	.globl _fire000
+	.globl _toque004
 	.globl _toque003
 	.globl _toque002
 	.globl _toque001
@@ -117,6 +118,7 @@
 	.globl _heart
 	.globl _shot3
 	.globl _shot2
+	.globl _explosion02004
 	.globl _explosion02003
 	.globl _explosion02002
 	.globl _explosion02001
@@ -238,6 +240,8 @@ _explosion02002::
 	.ds 64
 _explosion02003::
 	.ds 64
+_explosion02004::
+	.ds 64
 _shot2::
 	.ds 12
 _shot3::
@@ -262,20 +266,22 @@ _toque002::
 	.ds 16
 _toque003::
 	.ds 16
+_toque004::
+	.ds 16
 _fire000::
 	.ds 4
 _fire001::
 	.ds 4
 _fire002::
 	.ds 4
-_addon000::
-	.ds 15
-_addon001::
-	.ds 15
-_addon002::
-	.ds 15
-_addon003::
-	.ds 15
+_addones000::
+	.ds 32
+_addones001::
+	.ds 32
+_addones002::
+	.ds 32
+_addones003::
+	.ds 32
 _timer0::
 	.ds 2
 _timer1::
@@ -3515,7 +3521,6 @@ _moverDisparosMalos:
 ;alien6.c:456: disparosMalos[i].cy=disparosMalos[i].cy + SALTO_DISPARO_MALO;
 	inc	b
 	inc	b
-	inc	b
 	ld	(hl),b
 ;alien6.c:457: if (detectarColision(disparosMalos[i].cx,disparosMalos[i].cy,2,4,prota.cx,prota.cy,4,16)){  
 	ld	hl, #(_prota + 0x0009) + 0
@@ -3551,16 +3556,16 @@ _moverDisparosMalos:
 	ld	a,l
 	or	a, a
 	jr	Z,00116$
-;alien6.c:460: disparosMalos[i].dead=1;
+;alien6.c:459: disparosMalos[i].dead=1;
 	ld	iy,#2
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	(hl),#0x01
-;alien6.c:462: prota.dead=1;
+;alien6.c:461: prota.dead=1;
 	ld	hl,#(_prota + 0x0014)
 	ld	(hl),#0x01
-;alien6.c:464: crearExplosion(0, prota.cx, prota.cy);
+;alien6.c:463: crearExplosion(0, prota.cx, prota.cy);
 	ld	a, (#(_prota + 0x0009) + 0)
 	ld	hl, #(_prota + 0x0008) + 0
 	ld	d,(hl)
@@ -3574,12 +3579,12 @@ _moverDisparosMalos:
 	call	_crearExplosion
 	pop	af
 	inc	sp
-;alien6.c:467: hostilidad=0;
+;alien6.c:466: hostilidad=0;
 	ld	hl,#_hostilidad + 0
 	ld	(hl), #0x00
 	jr	00116$
 00106$:
-;alien6.c:471: disparosMalos[i].dead=1;
+;alien6.c:470: disparosMalos[i].dead=1;
 	ld	hl, #2
 	add	hl, sp
 	ld	a, (hl)
@@ -3608,14 +3613,14 @@ _moverDisparosMalos:
 	ld	sp,hl
 	ret
 _moverDisparosMalos_end::
-;alien6.c:479: void crearDisparoMalo(unsigned char x, unsigned char y){
+;alien6.c:478: void crearDisparoMalo(unsigned char x, unsigned char y){
 ;	---------------------------------
 ; Function crearDisparoMalo
 ; ---------------------------------
 _crearDisparoMalo_start::
 _crearDisparoMalo:
 	push	af
-;alien6.c:482: while (disparosMalos[k].activo==1){
+;alien6.c:481: while (disparosMalos[k].activo==1){
 	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -3629,16 +3634,16 @@ _crearDisparoMalo:
 	ld	a,(hl)
 	dec	a
 	jr	NZ,00103$
-;alien6.c:483: k++;
+;alien6.c:482: k++;
 	ld	hl,#0x0015
 	add	hl,bc
 	ld	c,l
 	ld	b,h
 	jr	00101$
 00103$:
-;alien6.c:485: disparosMalos[k].activo=1;
+;alien6.c:484: disparosMalos[k].activo=1;
 	ld	(hl),#0x01
-;alien6.c:486: disparosMalos[k].cx=x+1;
+;alien6.c:485: disparosMalos[k].cx=x+1;
 	ld	hl,#0x0008
 	add	hl,de
 	ld	c,l
@@ -3654,7 +3659,7 @@ _crearDisparoMalo:
 	add	hl, sp
 	ld	a, (hl)
 	ld	(bc),a
-;alien6.c:487: disparosMalos[k].cy=y-1;
+;alien6.c:486: disparosMalos[k].cy=y-1;
 	ld	hl,#0x0009
 	add	hl,de
 	ld	c,l
@@ -3670,42 +3675,42 @@ _crearDisparoMalo:
 	add	hl, sp
 	ld	a, (hl)
 	ld	(bc),a
-;alien6.c:488: disparosMalos[k].ox=x+1;
+;alien6.c:487: disparosMalos[k].ox=x+1;
 	ld	hl,#0x000A
 	add	hl,de
 	ld	iy,#1
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
-;alien6.c:489: disparosMalos[k].oy=y-1;
+;alien6.c:488: disparosMalos[k].oy=y-1;
 	ld	hl,#0x000B
 	add	hl,de
 	ld	iy,#0
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
-;alien6.c:490: disparosMalos[k].sp0=shot3;
+;alien6.c:489: disparosMalos[k].sp0=shot3;
 	ld	l, e
 	ld	h, d
 	ld	(hl),#<(_shot3)
 	inc	hl
 	ld	(hl),#>(_shot3)
-;alien6.c:491: disparosMalos[k].nuevo=1;
+;alien6.c:490: disparosMalos[k].nuevo=1;
 	ld	hl,#0x000F
 	add	hl,de
 	ld	(hl),#0x01
-;alien6.c:492: disparosMalos[k].dead=0;
+;alien6.c:491: disparosMalos[k].dead=0;
 	ld	hl,#0x0010
 	add	hl,de
 	ld	(hl),#0x00
-;alien6.c:493: disparos_activos_malos++;
+;alien6.c:492: disparos_activos_malos++;
 	ld	hl, #_disparos_activos_malos+0
 	inc	(hl)
-;alien6.c:494: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
+;alien6.c:493: if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 	pop	af
 	ret
 _crearDisparoMalo_end::
-;alien6.c:497: void pintarDisparosMalo(){
+;alien6.c:496: void pintarDisparosMalo(){
 ;	---------------------------------
 ; Function pintarDisparosMalo
 ; ---------------------------------
@@ -3714,11 +3719,11 @@ _pintarDisparosMalo:
 	ld	hl,#-9
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:500: if (disparos_activos_malos>0){
+;alien6.c:499: if (disparos_activos_malos>0){
 	ld	a,(#_disparos_activos_malos + 0)
 	or	a, a
 	jp	Z,00111$
-;alien6.c:501: for (k=0;k<MAX_DISPAROS_MALOS;k++){
+;alien6.c:500: for (k=0;k<MAX_DISPAROS_MALOS;k++){
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
@@ -3735,7 +3740,7 @@ _pintarDisparosMalo:
 	ld	a,0 (iy)
 	sub	a, (hl)
 	jp	NC,00111$
-;alien6.c:502: if (disparosMalos[k].activo==1){
+;alien6.c:501: if (disparosMalos[k].activo==1){
 	ld	a,#<(_disparosMalos)
 	ld	hl,#7
 	add	hl,sp
@@ -3750,7 +3755,7 @@ _pintarDisparosMalo:
 	ld	a,12 (iy)
 	dec	a
 	jp	NZ,00110$
-;alien6.c:503: cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].cy]+disparosMalos[k].cx);
+;alien6.c:502: cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].cy]+disparosMalos[k].cx);
 	ld	hl,#0x0009
 	add	hl,de
 	ld	iy,#5
@@ -3801,7 +3806,7 @@ _pintarDisparosMalo:
 	add	hl,sp
 	ld	sp,hl
 	pop	de
-;alien6.c:504: disparosMalos[k].ox=disparosMalos[k].cx;
+;alien6.c:503: disparosMalos[k].ox=disparosMalos[k].cx;
 	ld	hl,#0x000A
 	add	hl,de
 	ld	c,l
@@ -3814,7 +3819,7 @@ _pintarDisparosMalo:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:505: disparosMalos[k].oy=disparosMalos[k].cy;
+;alien6.c:504: disparosMalos[k].oy=disparosMalos[k].cy;
 	ld	hl,#0x000B
 	add	hl,de
 	ld	c,l
@@ -3827,15 +3832,16 @@ _pintarDisparosMalo:
 	ld	l, a
 	ld	a,(hl)
 	ld	(bc),a
-;alien6.c:506: if (disparosMalos[k].nuevo) disparosMalos[k].nuevo=0;
+;alien6.c:505: if (disparosMalos[k].nuevo) 
 	ld	hl,#0x000F
 	add	hl,de
 	ld	a,(hl)
 	or	a, a
 	jr	Z,00110$
+;alien6.c:506: disparosMalos[k].nuevo=0;
 	ld	(hl),#0x00
 00110$:
-;alien6.c:501: for (k=0;k<MAX_DISPAROS_MALOS;k++){
+;alien6.c:500: for (k=0;k<MAX_DISPAROS_MALOS;k++){
 	ld	hl,#7
 	add	hl,sp
 	ld	a,(hl)
@@ -3881,17 +3887,17 @@ _inicializarAddones:
 ;alien6.c:517: addones_activos=0;
 	ld	hl,#_addones_activos + 0
 	ld	(hl), #0x00
-;alien6.c:519: addon_sprite[0]=&addon000;
-	ld	hl,#_addon000
+;alien6.c:519: addon_sprite[0]=&addones000;
+	ld	hl,#_addones000
 	ld	(_addon_sprite), hl
-;alien6.c:520: addon_sprite[1]=&addon001;
-	ld	hl,#_addon001
+;alien6.c:520: addon_sprite[1]=&addones001;
+	ld	hl,#_addones001
 	ld	((_addon_sprite + 0x0002)), hl
-;alien6.c:521: addon_sprite[2]=&addon002;
-	ld	hl,#_addon002
+;alien6.c:521: addon_sprite[2]=&addones002;
+	ld	hl,#_addones002
 	ld	((_addon_sprite + 0x0004)), hl
-;alien6.c:522: addon_sprite[3]=&addon003;
-	ld	hl,#_addon003
+;alien6.c:522: addon_sprite[3]=&addones003;
+	ld	hl,#_addones003
 	ld	((_addon_sprite + 0x0006)), hl
 	ret
 _inicializarAddones_end::
@@ -6791,7 +6797,7 @@ _inicializarDisparos:
 	add	iy,sp
 	inc	0 (iy)
 	ld	a,0 (iy)
-	sub	a, #0x06
+	sub	a, #0x02
 	jr	C,00102$
 ;alien6.c:914: disparos_activos=0;
 	ld	hl,#_disparos_activos + 0
@@ -7052,7 +7058,7 @@ _borrarDisparos:
 	add	iy,sp
 	inc	0 (iy)
 	ld	a,0 (iy)
-	sub	a, #0x06
+	sub	a, #0x02
 	jp	C,00109$
 00111$:
 	ld	hl,#7
@@ -7494,7 +7500,7 @@ _moverDisparos:
 	add	iy,sp
 	inc	0 (iy)
 	ld	a,0 (iy)
-	sub	a, #0x06
+	sub	a, #0x02
 	jp	C,00126$
 00128$:
 	ld	hl,#25
@@ -7675,7 +7681,7 @@ _pintarDisparos:
 	add	iy,sp
 	inc	0 (iy)
 	ld	a,0 (iy)
-	sub	a, #0x06
+	sub	a, #0x02
 	jp	C,00108$
 00110$:
 	ld	hl,#9
@@ -7704,9 +7710,9 @@ _inicializarProta:
 ;alien6.c:1024: prota.ox=39;
 	ld	hl,#_prota + 10
 	ld	(hl),#0x27
-;alien6.c:1025: prota.oy=179;
+;alien6.c:1025: prota.oy=178;
 	ld	hl,#_prota + 11
-	ld	(hl),#0xB3
+	ld	(hl),#0xB2
 ;alien6.c:1026: prota.moved=0;
 	ld	hl,#_prota + 17
 	ld	(hl),#0x00
@@ -7724,9 +7730,9 @@ _inicializarProta:
 	ld	hl,#0x0000
 	ld	((_prota + 0x001a)),hl
 	ld	((_prota + 0x001a) + 2), hl
-;alien6.c:1031: prota.reloadSpeed=40; //Velocidad de recarga
+;alien6.c:1031: prota.reloadSpeed=80; //Velocidad de recarga
 	ld	hl,#_prota + 30
-	ld	(hl),#0x28
+	ld	(hl),#0x50
 	ret
 _inicializarProta_end::
 ;alien6.c:1034: void borrarProta(){
@@ -7793,7 +7799,7 @@ _moverProta:
 ;alien6.c:1046: if (!prota.dead){
 	ld	a,(#_prota + 20)
 	or	a, a
-	jp	NZ,00118$
+	jp	NZ,00119$
 ;alien6.c:1047: if (cpc_TestKey(KEY_RIGHT)==1 && prota.cx<=75)   // DERECHA
 	ld	a,#0x01
 	push	af
@@ -7886,7 +7892,7 @@ _moverProta:
 	ld	hl,#(_prota + 0x0011)
 	ld	(hl),#0x01
 00111$:
-;alien6.c:1067: if ((cpc_TestKey(KEY_FIRE)==1) && (getTime()-prota.lastShot>prota.reloadSpeed))   // ESPACIO
+;alien6.c:1067: if ((cpc_TestKey(KEY_FIRE)==1) && (disparos_activos<MAX_DISPAROS) && (getTime()-prota.lastShot>prota.reloadSpeed))   // ESPACIO
 	push	de
 	ld	a,#0x04
 	push	af
@@ -7895,7 +7901,10 @@ _moverProta:
 	inc	sp
 	pop	de
 	dec	l
-	jp	NZ,00118$
+	jp	NZ,00119$
+	ld	a,(#_disparos_activos + 0)
+	sub	a, #0x02
+	jp	NC,00119$
 	push	de
 	call	_getTime
 	ld	iy,#6
@@ -7954,7 +7963,7 @@ _moverProta:
 	inc	hl
 	ld	a,(hl)
 	sbc	a, 3 (iy)
-	jr	NC,00118$
+	jr	NC,00119$
 ;alien6.c:1069: crearDisparo(prota.cx, prota.cy);
 	ld	hl, #(_prota + 0x0009) + 0
 	ld	b,(hl)
@@ -7965,7 +7974,7 @@ _moverProta:
 	inc	sp
 	call	_crearDisparo
 	pop	af
-00118$:
+00119$:
 	ld	hl,#8
 	add	hl,sp
 	ld	sp,hl
@@ -9497,7 +9506,7 @@ _game:
 	inc	hl
 	sbc	a, (hl)
 	ld	b,a
-	ld	a,#0x28
+	ld	a,#0x1E
 	cp	a, e
 	ld	a,#0x00
 	sbc	a, d
@@ -9512,8 +9521,21 @@ _game:
 	call	_animarExplosiones
 ;alien6.c:1389: actualizarExplosiones();
 	call	_actualizarExplosiones
+;alien6.c:1390: explosiones_lastUpdated=getTime();
+	call	_getTime
+	ld	iy,#0
+	add	iy,sp
+	ld	3 (iy),d
+	ld	2 (iy),e
+	ld	1 (iy),h
+	ld	0 (iy),l
+	ld	de, #_explosiones_lastUpdated
+	ld	hl, #0
+	add	hl, sp
+	ld	bc, #4
+	ldir
 00108$:
-;alien6.c:1395: if ((getTime()-prota.lastmoved)>prota.speed){
+;alien6.c:1396: if ((getTime()-prota.lastmoved)>prota.speed){
 	call	_getTime
 	ld	iy,#0
 	add	iy,sp
@@ -9555,61 +9577,61 @@ _game:
 	ld	a,c
 	sbc	a, 3 (iy)
 	jr	NC,00111$
-;alien6.c:1396: prota.lastmoved=getTime();
+;alien6.c:1397: prota.lastmoved=getTime();
 	call	_getTime
 	ld	c,l
 	ld	b,h
 	ld	((_prota + 0x0016)), bc
 	ld	((_prota + 0x0016) + 2), de
-;alien6.c:1397: moverProta();	//mover al prota
+;alien6.c:1398: moverProta();	//mover al prota
 	call	_moverProta
-;alien6.c:1398: borrarProta();	//borro al prota
+;alien6.c:1399: borrarProta();	//borro al prota
 	call	_borrarProta
-;alien6.c:1399: pintarProta();	//Pinto al protagonista
+;alien6.c:1400: pintarProta();	//Pinto al protagonista
 	call	_pintarProta
 00111$:
-;alien6.c:1402: borrarAddones();
+;alien6.c:1403: borrarAddones();
 	call	_borrarAddones
-;alien6.c:1403: moverAddones();
+;alien6.c:1404: moverAddones();
 	call	_moverAddones
-;alien6.c:1404: pintarAddones();
+;alien6.c:1405: pintarAddones();
 	call	_pintarAddones
-;alien6.c:1407: moverDisparos();  		//Mover disparos
+;alien6.c:1408: moverDisparos();  		//Mover disparos
 	call	_moverDisparos
-;alien6.c:1408: borrarDisparos();		//Borro disparos
+;alien6.c:1409: borrarDisparos();		//Borro disparos
 	call	_borrarDisparos
-;alien6.c:1409: pintarDisparos();		//Pinto Disparos
+;alien6.c:1410: pintarDisparos();		//Pinto Disparos
 	call	_pintarDisparos
-;alien6.c:1412: moverMalos();		//Muevo los malos
+;alien6.c:1413: moverMalos();		//Muevo los malos
 	call	_moverMalos
-;alien6.c:1413: borrarMalos();		//Borro los malos
+;alien6.c:1414: borrarMalos();		//Borro los malos
 	call	_borrarMalos
-;alien6.c:1414: pintarMalos();		//Pinto los malos
+;alien6.c:1415: pintarMalos();		//Pinto los malos
 	call	_pintarMalos
-;alien6.c:1417: moverDisparosMalos();	//mover disparos
+;alien6.c:1418: moverDisparosMalos();	//mover disparos
 	call	_moverDisparosMalos
-;alien6.c:1418: borrarDisparosMalos();	//borro disparos
+;alien6.c:1419: borrarDisparosMalos();	//borro disparos
 	call	_borrarDisparosMalos
-;alien6.c:1419: pintarDisparosMalo();	//Pinto Disparos
+;alien6.c:1420: pintarDisparosMalo();	//Pinto Disparos
 	call	_pintarDisparosMalo
-;alien6.c:1422: if ((ESTRELLAS_ACTIVADAS) && (estrellasMovidas)){
+;alien6.c:1423: if ((ESTRELLAS_ACTIVADAS) && (estrellasMovidas)){
 	ld	a,(#_estrellasMovidas + 0)
 	or	a, a
 	jr	Z,00113$
-;alien6.c:1423: pintarEstrellas();
+;alien6.c:1424: pintarEstrellas();
 	call	_pintarEstrellas
-;alien6.c:1424: estrellasMovidas=0;
+;alien6.c:1425: estrellasMovidas=0;
 	ld	hl,#_estrellasMovidas + 0
 	ld	(hl), #0x00
 00113$:
-;alien6.c:1428: if (cambio_score){
+;alien6.c:1429: if (cambio_score){
 	ld	a,(#_cambio_score + 0)
 	or	a, a
 	jr	Z,00116$
-;alien6.c:1429: cambio_score=0;
+;alien6.c:1430: cambio_score=0;
 	ld	hl,#_cambio_score + 0
 	ld	(hl), #0x00
-;alien6.c:1430: sprintf(aux_txt,"%05d",score);
+;alien6.c:1431: sprintf(aux_txt,"%05d",score);
 	ld	de,#_aux_txt
 	ld	hl,(_score)
 	push	hl
@@ -9620,7 +9642,7 @@ _game:
 	ld	hl,#6
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:1431: cpc_PrintGphStr(aux_txt,0xc050);
+;alien6.c:1432: cpc_PrintGphStr(aux_txt,0xc050);
 	ld	hl,#_aux_txt
 	ld	bc,#0xC050
 	push	bc
@@ -9629,7 +9651,7 @@ _game:
 	pop	af
 	pop	af
 00116$:
-;alien6.c:1434: if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_activos_malos)){
+;alien6.c:1435: if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_activos_malos)){
 	ld	a, (#_prota + 20)
 	or	a, a
 	jr	Z,00118$
@@ -9642,13 +9664,13 @@ _game:
 	ld	a,(#_disparos_activos_malos + 0)
 	or	a, a
 	jr	NZ,00118$
-;alien6.c:1435: state = STATE_LOSE;
+;alien6.c:1436: state = STATE_LOSE;
 	ld	hl,#_state + 0
 	ld	(hl), #0x07
-;alien6.c:1436: break;
+;alien6.c:1437: break;
 	jr	00134$
 00118$:
-;alien6.c:1439: if (cpc_TestKey(KEY_ESC)==1){			// ESC
+;alien6.c:1440: if (cpc_TestKey(KEY_ESC)==1){			// ESC
 	ld	a,#0x05
 	push	af
 	inc	sp
@@ -9656,12 +9678,12 @@ _game:
 	inc	sp
 	dec	l
 	jr	NZ,00126$
-;alien6.c:1440: state = STATE_MENU;
+;alien6.c:1441: state = STATE_MENU;
 	ld	hl,#_state + 0
 	ld	(hl), #0x02
-;alien6.c:1441: break;
+;alien6.c:1442: break;
 	jr	00134$
-;alien6.c:1446: if ((DEBUG) && (cpc_TestKey(KEY_HOSTILITY)==1)){			
+;alien6.c:1447: if ((DEBUG) && (cpc_TestKey(KEY_HOSTILITY)==1)){			
 00126$:
 	ld	a,#0x0B
 	push	af
@@ -9670,14 +9692,14 @@ _game:
 	inc	sp
 	dec	l
 	jr	NZ,00125$
-;alien6.c:1447: hostilidad=!hostilidad;
+;alien6.c:1448: hostilidad=!hostilidad;
 	ld	a,(#_hostilidad + 0)
 	sub	a,#0x01
 	ld	a,#0x00
 	rla
 	ld	(#_hostilidad + 0),a
 00125$:
-;alien6.c:1451: if ((malos_activos==0) && (explosiones_activas==0) && (!disparos_activos) && (!disparos_activos_malos)){
+;alien6.c:1452: if ((malos_activos==0) && (explosiones_activas==0) && (!disparos_activos) && (!disparos_activos_malos)){
 	ld	a,(#_malos_activos + 0)
 	or	a, a
 	jp	NZ,00133$
@@ -9690,12 +9712,12 @@ _game:
 	ld	a,(#_disparos_activos_malos + 0)
 	or	a, a
 	jp	NZ,00133$
-;alien6.c:1452: state = STATE_LEVELUP;
+;alien6.c:1453: state = STATE_LEVELUP;
 	ld	hl,#_state + 0
 	ld	(hl), #0x08
-;alien6.c:1453: break;
+;alien6.c:1454: break;
 00134$:
-;alien6.c:1459: return state;
+;alien6.c:1460: return state;
 	ld	iy,#_state
 	ld	l,0 (iy)
 	pop	af
@@ -9707,58 +9729,58 @@ _game_end::
 ___str_35:
 	.ascii "%05d"
 	.db 0x00
-;alien6.c:1463: void InitialSetUp() {
+;alien6.c:1464: void InitialSetUp() {
 ;	---------------------------------
 ; Function InitialSetUp
 ; ---------------------------------
 _InitialSetUp_start::
 _InitialSetUp:
-;alien6.c:1467: interrupciones();
+;alien6.c:1468: interrupciones();
 	call	_interrupciones
-;alien6.c:1470: set_colours();
+;alien6.c:1471: set_colours();
 	call	_set_colours
-;alien6.c:1471: cpc_SetMode(0);				//hardware call to set mode 0
+;alien6.c:1472: cpc_SetMode(0);				//hardware call to set mode 0
 	xor	a, a
 	push	af
 	inc	sp
 	call	_cpc_SetMode
 	inc	sp
-;alien6.c:1472: cpc_ClrScr();				//fills scr with ink 0
+;alien6.c:1473: cpc_ClrScr();				//fills scr with ink 0
 	call	_cpc_ClrScr
-;alien6.c:1474: letrasColorAzul();
+;alien6.c:1475: letrasColorAzul();
 	call	_letrasColorAzul
-;alien6.c:1476: inicializarTeclado();
+;alien6.c:1477: inicializarTeclado();
 	call	_inicializarTeclado
-;alien6.c:1478: nivel=1;
+;alien6.c:1479: nivel=1;
 	ld	hl,#_nivel + 0
 	ld	(hl), #0x01
-;alien6.c:1479: prota.vidas=3;
+;alien6.c:1480: prota.vidas=3;
 	ld	hl,#_prota+21
 	ld	(hl),#0x03
-;alien6.c:1482: cambio_score=0;
+;alien6.c:1483: cambio_score=0;
 	ld	hl,#_cambio_score + 0
 	ld	(hl), #0x00
-;alien6.c:1483: score=0;
+;alien6.c:1484: score=0;
 	ld	hl,#_score + 0
 	ld	(hl), #0x00
 	ld	hl,#_score + 1
 	ld	(hl), #0x00
-;alien6.c:1491: state = INITIAL_STATE;
+;alien6.c:1492: state = INITIAL_STATE;
 	ld	hl,#_state + 0
 	ld	(hl), #0x02
 	ret
 _InitialSetUp_end::
-;alien6.c:1496: int main() {
+;alien6.c:1497: int main() {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main_start::
 _main:
-;alien6.c:1498: InitialSetUp();
+;alien6.c:1499: InitialSetUp();
 	call	_InitialSetUp
-;alien6.c:1500: while (state != STATE_EXIT) {
+;alien6.c:1501: while (state != STATE_EXIT) {
 00110$:
-;alien6.c:1501: switch(state) {
+;alien6.c:1502: switch(state) {
 	ld	a,(#_state + 0)
 	cp	a,#0x05
 	jp	Z,00114$
@@ -9791,72 +9813,72 @@ _main:
 	jp	00107$
 	jp	00106$
 	jp	00102$
-;alien6.c:1502: case STATE_MENU:
+;alien6.c:1503: case STATE_MENU:
 00101$:
-;alien6.c:1503: state = menu();
+;alien6.c:1504: state = menu();
 	call	_menu
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1504: break;
+;alien6.c:1505: break;
 	jr	00110$
-;alien6.c:1506: case STATE_REDEFINE:
+;alien6.c:1507: case STATE_REDEFINE:
 00102$:
-;alien6.c:1507: state = redefineKeys();
+;alien6.c:1508: state = redefineKeys();
 	call	_redefineKeys
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1508: break;
+;alien6.c:1509: break;
 	jr	00110$
-;alien6.c:1510: case STATE_HELP:
+;alien6.c:1511: case STATE_HELP:
 00103$:
-;alien6.c:1511: state = help();
+;alien6.c:1512: state = help();
 	call	_help
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1512: break;
+;alien6.c:1513: break;
 	jr	00110$
-;alien6.c:1514: case STATE_GAME:
+;alien6.c:1515: case STATE_GAME:
 00104$:
-;alien6.c:1515: state = game();
+;alien6.c:1516: state = game();
 	call	_game
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1516: break;
+;alien6.c:1517: break;
 	jr	00110$
-;alien6.c:1518: case STATE_WIN:
+;alien6.c:1519: case STATE_WIN:
 00105$:
-;alien6.c:1519: state = win();
+;alien6.c:1520: state = win();
 	call	_win
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1520: break;
+;alien6.c:1521: break;
 	jp	00110$
-;alien6.c:1522: case STATE_LEVELUP:
+;alien6.c:1523: case STATE_LEVELUP:
 00106$:
-;alien6.c:1523: state = levelUp();
+;alien6.c:1524: state = levelUp();
 	call	_levelUp
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1524: break;
+;alien6.c:1525: break;
 	jp	00110$
-;alien6.c:1526: case STATE_LOSE:
+;alien6.c:1527: case STATE_LOSE:
 00107$:
-;alien6.c:1527: state = gameOver();
+;alien6.c:1528: state = gameOver();
 	call	_gameOver
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1528: break;
+;alien6.c:1529: break;
 	jp	00110$
-;alien6.c:1530: default:
+;alien6.c:1531: default:
 00108$:
-;alien6.c:1531: state = STATE_EXIT;
+;alien6.c:1532: state = STATE_EXIT;
 	ld	iy,#_state
 	ld	0 (iy),#0x05
-;alien6.c:1533: }
+;alien6.c:1534: }
 	jp	00110$
-;alien6.c:1535: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+;alien6.c:1536: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
 00114$:
-;alien6.c:1537: return 0;  
+;alien6.c:1538: return 0;  
 	ld	hl,#0x0000
 	ret
 _main_end::
@@ -10292,6 +10314,71 @@ __xinit__explosion02003:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
+__xinit__explosion02004:
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
 __xinit__shot2:
 	.db #0x55	;  85	'U'
 	.db #0x00	;  0
@@ -10348,13 +10435,13 @@ __xinit__plane:
 	.db #0x00	; 0
 __xinit__greenFlag:
 	.db #0x00	; 0
-	.db #0x2C	; 44
-	.db #0x14	; 20
-	.db #0x2C	; 44
-	.db #0x3C	; 60
-	.db #0x2C	; 44
-	.db #0x3C	; 60
-	.db #0x2C	; 44
+	.db #0x0E	; 14
+	.db #0x05	; 5
+	.db #0x0E	; 14
+	.db #0x0F	; 15
+	.db #0x0E	; 14
+	.db #0x0F	; 15
+	.db #0x0E	; 14
 	.db #0x00	; 0
 	.db #0x04	; 4
 	.db #0x00	; 0
@@ -10506,6 +10593,23 @@ __xinit__toque003:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x40	; 64
+__xinit__toque004:
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
 __xinit__fire000:
 	.db #0xB4	; 180
 	.db #0x70	; 112	'p'
@@ -10521,69 +10625,137 @@ __xinit__fire002:
 	.db #0xB4	; 180
 	.db #0x50	; 80	'P'
 	.db #0x20	; 32
-__xinit__addon000:
-	.db #0x50	; 80	'P'
+__xinit__addones000:
+	.db #0x11	; 17
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x80	; 128
+	.db #0x11	; 17
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x80	; 128
+	.db #0x11	; 17
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x80	; 128
+	.db #0x11	; 17
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x80	; 128
+	.db #0x00	; 0
+	.db #0x62	; 98	'b'
+	.db #0xC0	; 192
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x62	; 98	'b'
+	.db #0xC0	; 192
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x40	; 64
+	.db #0x80	; 128
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x11	; 17
+	.db #0x22	; 34
+	.db #0x00	; 0
+__xinit__addones001:
+	.db #0x00	; 0
+	.db #0xAA	; 170
+	.db #0x00	; 0
+	.db #0xAA	; 170
+	.db #0x55	; 85	'U'
+	.db #0x2A	; 42
+	.db #0x55	; 85	'U'
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x15	; 21
+	.db #0x2A	; 42
+	.db #0x55	; 85	'U'
+	.db #0xAA	; 170
+	.db #0x55	; 85	'U'
+	.db #0xAA	; 170
+__xinit__addones002:
+	.db #0x8A	; 138
+	.db #0x51	; 81	'Q'
+	.db #0x00	; 0
+	.db #0xA2	; 162
+	.db #0x11	; 17
+	.db #0x11	; 17
+	.db #0x11	; 17
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x9B	; 155
+	.db #0x22	; 34
+	.db #0x00	; 0
+	.db #0xB3	; 179
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0xA2	; 162
+	.db #0x00	; 0
+	.db #0x33	; 51	'3'
+	.db #0x22	; 34
+	.db #0x00	; 0
+	.db #0x11	; 17
+	.db #0x11	; 17
+	.db #0x11	; 17
+	.db #0x00	; 0
+	.db #0xA2	; 162
+	.db #0x51	; 81	'Q'
+	.db #0x00	; 0
+	.db #0xA2	; 162
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+__xinit__addones003:
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0xA8	; 168
+	.db #0xBC	; 188
+	.db #0x28	; 40
+	.db #0x30	; 48	'0'
+	.db #0xA8	; 168
+	.db #0xBC	; 188
+	.db #0x14	; 20
+	.db #0x10	; 16
+	.db #0xA8	; 168
+	.db #0xBC	; 188
+	.db #0x14	; 20
+	.db #0x10	; 16
+	.db #0xA8	; 168
+	.db #0xBC	; 188
+	.db #0x28	; 40
+	.db #0x10	; 16
+	.db #0xA8	; 168
+	.db #0xBC	; 188
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x54	; 84	'T'
 	.db #0x14	; 20
 	.db #0x00	; 0
-	.db #0xB4	; 180
-	.db #0x3C	; 60
-	.db #0x28	; 40
-	.db #0xB4	; 180
-	.db #0x3C	; 60
-	.db #0x28	; 40
-	.db #0x14	; 20
-	.db #0x3C	; 60
 	.db #0x00	; 0
 	.db #0x00	; 0
-	.db #0x28	; 40
 	.db #0x00	; 0
-__xinit__addon001:
-	.db #0x50	; 80	'P'
-	.db #0x14	; 20
-	.db #0x00	; 0
-	.db #0xB4	; 180
-	.db #0x3C	; 60
-	.db #0x28	; 40
-	.db #0xB4	; 180
-	.db #0x3C	; 60
-	.db #0x28	; 40
-	.db #0x14	; 20
-	.db #0x3C	; 60
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x28	; 40
-	.db #0x00	; 0
-__xinit__addon002:
-	.db #0x50	; 80	'P'
-	.db #0x14	; 20
-	.db #0x00	; 0
-	.db #0xB4	; 180
-	.db #0x3C	; 60
-	.db #0x28	; 40
-	.db #0xB4	; 180
-	.db #0x3C	; 60
-	.db #0x28	; 40
-	.db #0x14	; 20
-	.db #0x3C	; 60
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x28	; 40
-	.db #0x00	; 0
-__xinit__addon003:
-	.db #0x50	; 80	'P'
-	.db #0x14	; 20
-	.db #0x00	; 0
-	.db #0xB4	; 180
-	.db #0x3C	; 60
-	.db #0x28	; 40
-	.db #0xB4	; 180
-	.db #0x3C	; 60
-	.db #0x28	; 40
-	.db #0x14	; 20
-	.db #0x3C	; 60
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x28	; 40
 	.db #0x00	; 0
 __xinit__timer0:
 	.dw #0x0000

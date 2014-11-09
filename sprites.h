@@ -170,6 +170,28 @@ extern unsigned char explosion02003[64] =
 	  0,   0,   0,   0,
 	  0,   0,   0,   0
 };
+extern unsigned char explosion02004[64] =
+{
+//	  4,  16, 		 /* Width x Height */
+/* pixels */
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+	  0,   0,   0,   0,
+};
+
 /* Name    : shot2 */
 /* Palette : Amstrad CPC Mode 0 */
 /* Masked  : No */
@@ -238,12 +260,12 @@ extern unsigned char greenFlag[12] =
 {
 //	  2,   6, 		 /* Width x Height */
 /* pixels */
-	  0,  44,  
-	 20,  44,  
-	 60,  44,  
-	 60,  44,  
+	  0,  14,  
+	  5,  14,  
+	 15,  14,  
+	 15,  14,  
 	  0,   4,  
-	  0,   4  
+	  0,   4,  
 };
 extern unsigned char redFlag[12] =
 {
@@ -365,6 +387,19 @@ extern unsigned char toque003[16] =
 	  0,  64
 };
 
+extern unsigned char toque004[16] =
+{
+/* pixels */
+	  0,   0,
+	  0,   0,
+	  0,   0,
+	  0,   0,
+	  0,   0,
+	  0,   0,
+	  0,   0,
+	  0,   0
+};
+
 extern unsigned char fire000[4] =
 {
 //	  2,   4, 		 /* Width x Height */
@@ -398,49 +433,73 @@ extern unsigned char fire002[4] =
 	 56, 180,
 	 80,  32,
 };
-/* Name    : life */
-/* Frame   : 0 */
+unsigned char addones000[32] =
+{
+//	  4,   8, 		 /* Width x Height */
+/* pixels */
+	 17, 192, 192, 128,
+	 17, 192, 192, 128,
+	 17, 192, 192, 128,
+	 17, 192, 192, 128,
+	  0,  98, 192,   0,
+	  0,  98, 192,   0,
+	  0,  64, 128,   0,
+	  0,  17,  34,   0
+};
+/* Name    : addones */
+/* Frame   : 1 */
 /* Palette : Amstrad CPC Mode 0 */
 /* Masked  : No */
 /* RowOrder: Classic */
-/* Size: 3 x 6 - (bytes x pixels) */
-extern unsigned char addon000[15] =
+/* Size: 4 x 8 - (bytes x pixels) */
+unsigned char addones001[32] =
 {
-//	  3,   6, 		 /* Width x Height */
+//	  4,   8, 		 /* Width x Height */
 /* pixels */
-	 80,  20,   0,
-	180,  60,  40,
-	180,  60,  40,
-	 20,  60,   0,
-	  0,  40,   0,
+	  0, 170,   0, 170,
+	 85,  42,  85,  42,
+	 21,  42,  21,  42,
+	 21,  42,  21,  42,
+	 21,  42,  21,  42,
+	 21,  42,  21,  42,
+	 21,  42,  21,  42,
+	 85, 170,  85, 170
 };
-extern unsigned char addon001[15] =
+/* Name    : addones */
+/* Frame   : 2 */
+/* Palette : Amstrad CPC Mode 0 */
+/* Masked  : No */
+/* RowOrder: Classic */
+/* Size: 4 x 8 - (bytes x pixels) */
+unsigned char addones002[32] =
 {
-//	  3,   6, 		 /* Width x Height */
+//	  4,   8, 		 /* Width x Height */
 /* pixels */
-	 80,  20,   0,
-	180,  60,  40,
-	180,  60,  40,
-	 20,  60,   0,
-	  0,  40,   0,
+	138,  81,   0, 162,
+	 17,  17,  17,   0,
+	  0, 155,  34,   0,
+	179,  51,  51, 162,
+	  0,  51,  34,   0,
+	 17,  17,  17,   0,
+	162,  81,   0, 162,
+	  0,   0,   0,   0
 };
-extern unsigned char addon002[15] =
+/* Name    : addones */
+/* Frame   : 3 */
+/* Palette : Amstrad CPC Mode 0 */
+/* Masked  : No */
+/* RowOrder: Classic */
+/* Size: 4 x 8 - (bytes x pixels) */
+unsigned char addones003[32] =
 {
-//	  3,   6, 		 /* Width x Height */
+//	  4,   8, 		 /* Width x Height */
 /* pixels */
-	 80,  20,   0,
-	180,  60,  40,
-	180,  60,  40,
-	 20,  60,   0,
-	  0,  40,   0,
-};
-extern unsigned char addon003[15] =
-{
-//	  3,   6, 		 /* Width x Height */
-/* pixels */
-	 80,  20,   0,
-	180,  60,  40,
-	180,  60,  40,
-	 20,  60,   0,
-	  0,  40,   0,
+	  0,   0,   0,   0,
+	 16, 168, 188,  40,
+	 48, 168, 188,  20,
+	 16, 168, 188,  20,
+	 16, 168, 188,  40,
+	 16, 168, 188,   0,
+	 16,  84,  20,   0,
+	  0,   0,   0,   0
 };
