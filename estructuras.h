@@ -1,9 +1,6 @@
 //DISPARO
 typedef	struct {		// minimun sprite structure
 	char *sp0;		//2 bytes 	01
-	char *sp1;		//2 bytes	23
-	int coord0;		//2 bytes	45	current superbuffer address
-	int coord1;		//2 bytes	67  old superbuffer address
 	unsigned char cx;
 	unsigned char cy;	//2 bytes 89 	current coordinates
 	unsigned char ox;
@@ -18,9 +15,6 @@ typedef	struct {		// minimun sprite structure
 //NAVE
 typedef	struct {		// minimun sprite structure
 	char *sp0;		//2 bytes 	01
-	char *sp1;		//2 bytes	23
-	int coord0;		//2 bytes	45	current superbuffer address
-	int coord1;		//2 bytes	67  old superbuffer address
 	unsigned char cx;
 	unsigned char cy;	//2 bytes 89 	current coordinates
 	unsigned char ox;
@@ -56,6 +50,7 @@ typedef	struct {		// minimun sprite structure
 	unsigned char activo;
 	unsigned char moved;
 	unsigned char speed;
+	unsigned char formSpeed;
 	unsigned char nuevo;
 	unsigned char dead;
 	unsigned char vidas;

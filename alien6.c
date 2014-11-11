@@ -49,10 +49,12 @@
 #define MAX_EXPLOSIONES 6
 #define MAX_ATAQUES 3
 #define PROTA_SPEED 10
-#define SONIDO_ACTIVADO 0
+#define SONIDO_ACTIVADO 1
 
 #define MAX_ADDONES 2
 #define VELOCIDAD_EXPLOSIONES 30
+
+#define VELOCIDAD_ATAQUE 8
 
 unsigned int timer0 = 0;
 unsigned int timer1 = 0;
@@ -67,8 +69,8 @@ unsigned char estrellasMovidas = 0;
 TIPO_DISPARO disparos [5];
 unsigned char disparos_activos;
 TIPO_DISPARO disparosMalos[4];
-unsigned char disparos_activos_malos;
-unsigned char MAX_DISPAROS_MALOS = 3;
+unsigned char disparos_malos_activos;
+unsigned char MAX_DISPAROS_MALOS;
 TIPO_NAVE prota;
 TIPO_MALO malos[6];
 unsigned char malos_activos;
@@ -100,27 +102,30 @@ TIPO_ADDON addones[MAX_ADDONES];
 unsigned char addones_activos;
 void *addon_sprite[4];
 
-void interrupciones(void) {
+void timerOn(void) {
 	__asm
-	di
-	im 1
-	ld hl,(#0X0039)
-	ld (int_original),HL   //guardo el salto original
-	ld HL,#interrupcion
-	ld (#0X0039),HL
-	ei
-	jp term
-	int_original:
-	.dw #0
+	DI
+	IM 1	
+	PUSH HL
+	LD HL, #_timer0
+	LD (HL),#0X0000
+	LD HL,#0X0038
+	LD (HL),#0XC3		;JP
+	INC HL
+	LD HL,#interrupcion
+	LD (#0X0039),HL
+	POP HL
+	EI
+	JP term
 interrupcion:
-	di
-	push HL
-	push AF
-	ld	hl,#_timer0
+	DI
+	PUSH HL
+	PUSH AF
+	LD	HL,#_timer0
 desborde:
-	inc (hl)
-	inc hl
-	jr	z,desborde
+	INC (HL)
+	INC HL
+	JR	Z,desborde
 	POP AF
 	POP HL
 	EI
@@ -128,6 +133,19 @@ desborde:
 term:
 	__endasm;
 }
+
+void timerOff(void) {
+	__asm
+	DI
+	IM 1
+	LD HL,#0X0038
+	LD (HL),#0XFB		;EI
+	INC HL
+	LD (HL),#0XC9		;RET
+	EI
+	__endasm;
+}
+
 
 unsigned long getTime()
 {
@@ -410,49 +428,55 @@ void animarExplosiones(){
 }
 
 
-
+//disparos malos
 void inicializarDisparosMalos(){
 	unsigned char k;
 	k=0;
 	for (k=0;k<MAX_DISPAROS_MALOS;k++){
-		disparos[k].activo=0;
-		disparos[k].sp0=shot2;
-		disparos[k].cx=0;
-		disparos[k].cy=0;
-		disparos[k].ox=0;
-		disparos[k].oy=0;
-		disparos[k].nuevo=0;
-		disparos[k].dead=0;
-		disparos[k].lastmoved=0;
+		disparosMalos[k].activo=0;
+		disparosMalos[k].sp0=shot3;
+		disparosMalos[k].cx=0;
+		disparosMalos[k].cy=0;
+		disparosMalos[k].ox=0;
+		disparosMalos[k].oy=0;
+		disparosMalos[k].nuevo=0;
+		disparosMalos[k].dead=0;
+		disparosMalos[k].lastmoved=0;
 	}
-	disparos_activos_malos=0;
+	disparos_malos_activos=0;
 }
 
-void borrarDisparosMalos(){
+void crearDisparoMalo(unsigned char x, unsigned char y, unsigned speed){
 	unsigned char k;
 	k=0;
-	if (disparos_activos_malos>0){
-		for (k=0;k<MAX_DISPAROS_MALOS;k++){
-			if ((disparosMalos[k].activo==1) && (disparosMalos[k].nuevo==0)){
-				cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].oy]+disparosMalos[k].ox);
-				if (disparosMalos[k].dead){
-					disparosMalos[k].activo=0;
-					disparos_activos_malos--;
-				}
-			}
-		}
+	while (disparosMalos[k].activo==1){
+		k++;
 	}
+	disparosMalos[k].activo=1;
+	disparosMalos[k].cx=x+1;
+	disparosMalos[k].cy=y-1;
+	disparosMalos[k].ox=x+1;
+	disparosMalos[k].oy=y-1;
+	disparosMalos[k].sp0=shot3;
+	disparosMalos[k].nuevo=1;
+	disparosMalos[k].dead=0;
+	disparosMalos[k].speed=speed;
+	disparosMalos[k].lastmoved=0;
+	disparosMalos[k].moved=0;
+	disparos_malos_activos++;
+	if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 }
 
 void moverDisparosMalos(){
 	unsigned char i;
-	unsigned char j;
+	long lapso;
+	
 	i=0;
-	j=0;
-	if (disparos_activos_malos>0){
+	lapso=getTime();
+	if (disparos_malos_activos>0){
 		for (i=0;i<MAX_DISPAROS_MALOS;i++){
-			if ((disparosMalos[i].activo==1) && (disparosMalos[i].dead==0)){
-				if (disparosMalos[i].cy<200){
+			if ((disparosMalos[i].activo) && (!disparosMalos[i].dead) && (lapso-disparosMalos[i].lastmoved>disparosMalos[i].speed)){
+				if (disparosMalos[i].cy<(200-SALTO_DISPARO_MALO)){
 					disparosMalos[i].cy=disparosMalos[i].cy + SALTO_DISPARO_MALO;
 					if (detectarColision(disparosMalos[i].cx,disparosMalos[i].cy,2,4,prota.cx,prota.cy,4,16)){  
 						//matar disparo
@@ -469,41 +493,44 @@ void moverDisparosMalos(){
 					//Borro Disparo
 					disparosMalos[i].dead=1;
 				}
+				disparosMalos[i].moved=1;
 			}
 		}
 	}
 
 }
 
-void crearDisparoMalo(unsigned char x, unsigned char y){
+void borrarDisparosMalos(){
 	unsigned char k;
 	k=0;
-	while (disparosMalos[k].activo==1){
-		k++;
+	if (disparos_malos_activos>0){
+		for (k=0;k<MAX_DISPAROS_MALOS;k++){
+			if ((disparosMalos[k].activo==1) && (disparosMalos[k].nuevo==0) && (disparosMalos[k].moved)){
+				cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].oy]+disparosMalos[k].ox);
+				if (disparosMalos[k].dead){
+					disparosMalos[k].activo=0;
+					disparos_malos_activos--;
+				}
+			}
+		}
 	}
-	disparosMalos[k].activo=1;
-	disparosMalos[k].cx=x+1;
-	disparosMalos[k].cy=y-1;
-	disparosMalos[k].ox=x+1;
-	disparosMalos[k].oy=y-1;
-	disparosMalos[k].sp0=shot3;
-	disparosMalos[k].nuevo=1;
-	disparosMalos[k].dead=0;
-	disparos_activos_malos++;
-	if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 }
 
-void pintarDisparosMalo(){
+
+
+void pintarDisparosMalos(){
 	unsigned char k;
 	k=0;
-	if (disparos_activos_malos>0){
+	if (disparos_malos_activos>0){
 		for (k=0;k<MAX_DISPAROS_MALOS;k++){
-			if (disparosMalos[k].activo==1){
+			if ((disparosMalos[k].activo==1) && (disparosMalos[k].moved) && (!disparosMalos[k].dead)){
 				cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].cy]+disparosMalos[k].cx);
 				disparosMalos[k].ox=disparosMalos[k].cx;
 				disparosMalos[k].oy=disparosMalos[k].cy;
 				if (disparosMalos[k].nuevo) 
-					disparosMalos[k].nuevo=0;
+				disparosMalos[k].nuevo=0;
+				disparosMalos[k].moved=0;
+				disparosMalos[k].lastmoved=getTime();
 			}
 		}
 	}
@@ -528,6 +555,8 @@ void crearAddon(unsigned char posx, unsigned char posy){
 	while (addones[i].activo==1){
 		i++;
 	}
+	if (i<MAX_ADDONES){
+	
 	addones[i].activo=1;
 	//calculo el tipo de addon en base a un valor aleatorio y una probabilidad 40% escudo, 40% rafaga, 15% freeza, 5% vida extra
 	aux=cpc_Random();
@@ -546,6 +575,7 @@ void crearAddon(unsigned char posx, unsigned char posy){
 	addones[i].speed=40;
 	//Aumentar el contador de addones activos
 	addones_activos++;
+	}
 }
 //borrar Addones
 void borrarAddones(){
@@ -586,6 +616,7 @@ void pintarAddones(){
 			if ((addones[i].activo==1) && (addones[i].moved)){
 				cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
 				addones[i].moved=0;
+				addones[i].lastmoved=getTime();
 			}
 		}
 	}
@@ -608,10 +639,15 @@ void crearAtaque(unsigned char malo){
 	while (ataques[i].activo==1){
 		i++;
 	}
+	if (i<max_ataques_activos){
 	ataques[i].activo=1;
 	ataques[i].idMalo=malo;
 	ataques[i].step=0;
 	ataques_activos++;
+	malos[malo].movement=1;
+	malos[malo].formSpeed=malos[malo].speed;
+	malos[malo].speed=VELOCIDAD_ATAQUE;
+	}
 }
 
 void malosACero(){
@@ -647,6 +683,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 		malos[malo].agresividad=4;
 		malos[malo].vidas=1;
 		malos[malo].speed=40;
+		malos[malo].nuevo=1;
 		break;
 	case 2:
 		malos[malo].activo=1;
@@ -656,6 +693,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 		malos[malo].agresividad=8;
 		malos[malo].vidas=2;
 		malos[malo].speed=16;
+		malos[malo].nuevo=1;
 		break;
 	case 3:
 		malos[malo].activo=1;
@@ -665,6 +703,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 		malos[malo].agresividad=16;
 		malos[malo].vidas=3;
 		malos[malo].speed=8;
+		malos[malo].nuevo=1;
 		break;
 	default:
 		malos[malo].activo=1;
@@ -674,6 +713,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 		malos[malo].agresividad=32;
 		malos[malo].vidas=1;
 		malos[malo].speed=15;
+		malos[malo].nuevo=1;
 		break;
 	}
 
@@ -785,7 +825,7 @@ void borrarMalos(){
 	if (malos_activos>0){
 		for (i=0;i<MAX_MALOS;i++){
 			if ((malos[i].activo==1) && (malos[i].nuevo==0) && (malos[i].moved)){
-				if((malos[i].ox>0)&&(malos[i].ox<160)&&(malos[i].oy>0)&&(malos[i].oy<200))
+				if((malos[i].ox>0)&&(malos[i].ox<159)&&(malos[i].oy>0)&&(malos[i].oy<199))
 				cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].oy]+malos[i].ox);
 				if (malos[i].dead){
 					malos[i].activo=0;
@@ -802,6 +842,7 @@ void moverMalos(){
 	unsigned char i;
 	unsigned char j;
 	long lapso;
+	unsigned char velocidadDisparo;
 	
 	lapso=getTime();
 	formMoved=0;
@@ -823,11 +864,11 @@ void moverMalos(){
 				malos[i].homeX=malos[i].homeX+velXForm;
 				//Movimiento del malo en formación 
 				if (malos[i].movement==0){	
-					if (ataques_activos<max_ataques_activos)
-					//if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
-						//crearAtaque(i);
-				//	} else 
-					malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
+					if (ataques_activos<max_ataques_activos){
+						if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
+							crearAtaque(i);
+						} else malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
+					} else 	malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
 					//Movimiento del malo atacando				
 				} else if (malos[i].movement==1){	
 					j=0;
@@ -835,8 +876,8 @@ void moverMalos(){
 						j++;
 					}
 					malos[i].cx=malos[i].cx+ataques[j].trayectoria[ataques[j].step]; //muevo al malo
-					malos[i].cy++;
-					if (malos[i].cy>200){	// si me salgo de la pantalla inicio el camino a la formación
+					malos[i].cy+2;
+					if (malos[i].cy>(199-(malos[i].h))){	// si me salgo de la pantalla inicio el camino a la formación
 						malos[i].movement=2;
 						malos[i].cy=-10;  //coloco al malo fuera de la pantalla por arriba para que tarde un poco en llegar
 						ataques[j].activo=0;
@@ -852,6 +893,7 @@ void moverMalos(){
 					//Si he llegado al destino me pongo en modo formación
 					if ((malos[i].cx=malos[i].homeX) && (malos[i].cy==malos[i].homeY)){
 						malos[i].movement=0;
+						malos[i].speed=malos[i].formSpeed;
 						//en caso contrario ajusto desplazamientos.
 					}else{ 
 						//ajuste del desplazamiento horizontal
@@ -868,8 +910,19 @@ void moverMalos(){
 					
 				}
 				//gestión de disparos - Probablmente me lleve esto al ataque...
-				if ((disparos_activos_malos<MAX_DISPAROS_MALOS) && (cpc_Random() < malos[i].agresividad) && (hostilidad)){
-					crearDisparoMalo(malos[i].cx,malos[i].cy);
+				if ((disparos_malos_activos<MAX_DISPAROS_MALOS) && (cpc_Random() < malos[i].agresividad) && (hostilidad)){
+					switch (malos[i].type){
+					case 1:
+						velocidadDisparo=8;
+						break;
+					case 2:
+						velocidadDisparo=6;
+						break;
+					default:
+						velocidadDisparo=4;
+						break;
+					}
+					crearDisparoMalo(malos[i].cx,malos[i].cy,velocidadDisparo);
 				}
 				malos[i].lastmoved=lapso;
 				malos[i].moved=1;
@@ -884,7 +937,7 @@ void pintarMalos(){
 		for (i=0;i<MAX_MALOS;i++){
 			if ((malos[i].activo==1) && (malos[i].moved)){
 				//Pinto los malos si están dentro de la pantalla
-				if((malos[i].cx>0)&&(malos[i].cx<160)&&(malos[i].cy>0)&&(malos[i].cy<200))
+				if((malos[i].cx>0)&&(malos[i].cx<159)&&(malos[i].cy>0)&&(malos[i].cy<199))
 				cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].cy]+malos[i].cx);
 				malos[i].ox=malos[i].cx;
 				malos[i].oy=malos[i].cy;
@@ -933,25 +986,10 @@ void crearDisparo(unsigned char x, unsigned char y){
 	if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 }
 
-void borrarDisparos(){
-	unsigned char k;
-	k=0;
-	if (disparos_activos>0){
-		for (k=0;k<MAX_DISPAROS;k++){
-			if ((disparos[k].activo==1) && (disparos[k].nuevo==0)){
-				cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].oy]+disparos[k].ox);
-				if (disparos[k].dead){
-					disparos[k].activo=0;
-					disparos_activos--;
-				}
-			}
-		}
-	}
-}
-
 void moverDisparos(){
 	unsigned char i;
 	unsigned char j;
+	unsigned char k;
 	i=0;
 	j=0;
 	if (disparos_activos>0){
@@ -968,22 +1006,36 @@ void moverDisparos(){
 								malos[j].vidas--;
 								if (malos[j].vidas==0){
 									malos[j].dead=1;
+									//y si estaba atacando...
+									if (malos[j].movement==1){
+											k=0;
+											while ((ataques[k].idMalo!=j)&&(!ataques[k].activo))
+												k++;
+											ataques[k].activo=0;
+											ataques_activos--;
+											//actualizar puntuación ataque
+											score+=100;
+											cambio_score=1;
+									} else {
+										//actualizar puntuación no ataque
+										score+=50;
+										cambio_score=1;
+										}
 									//crear explosión
 									crearExplosion(0, malos[j].cx, malos[j].cy);
 									//sonido explosion
 									if (SONIDO_ACTIVADO) cpc_WyzStartEffect(1,3);
-									//actualizar puntuación
-									score+=10;
-									cambio_score=1;
 									//Creo un addon un 10% de las veces
 									if (cpc_Random()<25)
-										crearAddon(malos[j].cx, malos[j].cy);
+									crearAddon(malos[j].cx, malos[j].cy);
 								} else {
 									//crear explosión
 									crearExplosion(1, malos[j].cx, malos[j].cy+malos[i].h);
 									//sonido explosion
 									if (SONIDO_ACTIVADO) cpc_WyzStartEffect(2,2);
 									//actualizar puntuación
+									score+=5;
+									cambio_score=1;
 								}
 								
 							}	
@@ -993,11 +1045,30 @@ void moverDisparos(){
 					//Borro Disparo
 					disparos[i].dead=1;
 				}
+				disparos[i].moved=1;
 			}
 		}
 	}
 
 }
+
+void borrarDisparos(){
+	unsigned char k;
+	k=0;
+	if (disparos_activos>0){
+		for (k=0;k<MAX_DISPAROS;k++){
+			if ((disparos[k].activo) && (!disparos[k].nuevo) && (disparos[k].moved)){
+				cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].oy]+disparos[k].ox);
+				if (disparos[k].dead){
+					disparos[k].activo=0;
+					disparos_activos--;
+				}
+			}
+		}
+	}
+}
+
+
 
 
 
@@ -1006,11 +1077,12 @@ void pintarDisparos(){
 	k=0;
 	if (disparos_activos>0){
 		for (k=0;k<MAX_DISPAROS;k++){
-			if (disparos[k].activo==1){
+			if ((disparos[k].activo) && (disparos[k].moved) && (!disparos[k].dead)){
 				cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].cy]+disparos[k].cx);
 				disparos[k].ox=disparos[k].cx;
 				disparos[k].oy=disparos[k].cy;
 				if (disparos[k].nuevo) disparos[k].nuevo=0;
+				disparos[k].moved=0;
 			}
 		}
 	}
@@ -1135,7 +1207,7 @@ void debug(){
 	letrasColorAzul();
 	sprintf(aux_txt,"DISPAROS;ACTIVOS;%03u",disparos_activos);
 	cpc_PrintGphStrXY(aux_txt,2*2,0*8);
-	sprintf(aux_txt,"DISPAROS;MALOS;ACTIVOS;%03u",disparos_activos_malos);
+	sprintf(aux_txt,"DISPAROS;MALOS;ACTIVOS;%03u",disparos_malos_activos);
 	cpc_PrintGphStrXY(aux_txt,2*2,1*8);
 	sprintf(aux_txt,"MALOS;ACTIVOS;%03u",malos_activos);
 	cpc_PrintGphStrXY(aux_txt,2*2,2*8);
@@ -1190,19 +1262,20 @@ char levelUp()
 {
 	letrasColorAzul();
 	sprintf(aux_txt,";;;PUNTUACION:;%05d;;;",score);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
-	cpc_PrintGphStrXY(aux_txt,8*2,14*8);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
-	while (cpc_AnyKeyPressed()==0);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
-	cpc_PrintGphStrXY(";;;;SIGUIENTE;NIVEL;;;;",8*2,14*8);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
+	cpc_PrintGphStrXY2X(aux_txt,8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
+	while (!cpc_AnyKeyPressed());
+	while (cpc_AnyKeyPressed());
+	nivel++;
+	sprintf(aux_txt,";;SIGUIENTE;NIVEL;:;%02d;",nivel);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
+	cpc_PrintGphStrXY2X(aux_txt,8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
 	pause(6);
 
 	while (!cpc_AnyKeyPressed());
 	while (cpc_AnyKeyPressed());
-	
-	nivel++;
 	
 	return STATE_GAME; 
 }
@@ -1211,16 +1284,17 @@ char win()
 {
 	letrasColorAzul();
 	sprintf(aux_txt,"PUNTUACION;FINAL:;%05d",score);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
-	cpc_PrintGphStrXY(aux_txt,8*2,14*8);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
-	while (cpc_AnyKeyPressed()==0);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
-	cpc_PrintGphStrXY(";;;;;;;GAME;OVER;;;;;;;",8*2,14*8);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
+	cpc_PrintGphStrXY2X(aux_txt,8*2,14*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
+	while (!cpc_AnyKeyPressed());
+	while (cpc_AnyKeyPressed());
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;GAME;OVER;;;;;;;",8*2,14*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
 	pause(6);
 
-	while (cpc_AnyKeyPressed());
+	while (!cpc_AnyKeyPressed());
 	while (cpc_AnyKeyPressed());
 	
 	return STATE_MENU; 
@@ -1331,8 +1405,19 @@ void inicializarNivel(){
 	inicializarProta();
 	prota.moved=1;
 	inicializarDisparos();
+	//inicializar disparos malos
+	switch (nivel){
+	case 1:
+		MAX_DISPAROS_MALOS=1;
+		break;
+	default:
+		MAX_DISPAROS_MALOS=2;
+		break;
+	}
 	inicializarDisparosMalos();
+	//inicializar explosiones
 	inicializarExplosiones();
+	explosiones_lastUpdated=0; //La última vez que se actualizaron las explosiones
 	
 	pintarMalos();
 	pintarProta();
@@ -1353,14 +1438,20 @@ void inicializarNivel(){
 	
 	inicializarAddones();
 	
-	hostilidad=0;  //este flag hace que los enemigos disparen
+	hostilidad=1;  //este flag hace que los enemigos disparen
 	
-	explosiones_lastUpdated=0; //La última vez que se actualizaron las explosiones
+
 }
 
 //Bucle principal de juego
 unsigned char game()
 {
+	timerOn();
+	
+	if (SONIDO_ACTIVADO){	
+		cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
+		cpc_WyzSetPlayerOn();
+	}
 	cpc_ClrScr();				//fills scr with ink 0
 	
 	inicializarNivel();
@@ -1417,7 +1508,7 @@ unsigned char game()
 		//disparos malos
 		moverDisparosMalos();	//mover disparos
 		borrarDisparosMalos();	//borro disparos
-		pintarDisparosMalo();	//Pinto Disparos
+		pintarDisparosMalos();	//Pinto Disparos
 		
 		//Pinto las estrellas
 		if ((ESTRELLAS_ACTIVADAS) && (estrellasMovidas)){
@@ -1432,7 +1523,7 @@ unsigned char game()
 			cpc_PrintGphStr(aux_txt,0xc050);
 		}
 		
-		if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_activos_malos)){
+		if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos)){
 			state = STATE_LOSE;
 			break;
 		}
@@ -1449,24 +1540,22 @@ unsigned char game()
 		}
 		
 		
-		if ((malos_activos==0) && (explosiones_activas==0) && (!disparos_activos) && (!disparos_activos_malos)){
+		if ((malos_activos==0) && (explosiones_activas==0) && (!disparos_activos) && (!disparos_malos_activos)){
 			state = STATE_LEVELUP;
 			break;
 		}
 		
 	}
 	
-	
+	if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+	timerOff();
 	return state;
 }
 
 //Setup inicial
 void InitialSetUp() {
 	
-	//cpc_DisableFirmware();
-	
-	interrupciones();
-	//halt_me();
+	cpc_DisableFirmware();
 	
 	set_colours();
 	cpc_SetMode(0);				//hardware call to set mode 0
@@ -1476,12 +1565,6 @@ void InitialSetUp() {
 
 	inicializarTeclado();
 	
-	nivel=1;
-	prota.vidas=3;
-
-	//Inicializo putuacion
-	cambio_score=0;
-	score=0;
 
 	if (SONIDO_ACTIVADO){	
 		cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
@@ -1513,15 +1596,28 @@ int main() {
 			break;
 
 		case STATE_GAME:
-			state = game();
+			nivel=1;
+			prota.vidas=3;
+			//Inicializo putuacion
+			cambio_score=0;
+			score=0;
+			//bucle de juego y subida de nivel
+			while ((state!=STATE_LOSE) && (state!=STATE_WIN) && (state!=STATE_MENU)) {
+				
+				if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+				state = game();
+				if (SONIDO_ACTIVADO){	
+					cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
+					cpc_WyzLoadSong(0);
+					cpc_WyzSetPlayerOn();
+				}
+				if (state==STATE_LEVELUP)
+				state=levelUp();
+			}
 			break;
 
 		case STATE_WIN:
 			state = win();
-			break;
-			
-		case STATE_LEVELUP:
-			state = levelUp();
 			break;
 			
 		case STATE_LOSE:
