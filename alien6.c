@@ -5,6 +5,7 @@
 #include "estructuras.h"
 #include "sprites.h"
 
+// Definición de teclas
 #define KEY_LEFT	0
 #define KEY_RIGHT	1
 #define KEY_UP		2
@@ -17,10 +18,9 @@
 #define KEY_ME4		9
 #define KEY_DEBUG	10
 #define KEY_HOSTILITY	11
-
+// Modo Debug
 #define DEBUG 1
-
-
+// Automata de estados
 #define STATE_MENU    2
 #define STATE_HELP    3
 #define STATE_GAME    4
@@ -31,30 +31,33 @@
 #define STATE_REDEFINE    9
 #define STATE_DEBUG 10
 #define INITIAL_STATE STATE_MENU
-
+//Definiciones para los malos
 #define BADDIE_FORMATION 1
 #define BADDIE_ATTACK 2
 #define BADDIE_PATH 3
-
-
+// Definiciones para el mapa de estrellas
 #define STARS_NUM 10
 #define ESTRELLAS_ACTIVADAS 1
 #define VELOCIDAD_ESTRELLAS 10
-
+// Definiciones del disparo del prota 
 #define MAX_DISPAROS 2
 #define SALTO_DISPARO 4
 #define SALTO_DISPARO_MALO 2
-
+//Definiciones de los malos
 #define MAX_MALOS 6
 #define MAX_EXPLOSIONES 6
 #define MAX_ATAQUES 3
+#define VELOCIDAD_ATAQUE 8
 #define PROTA_SPEED 10
 #define SONIDO_ACTIVADO 1
 
 #define MAX_ADDONES 2
 #define VELOCIDAD_EXPLOSIONES 30
 
-#define VELOCIDAD_ATAQUE 8
+
+//Explosiones prota
+#define	SALTO_EXPLOSION_PROTA 4
+#define VELOCIDAD_EXPLOSION_PROTA 40
 
 unsigned int timer0 = 0;
 unsigned int timer1 = 0;
@@ -79,6 +82,12 @@ TIPO_EXPLOSION explosiones[12];
 unsigned char explosiones_activas;
 void *explosion_sprite[2][4];
 long explosiones_lastUpdated;
+//Explosión Prota
+TIPO_EXPLOSION_PROTA explosiones_prota[5];
+long explosion_prota_lastUpdated;
+unsigned char fase_explosion_prota;
+unsigned char explosion_prota_activada;
+unsigned char fin_explosion_prota;
 //Autómata de estados
 char state;
 char previous_state;
@@ -102,6 +111,8 @@ TIPO_ADDON addones[MAX_ADDONES];
 unsigned char addones_activos;
 void *addon_sprite[4];
 
+// Timer On
+//Procedmiento que activa el temporizador en las interrupciones
 void timerOn(void) {
 	__asm
 	DI
@@ -133,7 +144,8 @@ desborde:
 term:
 	__endasm;
 }
-
+//Timer Off
+//Detiene el temporizador y vuelve al modo de firmware desactivado
 void timerOff(void) {
 	__asm
 	DI
@@ -146,7 +158,8 @@ void timerOff(void) {
 	__endasm;
 }
 
-
+//Get Time
+//Obtiene el valor del temporizador
 unsigned long getTime()
 {
 	unsigned long nTime = 0;
@@ -164,7 +177,8 @@ void halt_me () {
 	__endasm;
 }
 
-
+// SCR WAIT VSYNC
+//Sincronización vertical
 void scr_waitVSYNC() {
 	__asm 
 	// Check if we are in VSYNC zone
@@ -340,8 +354,73 @@ void moverEstrellas(){
 	}
 }
 
+//
+//EXPLOSION PROTA
+//
 
+//Crear explosion Prota
+void crearExplosionProta(unsigned char x, unsigned char y){
+	unsigned char i = 0;
+	
+	explosiones_prota[0].cx=x-SALTO_EXPLOSION_PROTA;
+	explosiones_prota[0].cy=y;
+	explosiones_prota[1].cx=x-SALTO_EXPLOSION_PROTA;
+	explosiones_prota[1].cy=y-SALTO_EXPLOSION_PROTA;
+	explosiones_prota[2].cx=x;
+	explosiones_prota[2].cy=y-SALTO_EXPLOSION_PROTA;
+	explosiones_prota[3].cx=x+SALTO_EXPLOSION_PROTA;
+	explosiones_prota[4].cy=y-SALTO_EXPLOSION_PROTA;
+	explosiones_prota[4].cx=x+SALTO_EXPLOSION_PROTA;
+	explosiones_prota[4].cy=y;
+	for (i=0;i<5;i++){
+		explosiones_prota[i].memoriaPantalla=0;
+		explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
+		cpc_PutSpXOR((char *)explosion_sprite[0][0],16,4,explosiones_prota[i].memoriaPantalla);
+	}
+	fase_explosion_prota=0;
+	fin_explosion_prota=0;
+	explosion_prota_lastUpdated = getTime();
+	explosion_prota_activada=1;
+}
+//Animar Explosiones
+void animarExplosionProta(){
+	if ((explosion_prota_activada) && (fase_explosion_prota<4)){
+				fase_explosion_prota++;
+				explosiones_prota[0].cx-SALTO_EXPLOSION_PROTA;
+				explosiones_prota[1].cx-SALTO_EXPLOSION_PROTA;
+				explosiones_prota[1].cy-SALTO_EXPLOSION_PROTA;
+				explosiones_prota[2].cy-SALTO_EXPLOSION_PROTA;
+				explosiones_prota[3].cx+SALTO_EXPLOSION_PROTA;
+				explosiones_prota[3].cy-SALTO_EXPLOSION_PROTA;
+				explosiones_prota[4].cx-SALTO_EXPLOSION_PROTA;
+			} else if (fase_explosion_prota>3)
+	fin_explosion_prota=1;
+}
 
+//Actualizar Explosion Prota
+void actualizarExplosionProta(){
+	unsigned char i=0;
+	if (explosion_prota_activada){
+		for (i=0;i<5;i++){
+			cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
+		}
+		if (!fin_explosion_prota){
+			for (i=0;i<5;i++){
+				explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
+				cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
+			}
+		} else{
+			fin_explosion_prota=0;
+			explosion_prota_activada=0;
+		}
+	}
+}
+
+//
+//EXPLOSIONES
+//
+
+//Inicializar Explosiones
 void inicializarExplosiones(){
 	unsigned char i = 0;
 	
@@ -368,8 +447,7 @@ void inicializarExplosiones(){
 	explosion_sprite[1][2]=&toque002;
 	explosion_sprite[1][3]=&toque003;
 }
-
-//crear explosion
+//Crear explosion
 void crearExplosion(unsigned char tipo, unsigned char x, unsigned char y){
 	unsigned char i;
 	i=0;
@@ -392,7 +470,7 @@ void crearExplosion(unsigned char tipo, unsigned char x, unsigned char y){
 	explosiones_activas++;
 	cpc_PutSpXOR((char *)explosion_sprite[tipo][0],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
 }
-
+//Actualizar Explosiones
 void actualizarExplosiones(){
 	unsigned char i=0;
 	if (explosiones_activas>0){
@@ -403,7 +481,7 @@ void actualizarExplosiones(){
 		}
 	}
 }
-
+//Animar Explosiones
 void animarExplosiones(){
 	unsigned char i=0;
 	if (explosiones_activas>0){
@@ -414,10 +492,7 @@ void animarExplosiones(){
 				}
 				else {
 					//borrar explosion
-					explosiones[i].fase=0;
 					explosiones[i].activo=0;
-					explosiones[i].cx=0;
-					explosiones[i].cy=0;
 					explosiones_activas--;
 				}
 				
@@ -427,8 +502,11 @@ void animarExplosiones(){
 
 }
 
+//
+//DISPAROS MALOS
+//
 
-//disparos malos
+//Inicializar Disparos Malos
 void inicializarDisparosMalos(){
 	unsigned char k;
 	k=0;
@@ -445,7 +523,7 @@ void inicializarDisparosMalos(){
 	}
 	disparos_malos_activos=0;
 }
-
+//Crear Disparo Malo
 void crearDisparoMalo(unsigned char x, unsigned char y, unsigned speed){
 	unsigned char k;
 	k=0;
@@ -466,7 +544,7 @@ void crearDisparoMalo(unsigned char x, unsigned char y, unsigned speed){
 	disparos_malos_activos++;
 	if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 }
-
+//Mover Disparos Malos
 void moverDisparosMalos(){
 	unsigned char i;
 	long lapso;
@@ -484,7 +562,8 @@ void moverDisparosMalos(){
 						//matar malo
 						prota.dead=1;
 						//crear explosión
-						crearExplosion(0, prota.cx, prota.cy);
+						//crearExplosion(0, prota.cx, prota.cy);    //explosion sencilla
+						crearExplosionProta(prota.cx, prota.cy);  //explosion chula
 						//sonido explosion
 						if (SONIDO_ACTIVADO) cpc_WyzStartEffect(2,2);
 						hostilidad=0;
@@ -499,7 +578,7 @@ void moverDisparosMalos(){
 	}
 
 }
-
+//Borrar Disparos Malos
 void borrarDisparosMalos(){
 	unsigned char k;
 	k=0;
@@ -515,9 +594,7 @@ void borrarDisparosMalos(){
 		}
 	}
 }
-
-
-
+//Pintar Disparos Malos
 void pintarDisparosMalos(){
 	unsigned char k;
 	k=0;
@@ -535,6 +612,11 @@ void pintarDisparosMalos(){
 		}
 	}
 }
+
+//
+// ADDONES
+//
+
 //Inicializo los addones, pero solo los campos necesarios para la carga
 void inicializarAddones(){
 	unsigned char i;
@@ -548,6 +630,7 @@ void inicializarAddones(){
 	addon_sprite[2]=&addones002;
 	addon_sprite[3]=&addones003;
 }
+//Crear Addon
 void crearAddon(unsigned char posx, unsigned char posy){
 	unsigned char i;
 	unsigned char aux;
@@ -556,28 +639,28 @@ void crearAddon(unsigned char posx, unsigned char posy){
 		i++;
 	}
 	if (i<MAX_ADDONES){
-	
-	addones[i].activo=1;
-	//calculo el tipo de addon en base a un valor aleatorio y una probabilidad 40% escudo, 40% rafaga, 15% freeza, 5% vida extra
-	aux=cpc_Random();
-	if (aux<108)
-	addones[i].tipo=0;
-	else if (aux<216)
-	addones[i].tipo=1;
-	else if (aux<243)
-	addones[i].tipo=2;
-	else
-	addones[i].tipo=3;
-	addones[i].x=posx;
-	addones[i].y=posy+10;
-	addones[i].moved=0;
-	addones[i].lastmoved=0;
-	addones[i].speed=40;
-	//Aumentar el contador de addones activos
-	addones_activos++;
+		
+		addones[i].activo=1;
+		//calculo el tipo de addon en base a un valor aleatorio y una probabilidad 40% escudo, 40% rafaga, 15% freeza, 5% vida extra
+		aux=cpc_Random();
+		if (aux<108)
+		addones[i].tipo=0;
+		else if (aux<216)
+		addones[i].tipo=1;
+		else if (aux<243)
+		addones[i].tipo=2;
+		else
+		addones[i].tipo=3;
+		addones[i].x=posx;
+		addones[i].y=posy+10;
+		addones[i].moved=0;
+		addones[i].lastmoved=0;
+		addones[i].speed=40;
+		//Aumentar el contador de addones activos
+		addones_activos++;
 	}
 }
-//borrar Addones
+//Borrar Addones
 void borrarAddones(){
 	unsigned char i = 0;
 	if (addones_activos>0){
@@ -588,7 +671,7 @@ void borrarAddones(){
 		}
 	}
 }
-//mover addones
+//Mover addones
 void moverAddones(){
 	unsigned char i;
 	long lapso;
@@ -622,6 +705,10 @@ void pintarAddones(){
 	}
 }
 
+//
+//ATAQUES
+//
+
 //Inicializo los ataques, pero solo los campos necesarios para la carga
 void inicializarAtaques(){
 	unsigned char i;
@@ -632,7 +719,7 @@ void inicializarAtaques(){
 	}
 	ataques_activos=0;
 }
-
+// Crear Ataque
 void crearAtaque(unsigned char malo){
 	unsigned char i;
 	i=0;
@@ -640,16 +727,21 @@ void crearAtaque(unsigned char malo){
 		i++;
 	}
 	if (i<max_ataques_activos){
-	ataques[i].activo=1;
-	ataques[i].idMalo=malo;
-	ataques[i].step=0;
-	ataques_activos++;
-	malos[malo].movement=1;
-	malos[malo].formSpeed=malos[malo].speed;
-	malos[malo].speed=VELOCIDAD_ATAQUE;
+		ataques[i].activo=1;
+		ataques[i].idMalo=malo;
+		ataques[i].step=0;
+		ataques_activos++;
+		malos[malo].movement=1;
+		malos[malo].formSpeed=malos[malo].speed;
+		malos[malo].speed=VELOCIDAD_ATAQUE;
 	}
 }
 
+//
+//MALOS
+//
+
+//Malos a Cero
 void malosACero(){
 	unsigned char i = 0;
 	for (i=0;i < MAX_MALOS;i++){
@@ -1008,19 +1100,19 @@ void moverDisparos(){
 									malos[j].dead=1;
 									//y si estaba atacando...
 									if (malos[j].movement==1){
-											k=0;
-											while ((ataques[k].idMalo!=j)&&(!ataques[k].activo))
-												k++;
-											ataques[k].activo=0;
-											ataques_activos--;
-											//actualizar puntuación ataque
-											score+=100;
-											cambio_score=1;
+										k=0;
+										while ((ataques[k].idMalo!=j)&&(!ataques[k].activo))
+										k++;
+										ataques[k].activo=0;
+										ataques_activos--;
+										//actualizar puntuación ataque
+										score+=100;
+										cambio_score=1;
 									} else {
 										//actualizar puntuación no ataque
 										score+=50;
 										cambio_score=1;
-										}
+									}
 									//crear explosión
 									crearExplosion(0, malos[j].cx, malos[j].cy);
 									//sonido explosion
@@ -1418,6 +1510,8 @@ void inicializarNivel(){
 	//inicializar explosiones
 	inicializarExplosiones();
 	explosiones_lastUpdated=0; //La última vez que se actualizaron las explosiones
+	//gestion explosión prota
+	explosion_prota_activada=0;
 	
 	pintarMalos();
 	pintarProta();
@@ -1461,18 +1555,18 @@ unsigned char game()
 
 		//Espera al barrido
 		//scr_waitVSYNC();
+		
 		if ((DEBUG) && (cpc_TestKey(KEY_DEBUG)==1)){			// DEBUG
 			debug();
 		}
-		//Bloque de movimiento 
+		
+		//Estrellas
 		if ((ESTRELLAS_ACTIVADAS) && (getTime()-lastMovedEstrella>VELOCIDAD_ESTRELLAS)){
 			estrellasMovidas=1;
 			moverEstrellas();
 			borrarEstrellas();
 			lastMovedEstrella=getTime();
 		}
-		
-		
 		//Mostrar explosiones
 		if ((explosiones_activas>0)&&((getTime()-explosiones_lastUpdated)>VELOCIDAD_EXPLOSIONES)){
 			actualizarExplosiones();
@@ -1480,9 +1574,6 @@ unsigned char game()
 			actualizarExplosiones();
 			explosiones_lastUpdated=getTime();
 		}
-		
-		
-
 		//mover al protagonista
 		if ((getTime()-prota.lastmoved)>prota.speed){
 			prota.lastmoved=getTime();
@@ -1490,6 +1581,13 @@ unsigned char game()
 			borrarProta();	//borro al prota
 			pintarProta();	//Pinto al protagonista
 		}
+		//Mostrar explosiones del protagonista
+		if ((explosion_prota_activada>0)&&((getTime()-explosion_prota_lastUpdated)>VELOCIDAD_EXPLOSION_PROTA)){
+			animarExplosiones();
+			actualizarExplosiones();
+			explosion_prota_lastUpdated=getTime();
+		}
+		
 		//addones
 		borrarAddones();
 		moverAddones();
@@ -1523,7 +1621,7 @@ unsigned char game()
 			cpc_PrintGphStr(aux_txt,0xc050);
 		}
 		
-		if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos)){
+		if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos) && (!explosion_prota_activada)){
 			state = STATE_LOSE;
 			break;
 		}

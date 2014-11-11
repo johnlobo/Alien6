@@ -2,11 +2,12 @@
 -i alien6.ihx
 -b _CODE = 0x2038
 -b _DATA = 0x0000
--k D:\programas\SDCC\bin\..\lib\z80
+-k C:\Program Files\SDCC\bin\..\lib\z80
 -l cpcrslib.lib
 -l cpcwyzlib.lib
 -l z80
 alien6.rel
 crt0_cpc.rel
+putchar_cpc.rel
 
 -e

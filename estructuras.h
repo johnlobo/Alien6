@@ -76,6 +76,13 @@ typedef struct {
 	unsigned char speed;
 	long lastmoved;
 } TIPO_EXPLOSION;
+//EXPLOSION
+typedef struct {
+	unsigned char cx;
+	unsigned char cy;	//2 bytes 89 	current coordinates
+	int memoriaPantalla;
+} TIPO_EXPLOSION_PROTA;
+//ESTRELLA
 typedef struct
 {
 	unsigned char nX;
