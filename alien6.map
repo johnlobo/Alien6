@@ -28,23 +28,23 @@ Area                                    Addr        Size        Decimal Bytes (A
      0000035F  l__INITIALIZED                  
      0000035F  l__INITIALIZER                  
      00002038  s__CODE                         
-     00005FB5  l__CODE                         
-     00007FED  s__DATA                         
-     000082BE  s__INITIALIZED                  
-     0000861D  s__GSINIT                       
-     0000861D  s__HOME                         
-     0000862C  s__GSFINAL                      
-     0000862D  s__INITIALIZER                  
-     0000898C  s__BSEG                         
-     0000898C  s__BSS                          
-     0000898C  s__HEAP                         
+     00005F85  l__CODE                         
+     00007FBD  s__DATA                         
+     0000828E  s__INITIALIZED                  
+     000085ED  s__GSINIT                       
+     000085ED  s__HOME                         
+     000085FC  s__GSFINAL                      
+     000085FD  s__INITIALIZER                  
+     0000895C  s__BSEG                         
+     0000895C  s__BSS                          
+     0000895C  s__HEAP                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002038    00005FB5 =       24501. bytes (REL,CON)
+_CODE                               00002038    00005F85 =       24453. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -103,399 +103,396 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002038    00005FB5 =       24501. bytes (REL,CON)
+_CODE                               00002038    00005F85 =       24453. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00002B77  _moverEstrellas_start              alien6
      00002B77  _pintarEstrellas_end               alien6
-     00002BD8  _crearExplosionProta               alien6
-     00002BD8  _crearExplosionProta_start         alien6
-     00002BD8  _moverEstrellas_end                alien6
-     00002CDC  _animarExplosionProta              alien6
-     00002CDC  _animarExplosionProta_start        alien6
-     00002CDC  _crearExplosionProta_end           alien6
-     00002CFE  _actualizarExplosionProta          alien6
-     00002CFE  _actualizarExplosionProta_start    alien6
-     00002CFE  _animarExplosionProta_end          alien6
-     00002DF6  _actualizarExplosionProta_end      alien6
-     00002DF6  _inicializarExplosiones            alien6
-     00002DF6  _inicializarExplosiones_start      alien6
-     00002E8A  _crearExplosion                    alien6
-     00002E8A  _crearExplosion_start              alien6
-     00002E8A  _inicializarExplosiones_end        alien6
-     00003000  _actualizarExplosiones             alien6
-     00003000  _actualizarExplosiones_start       alien6
-     00003000  _crearExplosion_end                alien6
-     000030C4  _actualizarExplosiones_end         alien6
-     000030C4  _animarExplosiones                 alien6
-     000030C4  _animarExplosiones_start           alien6
-     00003103  _animarExplosiones_end             alien6
-     00003103  _inicializarDisparosMalos          alien6
-     00003103  _inicializarDisparosMalos_start    alien6
-     00003176  _crearDisparoMalo                  alien6
-     00003176  _crearDisparoMalo_start            alien6
-     00003176  _inicializarDisparosMalos_end      alien6
-     0000322F  _crearDisparoMalo_end              alien6
-     0000322F  _moverDisparosMalos                alien6
-     0000322F  _moverDisparosMalos_start          alien6
-     00003411  _borrarDisparosMalos               alien6
-     00003411  _borrarDisparosMalos_start         alien6
-     00003411  _moverDisparosMalos_end            alien6
-     000034EE  _borrarDisparosMalos_end           alien6
-     000034EE  _pintarDisparosMalos               alien6
-     000034EE  _pintarDisparosMalos_start         alien6
-     00003666  _inicializarAddones                alien6
-     00003666  _inicializarAddones_start          alien6
-     00003666  _pintarDisparosMalos_end           alien6
-     0000369B  _crearAddon                        alien6
-     0000369B  _crearAddon_start                  alien6
-     0000369B  _inicializarAddones_end            alien6
-     0000376D  _borrarAddones                     alien6
-     0000376D  _borrarAddones_start               alien6
-     0000376D  _crearAddon_end                    alien6
-     00003823  _borrarAddones_end                 alien6
-     00003823  _moverAddones                      alien6
-     00003823  _moverAddones_start                alien6
-     00003929  _moverAddones_end                  alien6
+     00002BD6  _crearExplosionProta               alien6
+     00002BD6  _crearExplosionProta_start         alien6
+     00002BD6  _moverEstrellas_end                alien6
+     00002CD6  _animarExplosionProta              alien6
+     00002CD6  _animarExplosionProta_start        alien6
+     00002CD6  _crearExplosionProta_end           alien6
+     00002D13  _actualizarExplosionProta          alien6
+     00002D13  _actualizarExplosionProta_start    alien6
+     00002D13  _animarExplosionProta_end          alien6
+     00002E0B  _actualizarExplosionProta_end      alien6
+     00002E0B  _inicializarExplosiones            alien6
+     00002E0B  _inicializarExplosiones_start      alien6
+     00002E9F  _crearExplosion                    alien6
+     00002E9F  _crearExplosion_start              alien6
+     00002E9F  _inicializarExplosiones_end        alien6
+     00003015  _actualizarExplosiones             alien6
+     00003015  _actualizarExplosiones_start       alien6
+     00003015  _crearExplosion_end                alien6
+     000030D9  _actualizarExplosiones_end         alien6
+     000030D9  _animarExplosiones                 alien6
+     000030D9  _animarExplosiones_start           alien6
+     00003118  _animarExplosiones_end             alien6
+     00003118  _inicializarDisparosMalos          alien6
+     00003118  _inicializarDisparosMalos_start    alien6
+     0000318B  _crearDisparoMalo                  alien6
+     0000318B  _crearDisparoMalo_start            alien6
+     0000318B  _inicializarDisparosMalos_end      alien6
+     00003244  _crearDisparoMalo_end              alien6
+     00003244  _moverDisparosMalos                alien6
+     00003244  _moverDisparosMalos_start          alien6
+     00003426  _borrarDisparosMalos               alien6
+     00003426  _borrarDisparosMalos_start         alien6
+     00003426  _moverDisparosMalos_end            alien6
+     00003503  _borrarDisparosMalos_end           alien6
+     00003503  _pintarDisparosMalos               alien6
+     00003503  _pintarDisparosMalos_start         alien6
+     0000367B  _inicializarAddones                alien6
+     0000367B  _inicializarAddones_start          alien6
+     0000367B  _pintarDisparosMalos_end           alien6
+     000036B0  _crearAddon                        alien6
+     000036B0  _crearAddon_start                  alien6
+     000036B0  _inicializarAddones_end            alien6
+     00003782  _borrarAddones                     alien6
+     00003782  _borrarAddones_start               alien6
+     00003782  _crearAddon_end                    alien6
+     00003838  _borrarAddones_end                 alien6
+     00003838  _moverAddones                      alien6
+     00003838  _moverAddones_start                alien6
+     0000393E  _moverAddones_end                  alien6
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002038    00005FB5 =       24501. bytes (REL,CON)
+_CODE                               00002038    00005F85 =       24453. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00003929  _pintarAddones                     alien6
-     00003929  _pintarAddones_start               alien6
-     00003A25  _inicializarAtaques                alien6
-     00003A25  _inicializarAtaques_start          alien6
-     00003A25  _pintarAddones_end                 alien6
-     00003A58  _crearAtaque                       alien6
-     00003A58  _crearAtaque_start                 alien6
-     00003A58  _inicializarAtaques_end            alien6
-     00003AD6  _crearAtaque_end                   alien6
-     00003AD6  _malosACero                        alien6
-     00003AD6  _malosACero_start                  alien6
-     00003B62  _cargarMalo                        alien6
-     00003B62  _cargarMalo_start                  alien6
-     00003B62  _malosACero_end                    alien6
-     00003D53  _cargarMalo_end                    alien6
-     00003D53  _inicializarMalos                  alien6
-     00003D53  _inicializarMalos_start            alien6
-     00004182  _borrarMalos                       alien6
-     00004182  _borrarMalos_start                 alien6
-     00004182  _inicializarMalos_end              alien6
-     000042B9  _borrarMalos_end                   alien6
-     000042B9  _moverMalos                        alien6
-     000042B9  _moverMalos_start                  alien6
-     00004812  _moverMalos_end                    alien6
-     00004812  _pintarMalos                       alien6
-     00004812  _pintarMalos_start                 alien6
-     0000494D  _inicializarDisparos               alien6
-     0000494D  _inicializarDisparos_start         alien6
-     0000494D  _pintarMalos_end                   alien6
-     000049BC  _crearDisparo                      alien6
-     000049BC  _crearDisparo_start                alien6
-     000049BC  _inicializarDisparos_end           alien6
-     00004A67  _crearDisparo_end                  alien6
-     00004A67  _moverDisparos                     alien6
-     00004A67  _moverDisparos_start               alien6
-     00004E86  _borrarDisparos                    alien6
-     00004E86  _borrarDisparos_start              alien6
-     00004E86  _moverDisparos_end                 alien6
-     00004F7C  _borrarDisparos_end                alien6
-     00004F7C  _pintarDisparos                    alien6
-     00004F7C  _pintarDisparos_start              alien6
-     000050D7  _inicializarProta                  alien6
-     000050D7  _inicializarProta_start            alien6
-     000050D7  _pintarDisparos_end                alien6
-     0000511D  _borrarProta                       alien6
-     0000511D  _borrarProta_start                 alien6
-     0000511D  _inicializarProta_end              alien6
-     00005163  _borrarProta_end                   alien6
-     00005163  _moverProta                        alien6
-     00005163  _moverProta_start                  alien6
-     00005290  _moverProta_end                    alien6
+     0000393E  _pintarAddones                     alien6
+     0000393E  _pintarAddones_start               alien6
+     00003A3A  _inicializarAtaques                alien6
+     00003A3A  _inicializarAtaques_start          alien6
+     00003A3A  _pintarAddones_end                 alien6
+     00003A6D  _crearAtaque                       alien6
+     00003A6D  _crearAtaque_start                 alien6
+     00003A6D  _inicializarAtaques_end            alien6
+     00003AEB  _crearAtaque_end                   alien6
+     00003AEB  _malosACero                        alien6
+     00003AEB  _malosACero_start                  alien6
+     00003B77  _cargarMalo                        alien6
+     00003B77  _cargarMalo_start                  alien6
+     00003B77  _malosACero_end                    alien6
+     00003D68  _cargarMalo_end                    alien6
+     00003D68  _inicializarMalos                  alien6
+     00003D68  _inicializarMalos_start            alien6
+     00004197  _borrarMalos                       alien6
+     00004197  _borrarMalos_start                 alien6
+     00004197  _inicializarMalos_end              alien6
+     000042CE  _borrarMalos_end                   alien6
+     000042CE  _moverMalos                        alien6
+     000042CE  _moverMalos_start                  alien6
+     000047F0  _moverMalos_end                    alien6
+     000047F0  _pintarMalos                       alien6
+     000047F0  _pintarMalos_start                 alien6
+     0000492B  _inicializarDisparos               alien6
+     0000492B  _inicializarDisparos_start         alien6
+     0000492B  _pintarMalos_end                   alien6
+     0000499A  _crearDisparo                      alien6
+     0000499A  _crearDisparo_start                alien6
+     0000499A  _inicializarDisparos_end           alien6
+     00004A45  _crearDisparo_end                  alien6
+     00004A45  _moverDisparos                     alien6
+     00004A45  _moverDisparos_start               alien6
+     00004E64  _borrarDisparos                    alien6
+     00004E64  _borrarDisparos_start              alien6
+     00004E64  _moverDisparos_end                 alien6
+     00004F5A  _borrarDisparos_end                alien6
+     00004F5A  _pintarDisparos                    alien6
+     00004F5A  _pintarDisparos_start              alien6
+     000050B5  _inicializarProta                  alien6
+     000050B5  _inicializarProta_start            alien6
+     000050B5  _pintarDisparos_end                alien6
+     000050FB  _borrarProta                       alien6
+     000050FB  _borrarProta_start                 alien6
+     000050FB  _inicializarProta_end              alien6
+     00005141  _borrarProta_end                   alien6
+     00005141  _moverProta                        alien6
+     00005141  _moverProta_start                  alien6
+     0000526E  _moverProta_end                    alien6
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002038    00005FB5 =       24501. bytes (REL,CON)
+_CODE                               00002038    00005F85 =       24453. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00005290  _pintarProta                       alien6
-     00005290  _pintarProta_start                 alien6
-     000052D5  _inicializarTeclado                alien6
-     000052D5  _inicializarTeclado_start          alien6
-     000052D5  _pintarProta_end                   alien6
-     00005366  _inicializarTeclado_end            alien6
-     00005366  _mostrarVidasProta                 alien6
-     00005366  _mostrarVidasProta_start           alien6
-     000053C1  _mostrarVidasProta_end             alien6
-     000053C1  _pintarBanderasNivel               alien6
-     000053C1  _pintarBanderasNivel_start         alien6
-     000054AB  _inicializarPartida                alien6
-     000054AB  _inicializarPartida_start          alien6
-     000054AB  _pintarBanderasNivel_end           alien6
-     000054C0  _debug                             alien6
-     000054C0  _debug_start                       alien6
-     000054C0  _inicializarPartida_end            alien6
-     0000556E  _debug_end                         alien6
-     000055CC  _help                              alien6
-     000055CC  _help_start                        alien6
-     0000561E  _help_end                          alien6
-     00005688  _gameOver                          alien6
-     00005688  _gameOver_start                    alien6
-     0000570C  _gameOver_end                      alien6
-     00005753  _levelUp                           alien6
-     00005753  _levelUp_start                     alien6
-     000057FD  _levelUp_end                       alien6
-     00005846  _win                               alien6
-     00005846  _win_start                         alien6
-     000058D1  _win_end                           alien6
-     00005918  _redefineKeys                      alien6
-     00005918  _redefineKeys_start                alien6
-     000059E7  _redefineKeys_end                  alien6
-     00005A25  _pintarMenu                        alien6
-     00005A25  _pintarMenu_start                  alien6
-     00005A94  _pintarMenu_end                    alien6
-     00005AF5  _menu                              alien6
-     00005AF5  _menu_start                        alien6
-     00005B8A  _inicializarNivel                  alien6
-     00005B8A  _inicializarNivel_start            alien6
-     00005B8A  _menu_end                          alien6
-     00005C64  _inicializarNivel_end              alien6
-     00005C82  _game                              alien6
-     00005C82  _game_start                        alien6
-     00005F8E  _game_end                          alien6
-     00005F93  _InitialSetUp                      alien6
-     00005F93  _InitialSetUp_start                alien6
-     00005FD1  _InitialSetUp_end                  alien6
-     00005FD1  _main                              alien6
-     00005FD1  _main_start                        alien6
-     000060B0  __clock                            crt0
+     0000526E  _pintarProta                       alien6
+     0000526E  _pintarProta_start                 alien6
+     000052B3  _inicializarTeclado                alien6
+     000052B3  _inicializarTeclado_start          alien6
+     000052B3  _pintarProta_end                   alien6
+     00005344  _inicializarTeclado_end            alien6
+     00005344  _mostrarVidasProta                 alien6
+     00005344  _mostrarVidasProta_start           alien6
+     0000539F  _mostrarVidasProta_end             alien6
+     0000539F  _pintarBanderasNivel               alien6
+     0000539F  _pintarBanderasNivel_start         alien6
+     00005489  _inicializarPartida                alien6
+     00005489  _inicializarPartida_start          alien6
+     00005489  _pintarBanderasNivel_end           alien6
+     0000549E  _debug                             alien6
+     0000549E  _debug_start                       alien6
+     0000549E  _inicializarPartida_end            alien6
+     0000554C  _debug_end                         alien6
+     000055AA  _help                              alien6
+     000055AA  _help_start                        alien6
+     000055FC  _help_end                          alien6
+     00005666  _gameOver                          alien6
+     00005666  _gameOver_start                    alien6
+     000056EA  _gameOver_end                      alien6
+     00005731  _levelUp                           alien6
+     00005731  _levelUp_start                     alien6
+     000057DB  _levelUp_end                       alien6
+     00005824  _win                               alien6
+     00005824  _win_start                         alien6
+     000058AF  _win_end                           alien6
+     000058F6  _redefineKeys                      alien6
+     000058F6  _redefineKeys_start                alien6
+     000059C5  _redefineKeys_end                  alien6
+     00005A03  _pintarMenu                        alien6
+     00005A03  _pintarMenu_start                  alien6
+     00005A72  _pintarMenu_end                    alien6
+     00005AD3  _menu                              alien6
+     00005AD3  _menu_start                        alien6
+     00005B68  _inicializarNivel                  alien6
+     00005B68  _inicializarNivel_start            alien6
+     00005B68  _menu_end                          alien6
+     00005C42  _inicializarNivel_end              alien6
+     00005C60  _game                              alien6
+     00005C60  _game_start                        alien6
+     00005F6C  _game_end                          alien6
+     00005F71  _InitialSetUp                      alien6
+     00005F71  _InitialSetUp_start                alien6
+     00005FAF  _InitialSetUp_end                  alien6
+     00005FAF  _main                              alien6
+     00005FAF  _main_start                        alien6
+     0000608E  __clock                            crt0
 ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002038    00005FB5 =       24501. bytes (REL,CON)
+_CODE                               00002038    00005F85 =       24453. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000060B0  _main_end                          alien6
-     000060B1  _exit                              crt0
-     000060B2  _putchar                           
-     000060B2  _putchar_rr_s                      
-     000060BB  _putchar_rr_dbs                    
-     000060C0  _cpc_AnyKeyPressed                 
-     000060EF  _cpc_AssignKey                     
-     0000610C  _cpc_TestKey                       
-     0000612B  _cpc_RedefineKey                   
-     0000619C  _cpc_DeleteKeys                    
-     000061AA  _cpc_TestKeyF                      
-     000061D2  _cpc_ScanKeyboard                  
-     00006205  cpc_TestKeyboard                   
-     000062C2  _cpc_PrintGphStr2X                 
-     000062D9  _cpc_PrintGphStrXY2X               
-     000062F3  _cpc_PrintGphStrXY                 
-     0000630B  _cpc_PrintGphStr                   
-     0000645D  _cpc_SetInkGphStr                  
-     00006471  _cpc_PrintGphStrXYM1               
-     0000648A  _cpc_PrintGphStrXYM12X             
-     000064A4  _cpc_PrintGphStrM12X               
-     000064BB  _cpc_PrintGphStrM1                 
-     000065B1  _cpc_SetInkGphStrM1                
-     0000676A  _cpc_WyzConfigurePlayer            
-     00006773  _cpc_WyzInitPlayer                 
-     0000679E  _cpc_WyzLoadSong                   
-     000067A6  _cpc_WyzSetTempo                   
-     000067AF  _cpc_WyzStartEffect                
-     000067B9  _cpc_WyzTestPlayer                 
-     000067C1  _cpc_WyzPlayer                     
-     000067C1  _cpc_WyzSetPlayerOn                
-     000067EA  _cpc_WyzSetPlayerOff               
-     000067EA  _cpc_WyzSetPlayerOff1              
-     00006F0E  _cpc_SetMode                       
-     00006F1C  _cpc_SetModo                       
-     00006F24  _cpc_SetColour                     
-     00006F36  _cpc_SetInk                        
-     00006F41  _cpc_SetBorder                     
-     00006F4A  _cpc_Random                        
-     00006F59  _cpc_ClrScr                        
-     00006F67  _cpc_PrintStr                      
-     00006F87  _cpc_DisableFirmware               
-     00006F9A  _cpc_EnableFirmware                
-     00006FA7  _cpc_GetScrAddress                 
-     00007018  _cpc_RLI                           
-     00007054  _cpc_RRI                           
-     00007090  _cpc_CollSp                        
-     00007105  __divsuchar_rrx_s                  
-     00007111  __divuschar_rrx_s                  
-     00007120  __moduchar_rrx_s                   
-     00007127  __moduchar_rrx_hds                 
+     0000608E  _main_end                          alien6
+     0000608F  _exit                              crt0
+     00006090  _cpc_AnyKeyPressed                 
+     000060BF  _cpc_AssignKey                     
+     000060DC  _cpc_TestKey                       
+     000060FB  _cpc_RedefineKey                   
+     0000616C  _cpc_DeleteKeys                    
+     0000617A  _cpc_TestKeyF                      
+     000061A2  _cpc_ScanKeyboard                  
+     000061D5  cpc_TestKeyboard                   
+     00006292  _cpc_PrintGphStr2X                 
+     000062A9  _cpc_PrintGphStrXY2X               
+     000062C3  _cpc_PrintGphStrXY                 
+     000062DB  _cpc_PrintGphStr                   
+     0000642D  _cpc_SetInkGphStr                  
+     00006441  _cpc_PrintGphStrXYM1               
+     0000645A  _cpc_PrintGphStrXYM12X             
+     00006474  _cpc_PrintGphStrM12X               
+     0000648B  _cpc_PrintGphStrM1                 
+     00006581  _cpc_SetInkGphStrM1                
+     0000673A  _cpc_WyzConfigurePlayer            
+     00006743  _cpc_WyzInitPlayer                 
+     0000676E  _cpc_WyzLoadSong                   
+     00006776  _cpc_WyzSetTempo                   
+     0000677F  _cpc_WyzStartEffect                
+     00006789  _cpc_WyzTestPlayer                 
+     00006791  _cpc_WyzPlayer                     
+     00006791  _cpc_WyzSetPlayerOn                
+     000067BA  _cpc_WyzSetPlayerOff               
+     000067BA  _cpc_WyzSetPlayerOff1              
+     00006EDE  _cpc_SetMode                       
+     00006EEC  _cpc_SetModo                       
+     00006EF4  _cpc_SetColour                     
+     00006F06  _cpc_SetInk                        
+     00006F11  _cpc_SetBorder                     
+     00006F1A  _cpc_Random                        
+     00006F29  _cpc_ClrScr                        
+     00006F37  _cpc_PrintStr                      
+     00006F57  _cpc_DisableFirmware               
+     00006F6A  _cpc_EnableFirmware                
+     00006F77  _cpc_GetScrAddress                 
+     00006FE8  _cpc_RLI                           
+     00007024  _cpc_RRI                           
+     00007060  _cpc_CollSp                        
+     000070D5  __divsuchar_rrx_s                  
+     000070E1  __divuschar_rrx_s                  
+     000070F0  __moduchar_rrx_s                   
+     000070F7  __moduchar_rrx_hds                 
+     000070FC  __moduint_rrx_s                    
+     00007102  __moduint_rrx_hds                  
+     00007127  _vsprintf                          sprintf
 ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002038    00005FB5 =       24501. bytes (REL,CON)
+_CODE                               00002038    00005F85 =       24453. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000712C  __moduint_rrx_s                    
-     00007132  __moduint_rrx_hds                  
-     00007157  _vsprintf                          sprintf
-     00007157  _vsprintf_start                    sprintf
-     0000718C  _sprintf                           sprintf
-     0000718C  _sprintf_start                     sprintf
-     0000718C  _vsprintf_end                      sprintf
-     000071C3  __divsint_rrx_s                    
-     000071C3  _sprintf_end                       sprintf
-     000071CC  __divschar_rrx_s                   
-     000071D3  __div8                             
-     000071D3  __divschar_rrx_hds                 
-     000071D7  __div_signexte                     
-     000071DB  __div16                            
-     000071DB  __divsint_rrx_hds                  
-     00007201  __get_remainder                    
-     0000720B  _cpc_PutSprite                     
-     000072B2  _cpc_PutSp                         
-     000072F3  _cpc_PutSp4x14                     
-     00007329  _cpc_PutSpXOR                      
-     0000734D  _cpc_PutSpriteXOR                  
-     00007383  _cpc_PutSpTr                       
-     000073E7  _cpc_GetSp                         
-     00007408  cpc_GetSp0                         
-     00007428  _cpc_PutMaskSp                     
-     0000746E  _cpc_PutMaskSprite                 
-     00007483  _cpc_PutMaskSp2x8                  
-     000074BC  _cpc_PutMaskSp4x16                 
-     00007503  __divuint_rrx_s                    
-     0000750B  __divuchar_rrx_s                   
-     00007512  __divu8                            
-     00007512  __divuchar_rrx_hds                 
-     00007515  __divu16                           
-     00007515  __divuint_rrx_hds                  
-     00007653  __print_format                     printf_large
-     00007653  __print_format_start               printf_large
-     00007FD2  __print_format_end                 printf_large
-     00007FDD  _strlen                            
-     00007FEC  __sdcc_call_hl                     
+     00007127  _vsprintf_start                    sprintf
+     0000715C  _sprintf                           sprintf
+     0000715C  _sprintf_start                     sprintf
+     0000715C  _vsprintf_end                      sprintf
+     00007193  __divsint_rrx_s                    
+     00007193  _sprintf_end                       sprintf
+     0000719C  __divschar_rrx_s                   
+     000071A3  __div8                             
+     000071A3  __divschar_rrx_hds                 
+     000071A7  __div_signexte                     
+     000071AB  __div16                            
+     000071AB  __divsint_rrx_hds                  
+     000071D1  __get_remainder                    
+     000071DB  _cpc_PutSprite                     
+     00007282  _cpc_PutSp                         
+     000072C3  _cpc_PutSp4x14                     
+     000072F9  _cpc_PutSpXOR                      
+     0000731D  _cpc_PutSpriteXOR                  
+     00007353  _cpc_PutSpTr                       
+     000073B7  _cpc_GetSp                         
+     000073D8  cpc_GetSp0                         
+     000073F8  _cpc_PutMaskSp                     
+     0000743E  _cpc_PutMaskSprite                 
+     00007453  _cpc_PutMaskSp2x8                  
+     0000748C  _cpc_PutMaskSp4x16                 
+     000074D3  __divuint_rrx_s                    
+     000074DB  __divuchar_rrx_s                   
+     000074E2  __divu8                            
+     000074E2  __divuchar_rrx_hds                 
+     000074E5  __divu16                           
+     000074E5  __divuint_rrx_hds                  
+     00007623  __print_format                     printf_large
+     00007623  __print_format_start               printf_large
+     00007FA2  __print_format_end                 printf_large
+     00007FAD  _strlen                            
+     00007FBC  __sdcc_call_hl                     
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               00007FED    000002D1 =         721. bytes (REL,CON)
+_DATA                               00007FBD    000002D1 =         721. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00007FED  _aStars                            alien6
-     0000803D  _disparos                          alien6
-     00008088  _disparos_activos                  alien6
-     00008089  _disparosMalos                     alien6
-     000080C5  _disparos_malos_activos            alien6
-     000080C6  _MAX_DISPAROS_MALOS                alien6
-     000080C7  _prota                             alien6
-     000080E0  _malos                             alien6
-     0000818E  _malos_activos                     alien6
-     0000818F  _explosiones                       alien6
-     0000824F  _explosiones_activas               alien6
-     00008250  _explosion_sprite                  alien6
-     00008260  _explosiones_lastUpdated           alien6
-     00008264  _explosiones_prota                 alien6
-     00008278  _explosion_prota_lastUpdated       alien6
-     0000827C  _fase_explosion_prota              alien6
-     0000827D  _explosion_prota_activada          alien6
-     0000827E  _fin_explosion_prota               alien6
-     0000827F  _state                             alien6
-     00008280  _previous_state                    alien6
-     00008281  _nivel                             alien6
-     00008282  _hostilidad                        alien6
-     00008283  _aux_txt                           alien6
-     00008289  _velXForm                          alien6
-     0000828A  _velYForm                          alien6
-     0000828B  _stepCount                         alien6
-     0000828C  _formMoved                         alien6
-     0000828D  _ataques                           alien6
-     0000829F  _ataques_activos                   alien6
-     000082A0  _max_ataques_activos               alien6
-     000082A1  _addones                           alien6
-     000082B5  _addones_activos                   alien6
-     000082B6  _addon_sprite                      alien6
+     00007FBD  _aStars                            alien6
+     0000800D  _disparos                          alien6
+     00008058  _disparos_activos                  alien6
+     00008059  _disparosMalos                     alien6
+     00008095  _disparos_malos_activos            alien6
+     00008096  _MAX_DISPAROS_MALOS                alien6
+     00008097  _prota                             alien6
+     000080B0  _malos                             alien6
+     0000815E  _malos_activos                     alien6
+     0000815F  _explosiones                       alien6
+     0000821F  _explosiones_activas               alien6
+     00008220  _explosion_sprite                  alien6
+     00008230  _explosiones_lastUpdated           alien6
+     00008234  _explosiones_prota                 alien6
+     00008248  _explosion_prota_lastUpdated       alien6
+     0000824C  _fase_explosion_prota              alien6
+     0000824D  _explosion_prota_activada          alien6
+     0000824E  _fin_explosion_prota               alien6
+     0000824F  _state                             alien6
+     00008250  _previous_state                    alien6
+     00008251  _nivel                             alien6
+     00008252  _hostilidad                        alien6
+     00008253  _aux_txt                           alien6
+     00008259  _velXForm                          alien6
+     0000825A  _velYForm                          alien6
+     0000825B  _stepCount                         alien6
+     0000825C  _formMoved                         alien6
+     0000825D  _ataques                           alien6
+     0000826F  _ataques_activos                   alien6
+     00008270  _max_ataques_activos               alien6
+     00008271  _addones                           alien6
+     00008285  _addones_activos                   alien6
+     00008286  _addon_sprite                      alien6
 ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZED                        000082BE    0000035F =         863. bytes (REL,CON)
+_INITIALIZED                        0000828E    0000035F =         863. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000082BE  _trayectoria1                      alien6
-     000082D2  _tintas                            alien6
-     000082E3  _nave                              alien6
-     00008323  _shot                              alien6
-     00008327  _baddie01                          alien6
-     00008363  _explosion02000                    alien6
-     000083A3  _explosion02001                    alien6
-     000083E3  _explosion02002                    alien6
-     00008423  _explosion02003                    alien6
-     00008463  _explosion02004                    alien6
-     000084A3  _shot2                             alien6
-     000084AF  _shot3                             alien6
-     000084B7  _heart                             alien6
-     000084C6  _plane                             alien6
-     000084D5  _greenFlag                         alien6
-     000084E1  _redFlag                           alien6
-     000084ED  _baddie02                          alien6
-     0000850D  _baddie03                          alien6
-     0000852D  _toque000                          alien6
-     0000853D  _toque001                          alien6
-     0000854D  _toque002                          alien6
-     0000855D  _toque003                          alien6
-     0000856D  _toque004                          alien6
-     0000857D  _fire000                           alien6
-     00008581  _fire001                           alien6
-     00008585  _fire002                           alien6
-     00008589  _addones000                        alien6
-     000085A9  _addones001                        alien6
-     000085C9  _addones002                        alien6
-     000085E9  _addones003                        alien6
-     00008609  _timer0                            alien6
-     0000860B  _timer1                            alien6
-     0000860D  _nFPS                              alien6
-     0000860E  _nTimeLast                         alien6
-     00008612  _nStar                             alien6
-     00008613  _pStar                             alien6
-     00008615  _lastMovedEstrella                 alien6
-     00008619  _estrellasMovidas                  alien6
-     0000861A  _score                             alien6
-     0000861C  _cambio_score                      alien6
+     0000828E  _trayectoria1                      alien6
+     000082A2  _tintas                            alien6
+     000082B3  _nave                              alien6
+     000082F3  _shot                              alien6
+     000082F7  _baddie01                          alien6
+     00008333  _explosion02000                    alien6
+     00008373  _explosion02001                    alien6
+     000083B3  _explosion02002                    alien6
+     000083F3  _explosion02003                    alien6
+     00008433  _explosion02004                    alien6
+     00008473  _shot2                             alien6
+     0000847F  _shot3                             alien6
+     00008487  _heart                             alien6
+     00008496  _plane                             alien6
+     000084A5  _greenFlag                         alien6
+     000084B1  _redFlag                           alien6
+     000084BD  _baddie02                          alien6
+     000084DD  _baddie03                          alien6
+     000084FD  _toque000                          alien6
+     0000850D  _toque001                          alien6
+     0000851D  _toque002                          alien6
+     0000852D  _toque003                          alien6
+     0000853D  _toque004                          alien6
+     0000854D  _fire000                           alien6
+     00008551  _fire001                           alien6
+     00008555  _fire002                           alien6
+     00008559  _addones000                        alien6
+     00008579  _addones001                        alien6
+     00008599  _addones002                        alien6
+     000085B9  _addones003                        alien6
+     000085D9  _timer0                            alien6
+     000085DB  _timer1                            alien6
+     000085DD  _nFPS                              alien6
+     000085DE  _nTimeLast                         alien6
+     000085E2  _nStar                             alien6
+     000085E3  _pStar                             alien6
+     000085E5  _lastMovedEstrella                 alien6
+     000085E9  _estrellasMovidas                  alien6
+     000085EA  _score                             alien6
+     000085EC  _cambio_score                      alien6
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSINIT                             0000861D    0000000F =          15. bytes (REL,CON)
+_GSINIT                             000085ED    0000000F =          15. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000861D  gsinit                             crt0
+     000085ED  gsinit                             crt0
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSFINAL                            0000862C    00000001 =           1. bytes (REL,CON)
+_GSFINAL                            000085FC    00000001 =           1. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -504,7 +501,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZER                        0000862D    0000035F =         863. bytes (REL,CON)
+_INITIALIZER                        000085FD    0000035F =         863. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -532,37 +529,28 @@ Files Linked                              [ module(s) ]
 
 alien6.rel                                [ alien6 ]
 crt0_cpc.rel                              [ crt0 ]
-putchar_cpc.rel                           [  ]
 
 
 Libraries Linked                          [ object file ]
 
-C:\Program Files\SDCC\bin\..\lib\z80/cpcrslib.lib
+D:\programas\SDCC\bin\..\lib\z80/cpcrslib.lib
                                           [ Keyboard.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/cpcrslib.lib
+D:\programas\SDCC\bin\..\lib\z80/cpcrslib.lib
                                           [ GphStr.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/cpcwyzlib.lib
+D:\programas\SDCC\bin\..\lib\z80/cpcwyzlib.lib
                                           [ Wyz.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/cpcrslib.lib
+D:\programas\SDCC\bin\..\lib\z80/cpcrslib.lib
                                           [ cpcrslib.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/z80.lib
-                                          [ divmixed.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/z80.lib
-                                          [ modunsigned.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/z80.lib
-                                          [ sprintf.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/z80.lib
-                                          [ divsigned.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/cpcrslib.lib
+D:\programas\SDCC\bin\..\lib\z80/z80.lib  [ divmixed.rel ]
+D:\programas\SDCC\bin\..\lib\z80/z80.lib  [ modunsigned.rel ]
+D:\programas\SDCC\bin\..\lib\z80/z80.lib  [ sprintf.rel ]
+D:\programas\SDCC\bin\..\lib\z80/z80.lib  [ divsigned.rel ]
+D:\programas\SDCC\bin\..\lib\z80/cpcrslib.lib
                                           [ Sprites.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/z80.lib
-                                          [ divunsigned.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/z80.lib
-                                          [ printf_large.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/z80.lib
-                                          [ strlen.rel ]
-C:\Program Files\SDCC\bin\..\lib\z80/z80.lib
-                                          [ crtcall.rel ]
+D:\programas\SDCC\bin\..\lib\z80/z80.lib  [ divunsigned.rel ]
+D:\programas\SDCC\bin\..\lib\z80/z80.lib  [ printf_large.rel ]
+D:\programas\SDCC\bin\..\lib\z80/z80.lib  [ strlen.rel ]
+D:\programas\SDCC\bin\..\lib\z80/z80.lib  [ crtcall.rel ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 16.
 

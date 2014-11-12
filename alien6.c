@@ -365,15 +365,14 @@ void crearExplosionProta(unsigned char x, unsigned char y){
 	explosiones_prota[0].cx=x-SALTO_EXPLOSION_PROTA;
 	explosiones_prota[0].cy=y;
 	explosiones_prota[1].cx=x-SALTO_EXPLOSION_PROTA;
-	explosiones_prota[1].cy=y-SALTO_EXPLOSION_PROTA;
+	explosiones_prota[1].cy=y-SALTO_EXPLOSION_PROTA*2;
 	explosiones_prota[2].cx=x;
-	explosiones_prota[2].cy=y-SALTO_EXPLOSION_PROTA;
+	explosiones_prota[2].cy=y-SALTO_EXPLOSION_PROTA*2;
 	explosiones_prota[3].cx=x+SALTO_EXPLOSION_PROTA;
-	explosiones_prota[4].cy=y-SALTO_EXPLOSION_PROTA;
+	explosiones_prota[3].cy=y-SALTO_EXPLOSION_PROTA*2;
 	explosiones_prota[4].cx=x+SALTO_EXPLOSION_PROTA;
 	explosiones_prota[4].cy=y;
 	for (i=0;i<5;i++){
-		explosiones_prota[i].memoriaPantalla=0;
 		explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
 		cpc_PutSpXOR((char *)explosion_sprite[0][0],16,4,explosiones_prota[i].memoriaPantalla);
 	}
@@ -385,16 +384,15 @@ void crearExplosionProta(unsigned char x, unsigned char y){
 //Animar Explosiones
 void animarExplosionProta(){
 	if ((explosion_prota_activada) && (fase_explosion_prota<4)){
-				fase_explosion_prota++;
-				explosiones_prota[0].cx-SALTO_EXPLOSION_PROTA;
-				explosiones_prota[1].cx-SALTO_EXPLOSION_PROTA;
-				explosiones_prota[1].cy-SALTO_EXPLOSION_PROTA;
-				explosiones_prota[2].cy-SALTO_EXPLOSION_PROTA;
-				explosiones_prota[3].cx+SALTO_EXPLOSION_PROTA;
-				explosiones_prota[3].cy-SALTO_EXPLOSION_PROTA;
-				explosiones_prota[4].cx-SALTO_EXPLOSION_PROTA;
-			} else if (fase_explosion_prota>3)
-	fin_explosion_prota=1;
+
+		explosiones_prota[0].cx=explosiones_prota[0].cx-SALTO_EXPLOSION_PROTA;
+		explosiones_prota[1].cx=explosiones_prota[1].cx-SALTO_EXPLOSION_PROTA;
+		explosiones_prota[1].cy=explosiones_prota[1].cy-SALTO_EXPLOSION_PROTA*2;
+		explosiones_prota[2].cy=explosiones_prota[2].cy-SALTO_EXPLOSION_PROTA*2;
+		explosiones_prota[3].cx=explosiones_prota[3].cx+SALTO_EXPLOSION_PROTA;
+		explosiones_prota[3].cy=explosiones_prota[3].cy-SALTO_EXPLOSION_PROTA*2;
+		explosiones_prota[4].cx=explosiones_prota[4].cx+SALTO_EXPLOSION_PROTA;
+	} 
 }
 
 //Actualizar Explosion Prota
@@ -404,13 +402,13 @@ void actualizarExplosionProta(){
 		for (i=0;i<5;i++){
 			cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
 		}
-		if (!fin_explosion_prota){
+		fase_explosion_prota++;
+		if (fase_explosion_prota<4){
 			for (i=0;i<5;i++){
 				explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
 				cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
 			}
 		} else{
-			fin_explosion_prota=0;
 			explosion_prota_activada=0;
 		}
 	}
@@ -539,6 +537,7 @@ void crearDisparoMalo(unsigned char x, unsigned char y, unsigned speed){
 	disparosMalos[k].nuevo=1;
 	disparosMalos[k].dead=0;
 	disparosMalos[k].speed=speed;
+//	disparosMalos[k].objetivox=x;
 	disparosMalos[k].lastmoved=0;
 	disparosMalos[k].moved=0;
 	disparos_malos_activos++;
@@ -554,15 +553,20 @@ void moverDisparosMalos(){
 	if (disparos_malos_activos>0){
 		for (i=0;i<MAX_DISPAROS_MALOS;i++){
 			if ((disparosMalos[i].activo) && (!disparosMalos[i].dead) && (lapso-disparosMalos[i].lastmoved>disparosMalos[i].speed)){
-				if (disparosMalos[i].cy<(200-SALTO_DISPARO_MALO)){
+				if (disparosMalos[i].cy<(199-SALTO_DISPARO_MALO)){
 					disparosMalos[i].cy=disparosMalos[i].cy + SALTO_DISPARO_MALO;
+			//		if (disparosMalos[i].cx<disparosMalos[i].objetivox){
+			//			disparosMalos[i].cx++;
+			//		}
+			//		else if (disparosMalos[i].cx>disparosMalos[i].objetivox){
+			//			disparosMalos[i].cx--;
+			//		}
 					if (detectarColision(disparosMalos[i].cx,disparosMalos[i].cy,2,4,prota.cx,prota.cy,4,16)){  
 						//matar disparo
 						disparosMalos[i].dead=1;
 						//matar malo
 						prota.dead=1;
 						//crear explosión
-						//crearExplosion(0, prota.cx, prota.cy);    //explosion sencilla
 						crearExplosionProta(prota.cx, prota.cy);  //explosion chula
 						//sonido explosion
 						if (SONIDO_ACTIVADO) cpc_WyzStartEffect(2,2);
@@ -958,7 +962,7 @@ void moverMalos(){
 				if (malos[i].movement==0){	
 					if (ataques_activos<max_ataques_activos){
 						if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
-							crearAtaque(i);
+							//crearAtaque(i);
 						} else malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
 					} else 	malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
 					//Movimiento del malo atacando				
@@ -1335,13 +1339,13 @@ char gameOver()
 {
 	letrasColorAzul();
 	sprintf(aux_txt,"PUNTUACION;FINAL:;%05d",score);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
-	cpc_PrintGphStrXY(aux_txt,8*2,14*8);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
+	cpc_PrintGphStrXY2X(aux_txt,8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
 	while (cpc_AnyKeyPressed()==0);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
-	cpc_PrintGphStrXY(";;;;;;;GAME;OVER;;;;;;;",8*2,14*8);
-	cpc_PrintGphStrXY(";;;;;;;;;;;;;;;;;;;;;;;",8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
+	cpc_PrintGphStrXY2X(";;;;;;;GAME;OVER;;;;;;;",8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
 	pause(6);
 
 	while (!cpc_AnyKeyPressed());
@@ -1581,10 +1585,10 @@ unsigned char game()
 			borrarProta();	//borro al prota
 			pintarProta();	//Pinto al protagonista
 		}
-		//Mostrar explosiones del protagonista
-		if ((explosion_prota_activada>0)&&((getTime()-explosion_prota_lastUpdated)>VELOCIDAD_EXPLOSION_PROTA)){
-			animarExplosiones();
-			actualizarExplosiones();
+		//explosiones del protagonista
+		if ((explosion_prota_activada)&&((getTime()-explosion_prota_lastUpdated)>VELOCIDAD_EXPLOSION_PROTA)){
+			animarExplosionProta();
+			actualizarExplosionProta();
 			explosion_prota_lastUpdated=getTime();
 		}
 		

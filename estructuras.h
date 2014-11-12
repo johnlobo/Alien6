@@ -11,6 +11,7 @@ typedef	struct {		// minimun sprite structure
 	unsigned char nuevo;
 	unsigned char dead;
 	long lastmoved;
+//	unsigned char objetivox;
 } TIPO_DISPARO;
 //NAVE
 typedef	struct {		// minimun sprite structure
