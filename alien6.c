@@ -111,8 +111,10 @@ TIPO_ADDON addones[MAX_ADDONES];
 unsigned char addones_activos;
 void *addon_sprite[4];
 
-// Timer On
-//Procedmiento que activa el temporizador en las interrupciones
+//******************************************************************************
+// Función timerOn()
+// Procedmiento que activa el temporizador en las interrupciones
+//******************************************************************************
 void timerOn(void) {
 	__asm
 	DI
@@ -144,8 +146,10 @@ desborde:
 term:
 	__endasm;
 }
-//Timer Off
-//Detiene el temporizador y vuelve al modo de firmware desactivado
+//******************************************************************************
+// Función timerOff()
+// Detiene el temporizador y vuelve al modo de firmware desactivado
+//******************************************************************************
 void timerOff(void) {
 	__asm
 	DI
@@ -157,16 +161,20 @@ void timerOff(void) {
 	EI
 	__endasm;
 }
-
-//Get Time
-//Obtiene el valor del temporizador
+//******************************************************************************
+// Función getTime()
+// Obtiene el valor del temporizador
+//******************************************************************************
 unsigned long getTime()
 {
 	unsigned long nTime = 0;
 	nTime = (timer1 << 8) + timer0;
 	return nTime;
 }
-
+//******************************************************************************
+// Función halt_me()
+// 
+//******************************************************************************
 void halt_me () {			
 	__asm
 	halt				
@@ -176,9 +184,10 @@ void halt_me () {
 	halt
 	__endasm;
 }
-
-// SCR WAIT VSYNC
-//Sincronización vertical
+//******************************************************************************
+// Función scr_waitVSYNC()
+// Sincronización vertical
+//******************************************************************************
 void scr_waitVSYNC() {
 	__asm 
 	// Check if we are in VSYNC zone
@@ -189,7 +198,10 @@ void scr_waitVSYNC() {
 	jr nc, wait_vs // no, wait
 	__endasm;
 }
-
+//******************************************************************************
+// Función pause()
+//
+//******************************************************************************
 void pause(unsigned char p){
 	unsigned char i;
 	for (i=0; i < p; i++) {
@@ -198,7 +210,10 @@ void pause(unsigned char p){
 		__endasm;
 	}
 }
-
+//******************************************************************************
+// Función set_colours()
+//
+//******************************************************************************
 void set_colours()
 {
 	unsigned char x;
@@ -207,14 +222,20 @@ void set_colours()
 		cpc_SetColour(x,tintas[x]);
 	}
 }
-
+//******************************************************************************
+// Función pause()
+//
+//******************************************************************************
 unsigned char detectarColision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2){
 	return ((x1 < x2 + w2) &&
 	(x1 + w1 > x2) &&
 	(y1 < y2 + h2) &&
 	(h1 + y1 > y2));
 }
-
+//******************************************************************************
+// Función letrasColorAzul()
+//
+//******************************************************************************
 void letrasColorAzul(){
 	cpc_SetInkGphStr(0,0);
 	cpc_SetInkGphStr(1,42);
@@ -222,7 +243,10 @@ void letrasColorAzul(){
 	cpc_SetInkGphStr(3,42);
 	pause(2);
 }
-
+//******************************************************************************
+// Función letrasColorRojo()
+//
+//******************************************************************************
 void letrasColorRojo(){
 	cpc_SetInkGphStr(0,0);
 	cpc_SetInkGphStr(1,40);
@@ -230,7 +254,10 @@ void letrasColorRojo(){
 	cpc_SetInkGphStr(3,40);
 	pause(2);
 }
-
+//******************************************************************************
+// Función pixelEstrella()
+//
+//******************************************************************************
 unsigned char pixelEstrella(unsigned char nPixel){
 	unsigned char nByte = 0;
 	
@@ -735,7 +762,7 @@ void crearAtaque(unsigned char malo){
 		ataques[i].idMalo=malo;
 		ataques[i].step=0;
 		ataques_activos++;
-		malos[malo].movement=1;
+		malos[malo].movement=BADDIE_ATTACK;
 		malos[malo].formSpeed=malos[malo].speed;
 		malos[malo].speed=VELOCIDAD_ATAQUE;
 	}
@@ -744,29 +771,6 @@ void crearAtaque(unsigned char malo){
 //
 //MALOS
 //
-
-//Malos a Cero
-void malosACero(){
-	unsigned char i = 0;
-	for (i=0;i < MAX_MALOS;i++){
-		malos[i].type=0;
-		malos[i].activo=0;
-		malos[i].sp0=0;
-		malos[i].movement=0;
-		malos[i].idMovement=0;
-		malos[i].cx=0;
-		malos[i].cy=0;
-		malos[i].homeX=0;
-		malos[i].homeY=0;
-		malos[i].w=0;
-		malos[i].h=0;
-		malos[i].nuevo=0;
-		malos[i].dead=0;
-		malos[i].agresividad=0;
-		malos[i].vidas=0;
-		malos[i].speed=0;
-	}
-}
 
 void cargarMalo(unsigned char malo, unsigned char tipo){
 	malos[malo].type=tipo;
@@ -814,12 +818,9 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 	}
 
 }
-
-
+//Inicializar Malos
 void inicializarMalos(){
 	unsigned char i = 0;
-	
-	malosACero();
 	
 	switch(nivel) {
 	case 1:
@@ -959,14 +960,14 @@ void moverMalos(){
 				if (formMoved)
 				malos[i].homeX=malos[i].homeX+velXForm;
 				//Movimiento del malo en formación 
-				if (malos[i].movement==0){	
+				if (malos[i].movement==BADDIE_FORMATION){	
 					if (ataques_activos<max_ataques_activos){
 						if (cpc_Random()<malos[i].agresividad){	//creo ataque propocionalmente a la agresividad
 							//crearAtaque(i);
 						} else malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
 					} else 	malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formación.
 					//Movimiento del malo atacando				
-				} else if (malos[i].movement==1){	
+				} else if (malos[i].movement==BADDIE_ATTACK){	
 					j=0;
 					while (!(ataques[j].idMalo==i)&&(ataques[j].activo==1)){ 	//busco el ataque que le corresponde a este malo
 						j++;
@@ -974,7 +975,7 @@ void moverMalos(){
 					malos[i].cx=malos[i].cx+ataques[j].trayectoria[ataques[j].step]; //muevo al malo
 					malos[i].cy+2;
 					if (malos[i].cy>(199-(malos[i].h))){	// si me salgo de la pantalla inicio el camino a la formación
-						malos[i].movement=2;
+						malos[i].movement=BADDIE_PATH;
 						malos[i].cy=-10;  //coloco al malo fuera de la pantalla por arriba para que tarde un poco en llegar
 						ataques[j].activo=0;
 						ataques[j].idMalo=0;
@@ -985,10 +986,10 @@ void moverMalos(){
 					ataques[j].step=0;
 					
 					//malo regresando a formación
-				}else if (malos[i].movement==2){
+				}else if (malos[i].movement==BADDIE_PATH){
 					//Si he llegado al destino me pongo en modo formación
 					if ((malos[i].cx=malos[i].homeX) && (malos[i].cy==malos[i].homeY)){
-						malos[i].movement=0;
+						malos[i].movement=BADDIE_FORMATION;
 						malos[i].speed=malos[i].formSpeed;
 						//en caso contrario ajusto desplazamientos.
 					}else{ 
@@ -1103,7 +1104,7 @@ void moverDisparos(){
 								if (malos[j].vidas==0){
 									malos[j].dead=1;
 									//y si estaba atacando...
-									if (malos[j].movement==1){
+									if (malos[j].movement==BADDIE_ATTACK){
 										k=0;
 										while ((ataques[k].idMalo!=j)&&(!ataques[k].activo))
 										k++;
@@ -1478,7 +1479,10 @@ char menu() {
 
 	return choice; 
 }
-
+//******************************************************************************
+// Función inicializarNivel()
+// 
+//******************************************************************************
 void inicializarNivel(){
 	// Pinto la cabecera
 	letrasColorAzul();
@@ -1537,11 +1541,11 @@ void inicializarNivel(){
 	inicializarAddones();
 	
 	hostilidad=1;  //este flag hace que los enemigos disparen
-	
-
 }
-
-//Bucle principal de juego
+//******************************************************************************
+// Función game()
+// Bucle principal de juego
+//******************************************************************************
 unsigned char game()
 {
 	timerOn();
@@ -1653,8 +1657,10 @@ unsigned char game()
 	timerOff();
 	return state;
 }
-
-//Setup inicial
+//******************************************************************************
+// Función InitialSetup()
+// Setup inicial
+//******************************************************************************
 void InitialSetUp() {
 	
 	cpc_DisableFirmware();
@@ -1677,10 +1683,11 @@ void InitialSetUp() {
 	state = INITIAL_STATE;
 
 }
-
-//Bucle principal del Juego
+//******************************************************************************
+// Función main()
+// Bucle principal del Juego
+//******************************************************************************
 int main() {
-	
 	InitialSetUp();
 
 	while (state != STATE_EXIT) {
