@@ -7,7 +7,7 @@ Area                                    Addr        Size        Decimal Bytes (A
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000000  .__.ABS.                           
+     00000000  .__.ABS.                           crt0
      00000000  _main                           
      00000000  l__BSEG                         
      00000000  l__BSS                          
@@ -21,35 +21,32 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  s__HEADER0                      
      00000000  s__HEADER1                      
      00000001  l__GSFINAL                      
+     00000002  l__CODE                         
      00000003  l__HEADER0                      
      00000009  l__HEADER1                      
      0000000F  l__GSINIT                       
-     00000010  l__CODE                         
-     00002038  s__CODE                         
-     00002048  s__GSINIT                       
-     00002048  s__HOME                         
-     00002048  s__INITIALIZER                  
-     00002057  s__GSFINAL                      
-     00002058  s__BSEG                         
-     00002058  s__BSS                          
-     00002058  s__DATA                         
-     00002058  s__HEAP                         
-     00002058  s__INITIALIZED                  
+     00000138  s__CODE                         
+     0000013A  s__GSINIT                       
+     0000013A  s__HOME                         
+     0000013A  s__INITIALIZER                  
+     00000149  s__GSFINAL                      
+     0000014A  s__BSEG                         
+     0000014A  s__BSS                          
+     0000014A  s__DATA                         
+     0000014A  s__HEAP                         
+     0000014A  s__INITIALIZED                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002038    00000010 =          16. bytes (REL,CON)
+_CODE                               00000138    00000002 =           2. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00002038  __clock                            crt0
-     00002039  _exit                              crt0
-     0000203A  _putchar                           
-     0000203A  _putchar_rr_s                      
-     00002043  _putchar_rr_dbs                    
+     00000138  __clock                            crt0
+     00000139  _exit                              crt0
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -74,18 +71,18 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSINIT                             00002048    0000000F =          15. bytes (REL,CON)
+_GSINIT                             0000013A    0000000F =          15. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00002048  gsinit                             crt0
+     0000013A  gsinit                             crt0
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSFINAL                            00002057    00000001 =           1. bytes (REL,CON)
+_GSFINAL                            00000149    00000001 =           1. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -94,13 +91,12 @@ _GSFINAL                            00002057    00000001 =           1. bytes (R
 Files Linked                              [ module(s) ]
 
 crt0_cpc.rel                              [ crt0 ]
-putchar_cpc.rel                           [  ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 
 User Base Address Definitions
 
-_CODE = 0x2038
+_CODE = 0x0138
 _DATA = 0x0000
 
 

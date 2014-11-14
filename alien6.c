@@ -30,11 +30,13 @@
 #define STATE_LEVELUP    8
 #define STATE_REDEFINE    9
 #define STATE_DEBUG 10
+#define STATE_DEAD 11
+
 #define INITIAL_STATE STATE_MENU
 //Definiciones para los malos
-#define BADDIE_FORMATION 1
-#define BADDIE_ATTACK 2
-#define BADDIE_PATH 3
+#define BADDIE_FORMATION 0
+#define BADDIE_ATTACK 1
+#define BADDIE_PATH 2
 // Definiciones para el mapa de estrellas
 #define STARS_NUM 10
 #define ESTRELLAS_ACTIVADAS 1
@@ -564,7 +566,7 @@ void crearDisparoMalo(unsigned char x, unsigned char y, unsigned speed){
 	disparosMalos[k].nuevo=1;
 	disparosMalos[k].dead=0;
 	disparosMalos[k].speed=speed;
-//	disparosMalos[k].objetivox=x;
+	//	disparosMalos[k].objetivox=x;
 	disparosMalos[k].lastmoved=0;
 	disparosMalos[k].moved=0;
 	disparos_malos_activos++;
@@ -582,12 +584,12 @@ void moverDisparosMalos(){
 			if ((disparosMalos[i].activo) && (!disparosMalos[i].dead) && (lapso-disparosMalos[i].lastmoved>disparosMalos[i].speed)){
 				if (disparosMalos[i].cy<(199-SALTO_DISPARO_MALO)){
 					disparosMalos[i].cy=disparosMalos[i].cy + SALTO_DISPARO_MALO;
-			//		if (disparosMalos[i].cx<disparosMalos[i].objetivox){
-			//			disparosMalos[i].cx++;
-			//		}
-			//		else if (disparosMalos[i].cx>disparosMalos[i].objetivox){
-			//			disparosMalos[i].cx--;
-			//		}
+					//		if (disparosMalos[i].cx<disparosMalos[i].objetivox){
+					//			disparosMalos[i].cx++;
+					//		}
+					//		else if (disparosMalos[i].cx>disparosMalos[i].objetivox){
+					//			disparosMalos[i].cx--;
+					//		}
 					if (detectarColision(disparosMalos[i].cx,disparosMalos[i].cy,2,4,prota.cx,prota.cy,4,16)){  
 						//matar disparo
 						disparosMalos[i].dead=1;
@@ -783,7 +785,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 		malos[malo].agresividad=4;
 		malos[malo].vidas=1;
 		malos[malo].speed=40;
-		malos[malo].nuevo=1;
+		malos[malo].moved=1;
 		break;
 	case 2:
 		malos[malo].activo=1;
@@ -793,7 +795,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 		malos[malo].agresividad=8;
 		malos[malo].vidas=2;
 		malos[malo].speed=16;
-		malos[malo].nuevo=1;
+		malos[malo].moved=1;
 		break;
 	case 3:
 		malos[malo].activo=1;
@@ -803,7 +805,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 		malos[malo].agresividad=16;
 		malos[malo].vidas=3;
 		malos[malo].speed=8;
-		malos[malo].nuevo=1;
+		malos[malo].moved=1;
 		break;
 	default:
 		malos[malo].activo=1;
@@ -813,7 +815,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 		malos[malo].agresividad=32;
 		malos[malo].vidas=1;
 		malos[malo].speed=15;
-		malos[malo].nuevo=1;
+		malos[malo].moved=1;
 		break;
 	}
 
@@ -821,6 +823,14 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 //Inicializar Malos
 void inicializarMalos(){
 	unsigned char i = 0;
+	
+	for(i=0;i<MAX_MALOS;i++){
+		malos[i].activo=0;
+		malos[i].nuevo=1;
+		malos[i].dead=0;
+		malos[i].movement=0;
+		malos[i].lastmoved=0;
+	}
 	
 	switch(nivel) {
 	case 1:
@@ -841,7 +851,6 @@ void inicializarMalos(){
 			malos[i].oy=malos[i].cy;
 			malos[i].homeX=malos[i].cx;
 			malos[i].homeY=malos[i].cy;
-			malos[i].lastmoved=0;
 		}
 
 		break;
@@ -863,7 +872,6 @@ void inicializarMalos(){
 			malos[i].oy=malos[i].cy;
 			malos[i].homeX=malos[i].cx;
 			malos[i].homeY=malos[i].cy;
-			malos[i].lastmoved=0;
 		}
 
 		break;
@@ -887,7 +895,6 @@ void inicializarMalos(){
 			malos[i].oy=malos[i].cy;
 			malos[i].homeX=malos[i].cx;
 			malos[i].homeY=malos[i].cy;
-			malos[i].lastmoved=0;
 		}
 
 		break;
@@ -911,29 +918,12 @@ void inicializarMalos(){
 			malos[i].oy=malos[i].cy;
 			malos[i].homeX=malos[i].cx;
 			malos[i].homeY=malos[i].cy;
-			malos[i].lastmoved=0;
 		}
 		break;
 	}
 }
 
-void borrarMalos(){
-	unsigned char i = 0;
-	if (malos_activos>0){
-		for (i=0;i<MAX_MALOS;i++){
-			if ((malos[i].activo==1) && (malos[i].nuevo==0) && (malos[i].moved)){
-				if((malos[i].ox>0)&&(malos[i].ox<159)&&(malos[i].oy>0)&&(malos[i].oy<199))
-				cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].oy]+malos[i].ox);
-				if (malos[i].dead){
-					malos[i].activo=0;
-					malos_activos--;
-				}
-			}
-		}
-	}
 
-
-}
 
 void moverMalos(){
 	unsigned char i;
@@ -946,7 +936,7 @@ void moverMalos(){
 	
 	if (malos_activos>0){
 		for (i=0;i<MAX_MALOS;i++){
-			if ((malos[i].activo==1) && (lapso-malos[i].lastmoved>malos[i].speed)){
+			if ((malos[i].activo==1) && (!malos[i].nuevo) && (lapso-malos[i].lastmoved>malos[i].speed)){
 				//Movimiento de la formación				
 				if (formMoved==0){ 
 					stepCount++;
@@ -1023,6 +1013,22 @@ void moverMalos(){
 				}
 				malos[i].lastmoved=lapso;
 				malos[i].moved=1;
+			}
+		}
+	}
+}
+
+void borrarMalos(){
+	unsigned char i = 0;
+	if (malos_activos>0){
+		for (i=0;i<MAX_MALOS;i++){
+			if ((malos[i].activo==1) && (malos[i].nuevo==0) && (malos[i].moved)){
+				if((malos[i].ox>0)&&(malos[i].ox<159)&&(malos[i].oy>0)&&(malos[i].oy<199))
+				cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].oy]+malos[i].ox);
+				if (malos[i].dead){
+					malos[i].activo=0;
+					malos_activos--;
+				}
 			}
 		}
 	}
@@ -1369,12 +1375,51 @@ char levelUp()
 	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
 	cpc_PrintGphStrXY2X(aux_txt,8*2,13*8);
 	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
+	while (!cpc_AnyKeyPressed());
+	while (cpc_AnyKeyPressed());
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
+	cpc_PrintGphStrXY2X(";;;;;;;PREPARADO;;;;;;;",8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
 	pause(6);
-
+	while (!cpc_AnyKeyPressed());
+	while (cpc_AnyKeyPressed());
 	while (!cpc_AnyKeyPressed());
 	while (cpc_AnyKeyPressed());
 	
 	return STATE_GAME; 
+}
+
+char protaDead()
+{
+	letrasColorAzul();
+	sprintf(aux_txt,";;;PUNTUACION:;%05d;;;",score);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
+	cpc_PrintGphStrXY2X(aux_txt,8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
+	while (!cpc_AnyKeyPressed());
+	while (cpc_AnyKeyPressed());
+	sprintf(aux_txt,";;;;;;;;;VIDAS;:;%02d;",prota.vidas);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
+	cpc_PrintGphStrXY2X(aux_txt,8*2,13*8);
+	cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
+	while (!cpc_AnyKeyPressed());
+	while (cpc_AnyKeyPressed());
+	if (prota.vidas){
+		sprintf(aux_txt,";;;NIVEL;ACTUAL;:;%02d;",nivel);
+		cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
+		cpc_PrintGphStrXY2X(aux_txt,8*2,13*8);
+		cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
+		while (!cpc_AnyKeyPressed());
+		while (cpc_AnyKeyPressed());
+		cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,11*8);
+		cpc_PrintGphStrXY2X(";;;;;;;PREPARADO;;;;;;;",8*2,13*8);
+		cpc_PrintGphStrXY2X(";;;;;;;;;;;;;;;;;;;;;;;",8*2,15*8);
+		pause(6);
+		while (!cpc_AnyKeyPressed());
+		while (cpc_AnyKeyPressed());
+		return STATE_GAME;
+	} else 
+	return STATE_LOSE; 
 }
 
 char win()
@@ -1630,7 +1675,7 @@ unsigned char game()
 		}
 		
 		if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos) && (!explosion_prota_activada)){
-			state = STATE_LOSE;
+			state = STATE_DEAD;
 			break;
 		}
 
@@ -1722,6 +1767,10 @@ int main() {
 				}
 				if (state==STATE_LEVELUP)
 				state=levelUp();
+				if (state==STATE_DEAD){
+					prota.vidas--;
+					state=protaDead();
+				}
 			}
 			break;
 
