@@ -4,6 +4,7 @@
 #include "datos.h"
 #include "estructuras.h"
 #include "sprites.h"
+#include "alienlib.h"
 
 // Definición de teclas
 #define KEY_LEFT	0
@@ -1275,7 +1276,8 @@ void inicializarTeclado()
 void mostrarVidasProta(){
 	unsigned char i = 0;
 	for (i=0;i<prota.vidas;i++){
-		cpc_PutSpXOR(heart,5,3,direccionLinea[195]+(77-(i*3)));
+		//cpc_PutSpXOR(heart,5,3,direccionLinea[195]+(77-(i*3)));
+		printSpriteXOR(heart2,77-(i*3),194,0);
 	}
 }
 
@@ -1329,12 +1331,13 @@ char help() {
 	cpc_SetMode(0);				//hardware call to set mode 1
 
 	letrasColorAzul();
-	cpc_PrintGphStrXY("DEFIENDE:LA:GALAXIA:DE:LA",0*2,0*8);
-	cpc_PrintGphStrXY("INVASION:DE:LAS:TROPAS:ALIENIGENAS",0*2,1*8);
+	cpc_PrintGphStrXY("DEFIENDE;LA;GALAXIA;DE;LA",0*2,0*8);
+	cpc_PrintGphStrXY("INVASION;DE;LAS;TROPAS;ALIENIGENAS",0*2,1*8);
 
 	cpc_PrintGphStrXY("LA;VICTORIA;TE;REPORTARA;GRANDES",0*2,2*8);
-	cpc_PrintGphStrXY("RECOMPENSAS",0*2,2*8);
+	cpc_PrintGphStrXY("RECOMPENSAS",0*2,3*8);
 
+	printSpriteXOR(heart2,0,32,0);
 
 	while (!cpc_AnyKeyPressed());
 	while (cpc_AnyKeyPressed());

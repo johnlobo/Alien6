@@ -240,6 +240,16 @@ extern unsigned char heart[15] =
 	 20,  60,   0,
 	  0,  40,   0,
 };
+extern unsigned char heart2[17] =
+{
+	  3,   5, 		 /* Width x Height */
+/* pixels */
+	 80,  20,   0,
+	180,  60,  40,
+	180,  60,  40,
+	 20,  60,   0,
+	  0,  40,   0,
+};
 /* Name    : life */
 /* Frame   : 1 */
 /* Palette : Amstrad CPC Mode 0 */
@@ -248,7 +258,7 @@ extern unsigned char heart[15] =
 /* Size: 3 x 6 - (bytes x pixels) */
 extern unsigned char plane[15] =
 {
-//	  3,   6, 		 /* Width x Height */
+//	  3,   5, 		 /* Width x Height */
 /* pixels */
 	  0,  42,   0,
 	  0,  42,   0,

@@ -1,6 +1,6 @@
-#ifndef  __cpcrslib_h__
-#define __cpcrslib_h__
+#ifndef  __alienlib_h__
+#define __alienlib_h__
 
 void printSpriteXOR(char *sprite, char x, char y, int direccion);
 
-#endif /* __cpcrslib_h__ */
+#endif /* __alienlib_h__ */
