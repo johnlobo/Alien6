@@ -1,112 +1,114 @@
 ;******************************
 ; printSpriteXOR (int sprite, char x, char y, int direccion)
 ;
-; @John Lobo Nov15  
+; 	Descripción:	Imprime un sprite a partir de unas coordenadas de pantalla, o de una dirección 
+;					aplicando clipping para no salir fuera de los límites de la pantalla y comprobando
+;					al inicio si las coordenadas x e y están dentro de dichos límites.
+;	Entrada:	- Dirección del sprite. Comienza con el alto y el ancho
+;				- Coordenada x
+;				- Coordenada y
+;				- Dirección de pantalla. 0 Si se quiere que se calcule a partir de las coordenadas
+;	Salida:	Ninguna
+;	Modificados: Ninguno. Se hace uso del set alternativo de registros
+;
+; @JohnLobo Nov15  
 ;******************************
 .globl _printSpriteXOR
 _printSpriteXOR::			; dibujar en pantalla el sprite
 	exx						; cambio los registros
 	ld ix,#2
 	add ix,sp
-	ld e,0 (ix)				;sprite
-	ld d,1 (ix)
-	ld b,2 (ix)				;x
-	ld c,3 (ix)				;y
-   	ld l,4 (ix)				;direccion del pantalla
+	ld b,2 (ix)				;recupero la coordenada x
+	ld c,3 (ix)				;recupero la coordenada y
+  	ld l,4 (ix)				;recupero la direccion del pantalla (2 bytes)
 	ld h,5 (ix)
-
+	
+	ld a,b					;Compruebo si x esta dentro de los limites de la pantalla
+	cp #0
+	jr c,#volver
+	sub a,#0x9f
+	jr nc,#volver
+	ld a,c					;Compruebo si y esta dentro de los limites de la pantalla
+	sub a,#0xc8
+	jr nc,#volver
+	cp #0
+	jr c,#volver
+	
 	ld a,h					;compruebo si la dirección es 0 para calcularla o pasar a calcular el clipping
-	or #0
-	jr nz,#calcularClipping
-	ld a,l
-	or #0
-	jr nz,#calcularClipping
-calcularDireccion:			;busco la dirección de pantalla en la tabla de direcciones 
-	push de	;preservo DE
-	push bc
-	ld hl,#direcciones
-	ld b,#0					;reseteo b
-	or a					;reseteo el carry
-	ld a,c					;busco la dirección del alto
-	sla a
-	jr NC,#sinDesborde
-	ld b,#1
-sinDesborde:
-	ld c,a
-	add hl,bc
-	pop bc 					;recupero la x y la y
-	ld e,(hl)
-	inc hl
-	ld d,(hl)				;hl tiene la dirección del primer byte de la linea
-	ld a,b					;cargo el desplazamiento horizontal
-	add e
-	ld e,a
-	ex de,hl				;cargo en hl la direccion calculada
-	pop de
-calcularClipping:
-
+	or l
+	jr nz,#calcularclipping
+calculardireccion:			;busco la dirección de pantalla en la tabla de direcciones 
+	ld a,c					;cargo la coordenada y del sprite en A
+	ld de,#direcciones		;cargo la tabla de direcciones de pantalla
+	ld h,#0
+	ld l,a					;cargo HL con la coordenada y del sprite
+	add hl,hl				;Multiplico por dos la coordenda y porque los elementos de la tabla son de dos bytes 
+	add hl,de				;posiciono DE en el valor concreto de la tabla
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+	ld a,b					;cargo la coordenada x en A
+	add l					;añado la coordenada x a la dirección obtenida en la tabla
+	ld l,a
+calcularclipping:
+	ld e,0 (ix)				;recupero la dirección del sprite (dos bytes)
+	ld d,1 (ix)
 	ld a,(de)
 	ld (#ancho),a
 	add b
-	cp #0x9F
-	jr C,#calculoAlto
-	ld a,#0x9F
+	cp #0x9f
+	jr c,#calculoalto
+	ld a,#0x9f
 	sub b
 	ld (#ancho),a
-calculoAlto:
+calculoalto:
 	inc de
 	ld a,(de)
 	inc de
 	ld (#alto),a
 	add c
 	cp #0xc7
-	jr C,#imprimirSprite
+	jr c,#imprimirsprite
 	ld a,#0xc7
 	sub c
 	ld (#alto),a	
-imprimirSprite:	
-	; Entradas	de-> origen
-	;			hl-> destino
-	; Se alteran hl, bc, de, af
-
+imprimirsprite:	
 	ld a,(#ancho)
+    ld (#anchox0+#1),a			;actualizo rutina de captura
+	sub #1
+	cpl
+	ld (#suma_siguiente_lineax0+#1),a    ;comparten los 2 los mismos valores.
+	ld a,(#alto)
+	jp cpc_putspxor0
+cpc_putspxor0:
+	.db #0xfd
+	ld h,a						;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
+	ld b,#7
+anchox0:
+loop_alto_2x:
+	ld c,#4
+loop_ancho_2x:
+	ld a,(de)
+	xor (hl)
+	ld (hl),a
+	inc de
+	inc hl
+	dec c
+	jp nz,loop_ancho_2x
+	.db #0xfd
+	dec h
+	jr z,#volver
 
-    LD (#anchox02+#1),A		;actualizo rutina de captura
-	SUB #1
-	CPL
-	LD (#suma_siguiente_lineax02+#1),A    ;comparten los 2 los mismos valores.
-
-	LD A,(#alto)
-	JP cpc_PutSpXOR02
-
-cpc_PutSpXOR02:
-	.DB #0XFD
-	LD H,A		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-	LD B,#7
-anchox02:
-loop_alto_2x2:
-	LD C,#4
-loop_ancho_2x2:
-	LD A,(DE)
-	XOR (HL)
-	LD (HL),A
-	INC DE
-	INC HL
-	DEC C
-	JP NZ,loop_ancho_2x2
-	.DB #0XFD
-	DEC H
-	jr Z,#volver
-
-suma_siguiente_lineax02:
-salto_lineax2:
-	LD C,#0XFF			;&07F6 			;SALTO LINEA MENOS ANCHO
-	ADD HL,BC
-	JP NC,loop_alto_2x2 ;SIG_LINEA_2ZZ		;SI NO DESBORDA VA A LA SIGUIENTE LINEA
-	LD BC,#0XC050
-	ADD HL,BC
-	LD B,#7			;SÓLO SE DARÍA UNA DE CADA 8 VECES EN UN SPRITE
-	JP loop_alto_2x2
+suma_siguiente_lineax0:
+salto_lineax:
+	ld c,#0xff						;&07F6 			;SALTO LINEA MENOS ANCHO
+	add hl,bc
+	jp nc,loop_alto_2x 			;SIG_LINEA_2ZZ		;SI NO DESBORDA VA A LA SIGUIENTE LINEA
+	ld bc,#0xc050
+	add hl,bc
+	ld b,#7							;SÓLO SE DARÍA UNA DE CADA 8 VECES EN UN SPRITE
+	jp loop_alto_2x
 
 volver:
 	exx
