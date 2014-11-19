@@ -197,9 +197,9 @@ extern unsigned char explosion02004[64] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 2 x 6 - (bytes x pixels) */
-extern char shot2[12] =
+extern char shot2[14] =
 {
-//	  2,   6, 		 /* Width x Height */
+	  2,   6, 		 /* Width x Height */
 /* pixels */
 	 85,   0,
 	191, 170,
@@ -214,9 +214,9 @@ extern char shot2[12] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 2 x 4 - (bytes x pixels) */
-extern unsigned char shot3[8] =
+extern unsigned char shot3[10] =
 {
-//	  2,   4, 		 /* Width x Height */
+	  2,   4, 		 /* Width x Height */
 /* pixels */
 	 20,   0,
 	120,  40,
@@ -230,17 +230,7 @@ extern unsigned char shot3[8] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 3 x 6 - (bytes x pixels) */
-extern unsigned char heart[15] =
-{
-//	  3,   6, 		 /* Width x Height */
-/* pixels */
-	 80,  20,   0,
-	180,  60,  40,
-	180,  60,  40,
-	 20,  60,   0,
-	  0,  40,   0,
-};
-extern unsigned char heart2[17] =
+extern unsigned char heart[17] =
 {
 	  3,   5, 		 /* Width x Height */
 /* pixels */
@@ -256,9 +246,9 @@ extern unsigned char heart2[17] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 3 x 6 - (bytes x pixels) */
-extern unsigned char plane[15] =
+extern unsigned char plane[17] =
 {
-//	  3,   5, 		 /* Width x Height */
+	  3,   5, 		 /* Width x Height */
 /* pixels */
 	  0,  42,   0,
 	  0,  42,   0,
@@ -266,9 +256,9 @@ extern unsigned char plane[15] =
 	127, 255, 170,
 	  0, 170,   0,
 };
-extern unsigned char greenFlag[12] =
+extern unsigned char greenFlag[14] =
 {
-//	  2,   6, 		 /* Width x Height */
+	  2,   6, 		 /* Width x Height */
 /* pixels */
 	  0,  14,  
 	  5,  14,  
@@ -277,9 +267,9 @@ extern unsigned char greenFlag[12] =
 	  0,   4,  
 	  0,   4,  
 };
-extern unsigned char redFlag[12] =
+extern unsigned char redFlag[14] =
 {
-//	  2,   6, 		 /* Width x Height */
+	  2,   6, 		 /* Width x Height */
 /* pixels */
 	  0,  44,  
 	 20,  44,  

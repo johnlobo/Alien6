@@ -619,7 +619,8 @@ void borrarDisparosMalos(){
 	if (disparos_malos_activos>0){
 		for (k=0;k<MAX_DISPAROS_MALOS;k++){
 			if ((disparosMalos[k].activo==1) && (disparosMalos[k].nuevo==0) && (disparosMalos[k].moved)){
-				cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].oy]+disparosMalos[k].ox);
+				//cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].oy]+disparosMalos[k].ox);
+				printSpriteXOR(disparosMalos[k].sp0,disparosMalos[k].ox,disparosMalos[k].oy,0);
 				if (disparosMalos[k].dead){
 					disparosMalos[k].activo=0;
 					disparos_malos_activos--;
@@ -635,7 +636,8 @@ void pintarDisparosMalos(){
 	if (disparos_malos_activos>0){
 		for (k=0;k<MAX_DISPAROS_MALOS;k++){
 			if ((disparosMalos[k].activo==1) && (disparosMalos[k].moved) && (!disparosMalos[k].dead)){
-				cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].cy]+disparosMalos[k].cx);
+				//cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].cy]+disparosMalos[k].cx);
+				printSpriteXOR(disparosMalos[k].sp0,disparosMalos[k].cx,disparosMalos[k].cy,0);
 				disparosMalos[k].ox=disparosMalos[k].cx;
 				disparosMalos[k].oy=disparosMalos[k].cy;
 				if (disparosMalos[k].nuevo) 
@@ -1162,7 +1164,8 @@ void borrarDisparos(){
 	if (disparos_activos>0){
 		for (k=0;k<MAX_DISPAROS;k++){
 			if ((disparos[k].activo) && (!disparos[k].nuevo) && (disparos[k].moved)){
-				cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].oy]+disparos[k].ox);
+				//cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].oy]+disparos[k].ox);
+				printSpriteXOR(disparos[k].sp0,disparos[k].ox,disparos[k].oy,0);
 				if (disparos[k].dead){
 					disparos[k].activo=0;
 					disparos_activos--;
@@ -1182,7 +1185,8 @@ void pintarDisparos(){
 	if (disparos_activos>0){
 		for (k=0;k<MAX_DISPAROS;k++){
 			if ((disparos[k].activo) && (disparos[k].moved) && (!disparos[k].dead)){
-				cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].cy]+disparos[k].cx);
+				//cpc_PutSpXOR(disparos[k].sp0,6,2,direccionLinea[disparos[k].cy]+disparos[k].cx);
+				printSpriteXOR(disparos[k].sp0,disparos[k].cx,disparos[k].cy,0);
 				disparos[k].ox=disparos[k].cx;
 				disparos[k].oy=disparos[k].cy;
 				if (disparos[k].nuevo) disparos[k].nuevo=0;
@@ -1277,7 +1281,7 @@ void mostrarVidasProta(){
 	unsigned char i = 0;
 	for (i=0;i<prota.vidas;i++){
 		//cpc_PutSpXOR(heart,5,3,direccionLinea[195]+(77-(i*3)));
-		printSpriteXOR(heart2,77-(i*3),194,0);
+		printSpriteXOR(heart,77-(i*3),194,0);
 	}
 }
 
@@ -1291,13 +1295,15 @@ void pintarBanderasNivel(){
 	//Pînto Banderas verdes una cada cinco niveles
 	aux=nivel/5;
 	for (i=0;i<aux;i++){
-		cpc_PutSpXOR(greenFlag,6,2,direccionLinea[194]+avance);
+		//cpc_PutSpXOR(greenFlag,6,2,direccionLinea[194]+avance);
+		printSpriteXOR(greenFlag,avance,194,0);
 		avance=avance+3;
 	}
 	//Pînto Banderas rojas una cada nivel
 	aux2=nivel-(aux*5);
 	for (i=0;i<aux2;i++){
-		cpc_PutSpXOR(redFlag,6,2,direccionLinea[194]+avance);
+		//cpc_PutSpXOR(redFlag,6,2,direccionLinea[194]+avance);
+		printSpriteXOR(redFlag,avance,194,0);
 		avance=avance+3;
 	}
 }
@@ -1337,7 +1343,7 @@ char help() {
 	cpc_PrintGphStrXY("LA;VICTORIA;TE;REPORTARA;GRANDES",0*2,2*8);
 	cpc_PrintGphStrXY("RECOMPENSAS",0*2,3*8);
 
-	printSpriteXOR(heart2,0,32,0);
+	printSpriteXOR(heart,0,32,0);
 
 	while (!cpc_AnyKeyPressed());
 	while (cpc_AnyKeyPressed());
