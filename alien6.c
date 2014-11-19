@@ -325,7 +325,8 @@ void inicializarEstrellas(){
 		aStars[nStar].nX = cpc_Random() % 160;
 		aStars[nStar].nY = (cpc_Random() % 184)+16;
 		aStars[nStar].nStarType = cpc_Random() % 3;
-		aStars[nStar].pLineAddress = (int *) direccionLinea[aStars[nStar].nY];
+		//aStars[nStar].pLineAddress = (int *) direccionLinea[aStars[nStar].nY];
+		aStars[nStar].pLineAddress = (int *) getScreenAddress(0,aStars[nStar].nY);
 		aStars[nStar].columnOffset = aStars[nStar].nY/2;
 		aStars[nStar].pCurrentAddress = aStars[nStar].pLineAddress+aStars[nStar].columnOffset;
 	}
@@ -350,7 +351,8 @@ void pintarEstrellas(){
 		pStar = &aStars[nStar];
 		//paint star
 		//pStar->pLineAddress = direccionLinea[pStar->nY];
-		pStar->pCurrentAddress = (int *) direccionLinea[pStar->nY] + pStar->columnOffset;
+		//pStar->pCurrentAddress = (int *) direccionLinea[pStar->nY] + pStar->columnOffset;
+		pStar->pCurrentAddress = (int *) getScreenAddress(pStar->columnOffset,pStar->nY);
 		//		if (*pStar->pCurrentAddress==0)
 		*pStar->pCurrentAddress ^= GetMode0PixelColorByte(pStar->nStarType + 1, pStar->nX % 2);
 		//*pStar->pCurrentAddress ^= pixelEstrella(pStar->nX % 2);
@@ -407,8 +409,10 @@ void crearExplosionProta(unsigned char x, unsigned char y){
 	explosiones_prota[4].cx=x+SALTO_EXPLOSION_PROTA;
 	explosiones_prota[4].cy=y;
 	for (i=0;i<5;i++){
-		explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
-		cpc_PutSpXOR((char *)explosion_sprite[0][0],16,4,explosiones_prota[i].memoriaPantalla);
+		//explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
+		//cpc_PutSpXOR((char *)explosion_sprite[0][0],16,4,explosiones_prota[i].memoriaPantalla);
+		explosiones_prota[i].memoriaPantalla = getScreenAddress(explosiones_prota[i].cx,explosiones_prota[i].cy);
+		printSpriteXOR(explosion_sprite[0][0],explosiones_prota[i].cx,explosiones_prota[i].cy,explosiones_prota[i].memoriaPantalla);
 	}
 	fase_explosion_prota=0;
 	fin_explosion_prota=0;
@@ -499,7 +503,8 @@ void crearExplosion(unsigned char tipo, unsigned char x, unsigned char y){
 	explosiones[i].fase=0;
 	explosiones[i].cx=x;
 	explosiones[i].cy=y;
-	explosiones[i].memoriaPantalla = direccionLinea[explosiones[i].cy]+explosiones[i].cx;
+	//explosiones[i].memoriaPantalla = direccionLinea[explosiones[i].cy]+explosiones[i].cx;
+	explosiones[i].memoriaPantalla = getScreenAddress(explosiones[i].cx,explosiones[i].cy);
 	if (!tipo){
 		explosiones[i].h=16;
 		explosiones[i].w=4;
@@ -508,7 +513,8 @@ void crearExplosion(unsigned char tipo, unsigned char x, unsigned char y){
 		explosiones[i].w=2;
 	}
 	explosiones_activas++;
-	cpc_PutSpXOR((char *)explosion_sprite[tipo][0],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
+	//cpc_PutSpXOR((char *)explosion_sprite[tipo][0],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
+	printSpriteXOR(explosion_sprite[tipo][0],explosiones[i].cx,explosiones[i].cy,explosiones[i].memoriaPantalla);
 }
 //Actualizar Explosiones
 void actualizarExplosiones(){
@@ -516,7 +522,8 @@ void actualizarExplosiones(){
 	if (explosiones_activas>0){
 		for (i=0;i<MAX_EXPLOSIONES;i++){
 			if (explosiones[i].activo==1){
-				cpc_PutSpXOR((char *)explosion_sprite[explosiones[i].tipo][explosiones[i].fase],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
+				//cpc_PutSpXOR((char *)explosion_sprite[explosiones[i].tipo][explosiones[i].fase],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
+				printSpriteXOR(explosion_sprite[tipo][0],explosiones[i].cx,explosiones[i].cy,explosiones[i].memoriaPantalla);
 			}
 		}
 	}
@@ -708,17 +715,6 @@ void crearAddon(unsigned char posx, unsigned char posy){
 		addones_activos++;
 	}
 }
-//Borrar Addones
-void borrarAddones(){
-	unsigned char i = 0;
-	if (addones_activos>0){
-		for (i=0;i<MAX_ADDONES;i++){
-			if ((addones[i].activo==1) && (addones[i].moved)){
-				cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
-			}
-		}
-	}
-}
 //Mover addones
 void moverAddones(){
 	unsigned char i;
@@ -739,13 +735,26 @@ void moverAddones(){
 		}
 	}
 }
+//Borrar Addones
+void borrarAddones(){
+	unsigned char i = 0;
+	if (addones_activos>0){
+		for (i=0;i<MAX_ADDONES;i++){
+			if ((addones[i].activo==1) && (addones[i].moved)){
+				//cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
+				putSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0)
+			}
+		}
+	}
+}
 //Pintar Addones
 void pintarAddones(){
 	unsigned char i = 0;
 	if (addones_activos>0){
 		for (i=0;i<MAX_ADDONES;i++){
 			if ((addones[i].activo==1) && (addones[i].moved)){
-				cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
+				//cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
+				putSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0)
 				addones[i].moved=0;
 				addones[i].lastmoved=getTime();
 			}
