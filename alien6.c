@@ -314,9 +314,10 @@ unsigned char GetMode0PixelColorByte(unsigned char nColor, unsigned char nPixel)
 
 	return nByte;
 }
-
-
-
+//******************************************************************************
+// Función inicializarEstrellas()
+//
+//******************************************************************************
 void inicializarEstrellas(){
 	//Inicializar estrellas
 	for(nStar = 0; nStar < STARS_NUM; nStar++)
@@ -388,7 +389,10 @@ void moverEstrellas(){
 //EXPLOSION PROTA
 //
 
-//Crear explosion Prota
+//******************************************************************************
+// Función: crearExplosionProta()
+//
+//******************************************************************************
 void crearExplosionProta(unsigned char x, unsigned char y){
 	unsigned char i = 0;
 	
@@ -411,7 +415,10 @@ void crearExplosionProta(unsigned char x, unsigned char y){
 	explosion_prota_lastUpdated = getTime();
 	explosion_prota_activada=1;
 }
-//Animar Explosiones
+//******************************************************************************
+// Función: animarExplosionProta()
+//
+//******************************************************************************
 void animarExplosionProta(){
 	if ((explosion_prota_activada) && (fase_explosion_prota<4)){
 
@@ -424,19 +431,24 @@ void animarExplosionProta(){
 		explosiones_prota[4].cx=explosiones_prota[4].cx+SALTO_EXPLOSION_PROTA;
 	} 
 }
-
-//Actualizar Explosion Prota
+//******************************************************************************
+// Función: actualizarExplosionProta()
+//
+//******************************************************************************
 void actualizarExplosionProta(){
 	unsigned char i=0;
 	if (explosion_prota_activada){
 		for (i=0;i<5;i++){
-			cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
+			//cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
+			printSpriteXOR(explosion_sprite[0][fase_explosion_prota],explosiones_prota[i].cx,explosiones_prota[i].cy,explosiones_prota[i].memoriaPantalla)
 		}
 		fase_explosion_prota++;
 		if (fase_explosion_prota<4){
 			for (i=0;i<5;i++){
-				explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
-				cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
+				//explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
+				//cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
+				explosiones_prota[i].memoriaPantalla = getScreenAddress(explosiones_prota[i].cx,explosiones_prota[i].cy);
+				printSpriteXOR(explosion_sprite[0][fase_explosion_prota],explosiones_prota[i].cx,explosiones_prota[i].cy,0);
 			}
 		} else{
 			explosion_prota_activada=0;
@@ -1027,7 +1039,8 @@ void borrarMalos(){
 		for (i=0;i<MAX_MALOS;i++){
 			if ((malos[i].activo==1) && (malos[i].nuevo==0) && (malos[i].moved)){
 				if((malos[i].ox>0)&&(malos[i].ox<159)&&(malos[i].oy>0)&&(malos[i].oy<199))
-				cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].oy]+malos[i].ox);
+				//cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].oy]+malos[i].ox);
+				printSpriteXOR(malos[i].sp0,malos[i].ox,malos[i].oy,0);
 				if (malos[i].dead){
 					malos[i].activo=0;
 					malos_activos--;
@@ -1044,7 +1057,8 @@ void pintarMalos(){
 			if ((malos[i].activo==1) && (malos[i].moved)){
 				//Pinto los malos si están dentro de la pantalla
 				if((malos[i].cx>0)&&(malos[i].cx<159)&&(malos[i].cy>0)&&(malos[i].cy<199))
-				cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].cy]+malos[i].cx);
+				//cpc_PutSpXOR(malos[i].sp0,malos[i].h,malos[i].w,direccionLinea[malos[i].cy]+malos[i].cx);
+				printSpriteXOR(malos[i].sp0,malos[i].cx,malos[i].cy,0);
 				malos[i].ox=malos[i].cx;
 				malos[i].oy=malos[i].cy;
 				if (malos[i].nuevo) malos[i].nuevo=0;
@@ -1213,7 +1227,8 @@ void inicializarProta(){
 
 void borrarProta(){
 	if ((prota.moved) || (prota.dead==1)){
-		cpc_PutSpXOR(prota.sp0,16,4,direccionLinea[prota.oy]+prota.ox);
+		//cpc_PutSpXOR(prota.sp0,16,4,direccionLinea[prota.oy]+prota.ox);
+		printSpriteXOR(prota.sp0,prota.ox,prota.oy,0);
 		if (prota.dead) { 
 			prota.moved=0;
 			prota.dead++;
@@ -1253,7 +1268,8 @@ void moverProta(){
 
 void pintarProta(){
 	if ((prota.moved) && (!prota.dead)){
-		cpc_PutSpXOR(prota.sp0,16,4,direccionLinea[prota.cy]+prota.cx);
+		//cpc_PutSpXOR(prota.sp0,16,4,direccionLinea[prota.cy]+prota.cx);
+		printSpriteXOR(prota.sp0,prota.cx,prota.cy,0);
 		prota.ox=prota.cx;
 		prota.oy=prota.cy;
 		prota.moved=0;

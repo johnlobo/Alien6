@@ -6,9 +6,9 @@ extern unsigned char tintas[] =  	//inks
 0x1A,0x16,0x1E,0x13,0x1F,0x17,0x15,0x10,0x14
 };
 
-extern unsigned char nave[64] =
+extern unsigned char nave[66] =
 {
-//	  4,  16, 		 /* Width x Height */
+	  4,  16, 		 /* Width x Height */
 /* pixels */
 	  0,  81, 162,   0,
 	  0,  21,  42,   0,
@@ -28,20 +28,9 @@ extern unsigned char nave[64] =
 	170,  16,  40,  85
 };
 
-extern unsigned char shot[4] =
-//const unsigned char shot[6] =
+extern unsigned char baddie01[62] =
 {
-//	  1,  4, 		 /* Width x Height */
-/* pixels */
-	 16,
-	 16,
-	 16,
-	 16
-};
-
-extern unsigned char baddie01[60] =
-{
-//	  4,  16, 		 /* Width x Height */
+	  4,  15, 		 /* Width x Height */
 /* pixels */
 	 20,   0,   0,  40,
 	150,   0,   0, 105,
@@ -60,6 +49,45 @@ extern unsigned char baddie01[60] =
 	 21,   0,   0,  42,
 };
 
+/* Name    : baddie02 */
+/* Frame   : 0 */
+/* Palette : Amstrad CPC Mode 0 */
+/* Masked  : No */
+/* RowOrder: Classic */
+/* Size: 4 x 8 - (bytes x pixels) */
+extern unsigned char baddie02[34] =
+{
+	  4,   8, 		 /* Width x Height */
+/* pixels */
+	  0,  15,  27,   0,
+	  5,  15,  15,  34,
+	 15,  91,  47,  27,
+	 15, 243, 159,  27,
+	135,  91, 167,  15,
+	131,  15,  15,  15,
+	 65,   7,  15,  10,
+	  0, 195,  15,   0
+};
+
+/* Name    : baddie02 */
+/* Frame   : 1 */
+/* Palette : Amstrad CPC Mode 0 */
+/* Masked  : No */
+/* RowOrder: Classic */
+/* Size: 4 x 8 - (bytes x pixels) */
+extern unsigned char baddie03[34] =
+{
+	  4,   8, 		 /* Width x Height */
+/* pixels */
+	255, 255, 255, 255,
+	255, 163,  83, 127,
+	 85, 167,  83,  42,
+	 85, 167,  91,  42,
+	  0, 251, 183,   0,
+	  0, 251, 183,   0,
+	  0,  85,  42,   0,
+	  0,  85,  42,   0
+};
 
 /* Name    : explosion02 */
 /* Frame   : 0 */
@@ -68,9 +96,9 @@ extern unsigned char baddie01[60] =
 /* RowOrder: Classic */
 /* Size: 4 x 16 - (bytes x pixels) */
 
-extern unsigned char explosion02000[64] =
+extern unsigned char explosion02000[66] =
 {
-//	  4,  16, 		 /* Width x Height */
+	  4,  16, 		 /* Width x Height */
 /* pixels */
 	  0,   0,   0,   0,
 	  0,  84, 168,   0,
@@ -95,9 +123,9 @@ extern unsigned char explosion02000[64] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 4 x 16 - (bytes x pixels) */
-extern unsigned char explosion02001[64] =
+extern unsigned char explosion02001[66] =
 {
-//	  4,  16, 		 /* Width x Height */
+	  4,  16, 		 /* Width x Height */
 /* pixels */
 	  0,   0,   0,   0,
 	  0,   0,   0,   0,
@@ -122,9 +150,9 @@ extern unsigned char explosion02001[64] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 4 x 16 - (bytes x pixels) */
-extern unsigned char explosion02002[64] =
+extern unsigned char explosion02002[66] =
 {
-//	  4,  16, 		 /* Width x Height */
+	  4,  16, 		 /* Width x Height */
 /* pixels */
 	  0,   0,   0,   0,
 	  0,   0,   0,   0,
@@ -149,9 +177,9 @@ extern unsigned char explosion02002[64] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 4 x 16 - (bytes x pixels) */
-extern unsigned char explosion02003[64] =
+extern unsigned char explosion02003[66] =
 {
-//	  4,  16, 		 /* Width x Height */
+	  4,  16, 		 /* Width x Height */
 /* pixels */
 	  0,   0,   0,   0,
 	  0,   0,   0,   0,
@@ -170,9 +198,9 @@ extern unsigned char explosion02003[64] =
 	  0,   0,   0,   0,
 	  0,   0,   0,   0
 };
-extern unsigned char explosion02004[64] =
+extern unsigned char explosion02004[66] =
 {
-//	  4,  16, 		 /* Width x Height */
+	  4,  16, 		 /* Width x Height */
 /* pixels */
 	  0,   0,   0,   0,
 	  0,   0,   0,   0,
@@ -279,52 +307,16 @@ extern unsigned char redFlag[14] =
 	  0,   4  
 };
 
-/* Name    : baddie02 */
-/* Frame   : 0 */
-/* Palette : Amstrad CPC Mode 0 */
-/* Masked  : No */
-/* RowOrder: Classic */
-/* Size: 4 x 8 - (bytes x pixels) */
-extern unsigned char baddie02[32] =
-{
-//	  4,   8, 		 /* Width x Height */
-/* pixels */
-	  0,  15,  27,   0,
-	  5,  15,  15,  34,
-	 15,  91,  47,  27,
-	 15, 243, 159,  27,
-	135,  91, 167,  15,
-	131,  15,  15,  15,
-	 65,   7,  15,  10,
-	  0, 195,  15,   0
-};
-/* Name    : baddie02 */
-/* Frame   : 1 */
-/* Palette : Amstrad CPC Mode 0 */
-/* Masked  : No */
-/* RowOrder: Classic */
-/* Size: 4 x 8 - (bytes x pixels) */
-extern unsigned char baddie03[32] =
-{
-//	  4,   8, 		 /* Width x Height */
-/* pixels */
-	255, 255, 255, 255,
-	255, 163,  83, 127,
-	 85, 167,  83,  42,
-	 85, 167,  91,  42,
-	  0, 251, 183,   0,
-	  0, 251, 183,   0,
-	  0,  85,  42,   0,
-	  0,  85,  42,   0
-};
+
 
 /* Name    : toque */
 /* Frame   : 0 */
 /* Palette : Amstrad CPC Mode 0 */
 /* Masked  : No */
 /* RowOrder: Classic */
-extern unsigned char toque000[16] =
+extern unsigned char toque000[18] =
 {
+	  2,   8, 		 /* Width x Height */
 /* pixels */
 	 64, 128,
 	  0,   0,
@@ -340,8 +332,9 @@ extern unsigned char toque000[16] =
 /* Palette : Amstrad CPC Mode 0 */
 /* Masked  : No */
 /* RowOrder: Classic */
-extern unsigned char toque001[16] =
+extern unsigned char toque001[18] =
 {
+	  2,   8, 		 /* Width x Height */
 /* pixels */
 	 64, 128,
 	  0,   0,
@@ -357,8 +350,9 @@ extern unsigned char toque001[16] =
 /* Palette : Amstrad CPC Mode 0 */
 /* Masked  : No */
 /* RowOrder: Classic */
-extern unsigned char toque002[16] =
+extern unsigned char toque002[18] =
 {
+	  2,   8, 		 /* Width x Height */
 /* pixels */
 	  0,   0,
 	  0,   0,
@@ -374,8 +368,9 @@ extern unsigned char toque002[16] =
 /* Palette : Amstrad CPC Mode 0 */
 /* Masked  : No */
 /* RowOrder: Classic */
-extern unsigned char toque003[16] =
+extern unsigned char toque003[18] =
 {
+	  2,   8, 		 /* Width x Height */
 /* pixels */
 	  0,   0,
 	  0,   0,
@@ -387,8 +382,9 @@ extern unsigned char toque003[16] =
 	  0,  64
 };
 
-extern unsigned char toque004[16] =
+extern unsigned char toque004[18] =
 {
+	  2,   8, 		 /* Width x Height */
 /* pixels */
 	  0,   0,
 	  0,   0,
@@ -400,9 +396,9 @@ extern unsigned char toque004[16] =
 	  0,   0
 };
 
-extern unsigned char fire000[4] =
+extern unsigned char fire000[6] =
 {
-//	  2,   4, 		 /* Width x Height */
+	  2,   4, 		 /* Width x Height */
 /* pixels */
 	180, 112,
 	 16,  40,
@@ -413,9 +409,9 @@ extern unsigned char fire000[4] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 2 x 4 - (bytes x pixels) */
-extern unsigned char fire001[4] =
+extern unsigned char fire001[6] =
 {
-//	  2,   4, 		 /* Width x Height */
+	  2,   4, 		 /* Width x Height */
 /* pixels */
 	112,  56,
 	 20, 160,
@@ -426,16 +422,16 @@ extern unsigned char fire001[4] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 2 x 4 - (bytes x pixels) */
-extern unsigned char fire002[4] =
+extern unsigned char fire002[6] =
 {
-//	  2,   4, 		 /* Width x Height */
+	  2,   4, 		 /* Width x Height */
 /* pixels */
 	 56, 180,
 	 80,  32,
 };
-unsigned char addones000[32] =
+unsigned char addones000[34] =
 {
-//	  4,   8, 		 /* Width x Height */
+	  4,   8, 		 /* Width x Height */
 /* pixels */
 	 17, 192, 192, 128,
 	 17, 192, 192, 128,
@@ -452,9 +448,9 @@ unsigned char addones000[32] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 4 x 8 - (bytes x pixels) */
-unsigned char addones001[32] =
+unsigned char addones001[34] =
 {
-//	  4,   8, 		 /* Width x Height */
+	  4,   8, 		 /* Width x Height */
 /* pixels */
 	  0, 170,   0, 170,
 	 85,  42,  85,  42,
@@ -471,9 +467,9 @@ unsigned char addones001[32] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 4 x 8 - (bytes x pixels) */
-unsigned char addones002[32] =
+unsigned char addones002[34] =
 {
-//	  4,   8, 		 /* Width x Height */
+	  4,   8, 		 /* Width x Height */
 /* pixels */
 	138,  81,   0, 162,
 	 17,  17,  17,   0,
@@ -490,9 +486,9 @@ unsigned char addones002[32] =
 /* Masked  : No */
 /* RowOrder: Classic */
 /* Size: 4 x 8 - (bytes x pixels) */
-unsigned char addones003[32] =
+unsigned char addones003[34] =
 {
-//	  4,   8, 		 /* Width x Height */
+	  4,   8, 		 /* Width x Height */
 /* pixels */
 	  0,   0,   0,   0,
 	 16, 168, 188,  40,
