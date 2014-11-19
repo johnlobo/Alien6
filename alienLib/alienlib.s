@@ -26,10 +26,10 @@ _printSpriteXOR::			; dibujar en pantalla el sprite
 	ld a,b					;Compruebo si x esta dentro de los limites de la pantalla
 	cp #0
 	jr c,#volver
-	cp #0x9f
+	sub a,#0x9f
 	jr nc,#volver
 	ld a,c					;Compruebo si y esta dentro de los limites de la pantalla
-	cp #0xc8
+	sub a,#0xc8
 	jr nc,#volver
 	cp #0
 	jr c,#volver
