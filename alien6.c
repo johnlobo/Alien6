@@ -444,7 +444,7 @@ void actualizarExplosionProta(){
 	if (explosion_prota_activada){
 		for (i=0;i<5;i++){
 			//cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
-			printSpriteXOR(explosion_sprite[0][fase_explosion_prota],explosiones_prota[i].cx,explosiones_prota[i].cy,explosiones_prota[i].memoriaPantalla)
+			printSpriteXOR(explosion_sprite[0][fase_explosion_prota],explosiones_prota[i].cx,explosiones_prota[i].cy,explosiones_prota[i].memoriaPantalla);
 		}
 		fase_explosion_prota++;
 		if (fase_explosion_prota<4){
@@ -523,7 +523,7 @@ void actualizarExplosiones(){
 		for (i=0;i<MAX_EXPLOSIONES;i++){
 			if (explosiones[i].activo==1){
 				//cpc_PutSpXOR((char *)explosion_sprite[explosiones[i].tipo][explosiones[i].fase],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
-				printSpriteXOR(explosion_sprite[tipo][0],explosiones[i].cx,explosiones[i].cy,explosiones[i].memoriaPantalla);
+				printSpriteXOR(explosion_sprite[explosiones[i].tipo][explosiones[i].fase],explosiones[i].cx,explosiones[i].cy,explosiones[i].memoriaPantalla);
 			}
 		}
 	}
@@ -742,7 +742,7 @@ void borrarAddones(){
 		for (i=0;i<MAX_ADDONES;i++){
 			if ((addones[i].activo==1) && (addones[i].moved)){
 				//cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
-				putSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0)
+				printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
 			}
 		}
 	}
@@ -754,7 +754,7 @@ void pintarAddones(){
 		for (i=0;i<MAX_ADDONES;i++){
 			if ((addones[i].activo==1) && (addones[i].moved)){
 				//cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
-				putSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0)
+				printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
 				addones[i].moved=0;
 				addones[i].lastmoved=getTime();
 			}

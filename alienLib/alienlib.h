@@ -2,5 +2,6 @@
 #define __alienlib_h__
 
 void printSpriteXOR(char *sprite, char x, char y, int direccion);
+int getScreenAddress (char x, char y);
 
 #endif /* __alienlib_h__ */

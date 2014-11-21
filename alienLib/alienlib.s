@@ -12,8 +12,8 @@
 ;******************************
 .globl _getScreenAddress
 _getScreenAddress::			; dibujar en pantalla el sprite
-	push bc
-	push de
+;	push bc
+;	push de
 	ld ix,#2
 	add ix,sp
 	ld b,0 (ix)				;recupero la coordenada x
@@ -46,13 +46,12 @@ calculardireccionGSA:			;busco la dirección de pantalla en la tabla de direccion
 	ld a,b					;cargo la coordenada x en A
 	add l					;añado la coordenada x a la dirección obtenida en la tabla
 	ld l,a
-	pop de
-	pop bc
-	ret
+	jr #salir
 error:
 	ld hl,#0xC000
-	pop de
-	pop bc
+salir:
+;	pop de
+;	pop bc
 	ret
 	
 	
@@ -73,7 +72,7 @@ error:
 ;******************************
 .globl _printSpriteXOR
 _printSpriteXOR::			; dibujar en pantalla el sprite
-	exx						; cambio los registros
+;	exx						; cambio los registros
 	ld ix,#2
 	add ix,sp
 	ld b,2 (ix)				;recupero la coordenada x
@@ -169,7 +168,7 @@ salto_lineax:
 	jp loop_alto_2x
 
 volver:
-	exx
+;	exx
 	ret
 
 ancho: .db #0				;almacena el ancho del sprite a imprimir
