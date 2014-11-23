@@ -16,8 +16,8 @@ unsigned char tintas[] =  	//inks
 0x1A,0x16,0x1E,0x13,0x1F,0x17,0x15,0x10,0x14
 };
 
-void pause(unsigned char p){
-	unsigned char i;
+void pause(unsigned int p){
+	unsigned int i;
 	for (i=0; i < p; i++) {
 		__asm
 		halt
@@ -51,14 +51,12 @@ void main(){
 	
 	setColour(17,3);
 	
-	for (i=25;i<200;i=i+5){
+	for (i=0;i<200;i=i+5){
 		for (j=0;j<79;j=j+3){
-			add=getScreenAddress(j,i);
 			printSpriteXOR(heart,j,i,0);
-			pause(20);
 		}
-		pause(200);
 	}
 	
+	pause(1000);
 	enableFirmware();
 }

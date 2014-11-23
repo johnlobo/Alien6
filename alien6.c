@@ -852,6 +852,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 //Inicializar Malos
 void inicializarMalos(){
 	unsigned char i = 0;
+	unsigned char x;
 	
 	for(i=0;i<MAX_MALOS;i++){
 		malos[i].activo=0;
@@ -864,26 +865,20 @@ void inicializarMalos(){
 	switch(nivel) {
 	case 1:
 		malos_activos=8;
-		for (i=0;i < malos_activos;i=i+2){
+		x=20;
+		for (i=0;i < 4;i++){
 			cargarMalo(i,1);
-			cargarMalo(i+1,2);
+			malos[i].cx=x;
+			x=x+12;
+			malos[i].cy=17;  // primera fila de malos
 		}
-		malos[0].cx=20;  // coloco en formación el segundo malo
-		malos[0].cy=17;  // coloco en formación el segundo malo
-		malos[1].cx=32;  // coloco en formación el segundo malo
-		malos[1].cy=17;  // coloco en formación el segundo malo		
-		malos[2].cx=44;  // coloco en formación el segundo malo
-		malos[2].cy=17;  // coloco en formación el segundo malo
-		malos[3].cx=56;  // coloco en formación el segundo malo
-		malos[3].cy=17;  // coloco en formación el segundo malo		
-		malos[4].cx=26;  // coloco en formación el segundo malo
-		malos[4].cy=36;  // coloco en formación el segundo malo
-		malos[5].cx=38;  // coloco en formación el segundo malo
-		malos[5].cy=36;  // coloco en formación el segundo malo		
-		malos[6].cx=50;  // coloco en formación el segundo malo
-		malos[6].cy=36;  // coloco en formación el segundo malo
-		malos[7].cx=62;  // coloco en formación el segundo malo
-		malos[7].cy=36;  // coloco en formación el segundo malo		
+		x=26;
+		for (i=4;i < 8;i++){
+			cargarMalo(i,2);
+			malos[i].cx=x;
+			x=x+12;
+			malos[i].cy=36;  // segunda fila de malos
+		}
 		for (i=0;i < malos_activos;i++){
 			malos[i].ox=malos[i].cx;
 			malos[i].oy=malos[i].cy;
