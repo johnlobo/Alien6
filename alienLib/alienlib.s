@@ -1,4 +1,113 @@
 ;******************************
+; 	void disableFirmware();
+;
+; 	Descripción:	
+;	Entrada:	
+;	Salida:		
+;
+; @cpcrslib  
+;*****************************	
+.globl _disableFirmware
+_disableFirmware::
+	DI
+	LD HL,(#0X0038)
+	LD (backup_fw),HL
+	LD HL,#0X0038
+	LD (HL),#0XFB		;EI
+	INC HL
+	LD (HL),#0XC9		;RET
+	EI
+	RET
+
+backup_fw:
+	.DW  #0
+
+;******************************
+; 	void enableFirmware();
+;
+; 	Descripción:	
+;	Entrada:	
+;	Salida:		
+;
+; @cpcrslib  
+;*****************************	
+.globl 	_enableFirmware
+_enableFirmware::
+	DI
+	LD DE,(backup_fw)
+	LD HL,#0X0038
+	LD (HL),E			;EI
+	INC HL
+	LD (HL),D			;RET
+	EI
+	RET
+	
+;******************************
+; 	void clrScr();
+;
+; 	Descripción:	
+;	Entrada:	
+;	Salida:		
+;
+; @cpcrslib  
+;******************************	
+.globl _clrScr
+_clrScr::
+	XOR A
+	LD HL,#0xC000
+	LD DE,#0xC001
+	LD BC,#16383
+	LD (HL),A
+	LDIR
+	RET
+	
+;******************************
+; 	void setColour(unsigned char num,  char color);
+;
+; 	Descripción:	
+;	Entrada:	
+;	Salida:		
+;
+; @cpcrslib  
+;******************************	
+.globl  _setColour
+_setColour::		;El número de tinta 17 es el borde
+    LD HL,#2
+    ADD HL,SP
+  	LD A,(HL)
+    INC HL
+  	;INC HL
+    LD E,(HL)
+  	LD BC,#0x7F00                     ;Gate Array
+	OUT (C),A                       ;Número de tinta
+	LD A,#64 ;@01000000              	;Color (y Gate Array)
+	ADD E
+	OUT (C),A
+	RET
+
+;******************************
+; 	void setMode (char modo)
+;
+; 	Descripción:	
+;	Entrada:	- Modo de pantalla
+;	Salida:		
+;
+; @cpcrslib  
+;******************************
+
+.globl _setMode
+_setMode::
+	;ld a,l
+	LD HL,#2
+	ADD HL,SP
+	LD L,(HL)				; Comprobar que el valor vaya a L!!
+	LD BC,#0x7F00          ;Gate array port
+	LD D,#140 ;@10001100	   ;Mode  and  rom  selection  (and Gate Array function)
+	ADD D
+	OUT (C),A
+	RET
+
+;******************************
 ; 	int getScreenAddress (char x, char y)
 ;
 ; 	Descripción:	Devuelve la dirección de pantalla correspondiente a las coordenadas x,y pasadas 
@@ -12,9 +121,9 @@
 ;******************************
 .globl _getScreenAddress
 _getScreenAddress::			; dibujar en pantalla el sprite
-;	push bc
-;	push de
-	ld ix,#2
+	push bc
+	push de
+	ld ix,#6
 	add ix,sp
 	ld b,0 (ix)				;recupero la coordenada x
 	ld c,1 (ix)				;recupero la coordenada y
@@ -23,7 +132,7 @@ getScreenAddressInicio:
 	ld a,b					;Compruebo si x esta dentro de los limites de la pantalla
 	cp #0
 	jr c,#error
-	cp #0x9f
+	cp #0x50
 	jr nc,#error
 	ld a,c					;Compruebo si y esta dentro de los limites de la pantalla
 	cp #0xc8
@@ -46,14 +155,15 @@ calculardireccionGSA:			;busco la dirección de pantalla en la tabla de direccion
 	ld a,b					;cargo la coordenada x en A
 	add l					;añado la coordenada x a la dirección obtenida en la tabla
 	ld l,a
+	jr nc,#salir
+	inc h
 	jr #salir
 error:
-	ld hl,#0xC000
+	ld hl,#0x0000
 salir:
-;	pop de
-;	pop bc
+	pop de
+	pop bc
 	ret
-	
 	
 ;******************************
 ; printSpriteXOR (int sprite, char x, char y, int direccion)
@@ -72,7 +182,7 @@ salir:
 ;******************************
 .globl _printSpriteXOR
 _printSpriteXOR::			; dibujar en pantalla el sprite
-;	exx						; cambio los registros
+	exx						; cambio los registros
 	ld ix,#2
 	add ix,sp
 	ld b,2 (ix)				;recupero la coordenada x
@@ -83,7 +193,7 @@ _printSpriteXOR::			; dibujar en pantalla el sprite
 	ld a,b					;Compruebo si x esta dentro de los limites de la pantalla
 	cp #0
 	jr c,#volver
-	cp #0x9f
+	cp #0x50
 	jr nc,#volver
 	ld a,c					;Compruebo si y esta dentro de los limites de la pantalla
 	cp #0xc8
@@ -108,15 +218,17 @@ calculardireccion:			;busco la dirección de pantalla en la tabla de direcciones
 	ld a,b					;cargo la coordenada x en A
 	add l					;añado la coordenada x a la dirección obtenida en la tabla
 	ld l,a
+	jr nc,#calcularclipping
+	inc h
 calcularclipping:
 	ld e,0 (ix)				;recupero la dirección del sprite (dos bytes)
 	ld d,1 (ix)
 	ld a,(de)
 	ld (#ancho),a
 	add b
-	cp #0x9f
+	cp #0x50
 	jr c,#calculoalto
-	ld a,#0x9f
+	ld a,#0x50
 	sub b
 	ld (#ancho),a
 calculoalto:
@@ -125,9 +237,9 @@ calculoalto:
 	inc de
 	ld (#alto),a
 	add c
-	cp #0xc7
+	cp #0xc8
 	jr c,#imprimirsprite
-	ld a,#0xc7
+	ld a,#0xc8
 	sub c
 	ld (#alto),a	
 imprimirsprite:	
@@ -168,7 +280,7 @@ salto_lineax:
 	jp loop_alto_2x
 
 volver:
-;	exx
+	exx
 	ret
 
 ancho: .db #0				;almacena el ancho del sprite a imprimir

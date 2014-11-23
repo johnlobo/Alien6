@@ -5,6 +5,7 @@
 -k D:\programas\SDCC\bin\..\lib\z80
 -l cpcrslib.lib
 -l cpcwyzlib.lib
+-l alienlib.lib
 -l z80
 crt0_cpc.rel
 

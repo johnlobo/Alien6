@@ -80,7 +80,9 @@ typedef struct {
 //EXPLOSION
 typedef struct {
 	unsigned char cx;
-	unsigned char cy;	//2 bytes 89 	current coordinates
+	unsigned char cy;	
+	unsigned char ox;
+	unsigned char oy;
 	int memoriaPantalla;
 } TIPO_EXPLOSION_PROTA;
 //ESTRELLA

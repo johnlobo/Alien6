@@ -1,5 +1,5 @@
 -mjwx
--i crt0_cpc.ihx
+-i test01.ihx
 -b _CODE = 0x0138
 -b _DATA = 0x0000
 -k D:\programas\SDCC\bin\..\lib\z80
@@ -7,6 +7,7 @@
 -l cpcwyzlib.lib
 -l alienlib.lib
 -l z80
+test01.rel
 crt0_cpc.rel
 
 -e

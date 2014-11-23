@@ -1,0 +1,221 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW64)
+                              4 ; This file was generated Sun Nov 23 00:23:51 2014
+                              5 ;--------------------------------------------------------
+                              6 	.module test01
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _main
+                             13 	.globl _setColours
+                             14 	.globl _pause
+                             15 	.globl _getScreenAddress
+                             16 	.globl _printSpriteXOR
+                             17 	.globl _setColour
+                             18 	.globl _setMode
+                             19 	.globl _disableFirmware
+                             20 	.globl _enableFirmware
+                             21 	.globl _tintas
+                             22 	.globl _heart
+                             23 ;--------------------------------------------------------
+                             24 ; special function registers
+                             25 ;--------------------------------------------------------
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area _DATA
+                             30 ;--------------------------------------------------------
+                             31 ; ram data
+                             32 ;--------------------------------------------------------
+                             33 	.area _INITIALIZED
+   0000                      34 _heart::
+   0000                      35 	.ds 17
+   0011                      36 _tintas::
+   0011                      37 	.ds 17
+                             38 ;--------------------------------------------------------
+                             39 ; absolute external ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area _DABS (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; global & static initialisations
+                             44 ;--------------------------------------------------------
+                             45 	.area _HOME
+                             46 	.area _GSINIT
+                             47 	.area _GSFINAL
+                             48 	.area _GSINIT
+                             49 ;--------------------------------------------------------
+                             50 ; Home
+                             51 ;--------------------------------------------------------
+                             52 	.area _HOME
+                             53 	.area _HOME
+                             54 ;--------------------------------------------------------
+                             55 ; code
+                             56 ;--------------------------------------------------------
+                             57 	.area _CODE
+                             58 ;test01.c:19: void pause(unsigned char p){
+                             59 ;	---------------------------------
+                             60 ; Function pause
+                             61 ; ---------------------------------
+   0000                      62 _pause_start::
+   0000                      63 _pause:
+                             64 ;test01.c:21: for (i=0; i < p; i++) {
+   0000 16 00         [ 7]   65 	ld	d,#0x00
+   0002                      66 00103$:
+   0002 21 02 00      [10]   67 	ld	hl,#2
+   0005 39            [11]   68 	add	hl,sp
+   0006 7A            [ 4]   69 	ld	a,d
+   0007 96            [ 7]   70 	sub	a, (hl)
+   0008 D0            [11]   71 	ret	NC
+                             72 ;test01.c:24: __endasm;
+   0009 76            [ 4]   73 	halt
+                             74 ;test01.c:21: for (i=0; i < p; i++) {
+   000A 14            [ 4]   75 	inc	d
+   000B 18 F5         [12]   76 	jr	00103$
+   000D C9            [10]   77 	ret
+   000E                      78 _pause_end::
+                             79 ;test01.c:32: void setColours()
+                             80 ;	---------------------------------
+                             81 ; Function setColours
+                             82 ; ---------------------------------
+   000E                      83 _setColours_start::
+   000E                      84 _setColours:
+                             85 ;test01.c:35: for (x=0; x<17; x++)
+   000E 1E 00         [ 7]   86 	ld	e,#0x00
+   0010                      87 00102$:
+                             88 ;test01.c:37: setColour(x,tintas[x]);
+   0010 21r11r00      [10]   89 	ld	hl,#_tintas
+   0013 16 00         [ 7]   90 	ld	d,#0x00
+   0015 19            [11]   91 	add	hl, de
+   0016 66            [ 7]   92 	ld	h,(hl)
+   0017 D5            [11]   93 	push	de
+   0018 E5            [11]   94 	push	hl
+   0019 33            [ 6]   95 	inc	sp
+   001A 7B            [ 4]   96 	ld	a,e
+   001B F5            [11]   97 	push	af
+   001C 33            [ 6]   98 	inc	sp
+   001D CDr00r00      [17]   99 	call	_setColour
+   0020 F1            [10]  100 	pop	af
+   0021 D1            [10]  101 	pop	de
+                            102 ;test01.c:35: for (x=0; x<17; x++)
+   0022 1C            [ 4]  103 	inc	e
+   0023 7B            [ 4]  104 	ld	a,e
+   0024 D6 11         [ 7]  105 	sub	a, #0x11
+   0026 38 E8         [12]  106 	jr	C,00102$
+   0028 C9            [10]  107 	ret
+   0029                     108 _setColours_end::
+                            109 ;test01.c:41: void main(){
+                            110 ;	---------------------------------
+                            111 ; Function main
+                            112 ; ---------------------------------
+   0029                     113 _main_start::
+   0029                     114 _main:
+                            115 ;test01.c:46: disableFirmware();
+   0029 CDr00r00      [17]  116 	call	_disableFirmware
+                            117 ;test01.c:48: setMode(0);
+   002C AF            [ 4]  118 	xor	a, a
+   002D F5            [11]  119 	push	af
+   002E 33            [ 6]  120 	inc	sp
+   002F CDr00r00      [17]  121 	call	_setMode
+   0032 33            [ 6]  122 	inc	sp
+                            123 ;test01.c:50: setColours();
+   0033 CDr0Er00      [17]  124 	call	_setColours
+                            125 ;test01.c:52: setColour(17,3);
+   0036 21 11 03      [10]  126 	ld	hl,#0x0311
+   0039 E5            [11]  127 	push	hl
+   003A CDr00r00      [17]  128 	call	_setColour
+   003D F1            [10]  129 	pop	af
+                            130 ;test01.c:54: for (i=25;i<200;i=i+5){
+   003E 16 19         [ 7]  131 	ld	d,#0x19
+                            132 ;test01.c:55: for (j=0;j<79;j=j+3){
+   0040                     133 00109$:
+   0040 1E 00         [ 7]  134 	ld	e,#0x00
+   0042                     135 00103$:
+                            136 ;test01.c:56: add=getScreenAddress(j,i);
+   0042 D5            [11]  137 	push	de
+   0043 D5            [11]  138 	push	de
+   0044 CDr00r00      [17]  139 	call	_getScreenAddress
+   0047 F1            [10]  140 	pop	af
+   0048 D1            [10]  141 	pop	de
+                            142 ;test01.c:57: printSpriteXOR(heart,j,i,0);
+   0049 01r00r00      [10]  143 	ld	bc,#_heart
+   004C D5            [11]  144 	push	de
+   004D 21 00 00      [10]  145 	ld	hl,#0x0000
+   0050 E5            [11]  146 	push	hl
+   0051 D5            [11]  147 	push	de
+   0052 C5            [11]  148 	push	bc
+   0053 CDr00r00      [17]  149 	call	_printSpriteXOR
+   0056 21 06 00      [10]  150 	ld	hl,#6
+   0059 39            [11]  151 	add	hl,sp
+   005A F9            [ 6]  152 	ld	sp,hl
+   005B 3E 14         [ 7]  153 	ld	a,#0x14
+   005D F5            [11]  154 	push	af
+   005E 33            [ 6]  155 	inc	sp
+   005F CDr00r00      [17]  156 	call	_pause
+   0062 33            [ 6]  157 	inc	sp
+   0063 D1            [10]  158 	pop	de
+                            159 ;test01.c:55: for (j=0;j<79;j=j+3){
+   0064 1C            [ 4]  160 	inc	e
+   0065 1C            [ 4]  161 	inc	e
+   0066 1C            [ 4]  162 	inc	e
+   0067 7B            [ 4]  163 	ld	a,e
+   0068 D6 4F         [ 7]  164 	sub	a, #0x4F
+   006A 38 D6         [12]  165 	jr	C,00103$
+                            166 ;test01.c:60: pause(200);
+   006C D5            [11]  167 	push	de
+   006D 3E C8         [ 7]  168 	ld	a,#0xC8
+   006F F5            [11]  169 	push	af
+   0070 33            [ 6]  170 	inc	sp
+   0071 CDr00r00      [17]  171 	call	_pause
+   0074 33            [ 6]  172 	inc	sp
+   0075 D1            [10]  173 	pop	de
+                            174 ;test01.c:54: for (i=25;i<200;i=i+5){
+   0076 7A            [ 4]  175 	ld	a,d
+   0077 C6 05         [ 7]  176 	add	a, #0x05
+   0079 57            [ 4]  177 	ld	d,a
+   007A D6 C8         [ 7]  178 	sub	a, #0xC8
+   007C 38 C2         [12]  179 	jr	C,00109$
+                            180 ;test01.c:63: enableFirmware();
+   007E C3r00r00      [10]  181 	jp	_enableFirmware
+   0081                     182 _main_end::
+                            183 	.area _CODE
+                            184 	.area _INITIALIZER
+   0000                     185 __xinit__heart:
+   0000 03                  186 	.db #0x03	; 3
+   0001 05                  187 	.db #0x05	; 5
+   0002 50                  188 	.db #0x50	; 80	'P'
+   0003 14                  189 	.db #0x14	; 20
+   0004 00                  190 	.db #0x00	; 0
+   0005 B4                  191 	.db #0xB4	; 180
+   0006 3C                  192 	.db #0x3C	; 60
+   0007 28                  193 	.db #0x28	; 40
+   0008 B4                  194 	.db #0xB4	; 180
+   0009 3C                  195 	.db #0x3C	; 60
+   000A 28                  196 	.db #0x28	; 40
+   000B 14                  197 	.db #0x14	; 20
+   000C 3C                  198 	.db #0x3C	; 60
+   000D 00                  199 	.db #0x00	; 0
+   000E 00                  200 	.db #0x00	; 0
+   000F 28                  201 	.db #0x28	; 40
+   0010 00                  202 	.db #0x00	; 0
+   0011                     203 __xinit__tintas:
+   0011 14                  204 	.db #0x14	; 20
+   0012 01                  205 	.db #0x01	; 1
+   0013 0B                  206 	.db #0x0B	; 11
+   0014 09                  207 	.db #0x09	; 9
+   0015 0A                  208 	.db #0x0A	; 10
+   0016 0E                  209 	.db #0x0E	; 14
+   0017 0C                  210 	.db #0x0C	; 12
+   0018 1C                  211 	.db #0x1C	; 28
+   0019 1A                  212 	.db #0x1A	; 26
+   001A 16                  213 	.db #0x16	; 22
+   001B 1E                  214 	.db #0x1E	; 30
+   001C 13                  215 	.db #0x13	; 19
+   001D 1F                  216 	.db #0x1F	; 31
+   001E 17                  217 	.db #0x17	; 23
+   001F 15                  218 	.db #0x15	; 21
+   0020 10                  219 	.db #0x10	; 16
+   0021 14                  220 	.db #0x14	; 20
+                            221 	.area _CABS (ABS)
