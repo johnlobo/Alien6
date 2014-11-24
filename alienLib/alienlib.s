@@ -1,4 +1,56 @@
 ;******************************
+; 	unsigned char detectarColision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned ; 			  char y2,unsigned char w2,unsigned char h2){
+;	return ((x1 < x2 + w2) &&
+;	(x1 + w1 > x2) &&
+;	(y1 < y2 + h2) &&
+;	(h1 + y1 > y2));
+;
+; 	Descripción:	Devuelve la dirección de pantalla correspondiente a las coordenadas x,y pasadas 
+;					como parámetro
+;	Entrada:	- Coordenada x objeto 1
+;				- Coordenada y objeto 1
+				- Ancho objeto 1
+				- Alto objeto 1
+				- Coordenada x objeto 1
+;				- Coordenada y objeto 1
+				- Ancho objeto 1
+				- Alto objeto 1
+;	Salida:		- HL = 1 si se ha producido una colisión, HL = 0 en caso contrario
+;	Modificados: 
+;
+; @JohnLobo Nov15  
+;******************************
+.globl _detectColision
+_detectColision::		
+	
+	ld ix,#2
+	add ix,sp
+	ld h,4 (ix)				;recupero la coordenada x2
+	ld l,5 (ix)				;recupero la coordenada y2
+	ld (#coordenadas2),h
+	ld (#coordenadas2+1),l
+	ex de,hl
+	ld h,2 (ix)				;recupero el ancho1
+	ld l,3 (ix)				;recupero el alto1
+	
+	
+	or a
+	sbc hl,de
+	jp m,aa1   ; Salta si HL < DE
+	jp p,aa1   ; Salta si HL >= DE
+	
+	
+	ret
+	coordenadas1: .dw #0
+	dimensiones1: .dw #0
+	coordenadas2: .dw #0
+	dimensiones2: .dw #0
+	resultado1: .db #0
+	resultado2: .db #0
+	resultado3: .db #0
+	resultado4: .db #0
+
+;******************************
 ; 	int getScreenAddress (char x, char y)
 ;
 ; 	Descripción:	Devuelve la dirección de pantalla correspondiente a las coordenadas x,y pasadas 
