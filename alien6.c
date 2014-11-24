@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "cpcrslib.h"
+#include "cpcrslib2.h"
 #include "cpcwyzlib.h"	//Music & Sound library
 #include "datos.h"
 #include "estructuras.h"
@@ -730,7 +730,8 @@ void moverAddones(){
 		for (i=0;i<MAX_ADDONES;i++){
 			if ((addones[i].activo==1) && (lapso-addones[i].lastmoved>addones[i].speed)){
 				//Movimiento de la formación
-				addones[i].y++;
+				addones[i].y=addones[i].y+4;
+				addones[i].moved=1;
 				//Si el addon ha llegado al final de la pantalla lo desactivo
 				if (addones[i].y>199){
 					addones[i].activo=0;

@@ -28,73 +28,73 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000022  l__INITIALIZED                  
      00000022  l__INITIALIZER                  
      00000138  s__CODE                         
-     00000336  l__CODE                         
-     0000046E  s__DATA                         
-     0000046E  s__INITIALIZED                  
-     00000490  s__GSINIT                       
-     00000490  s__HOME                         
-     0000049F  s__GSFINAL                      
-     000004A0  s__INITIALIZER                  
-     000004C2  s__BSEG                         
-     000004C2  s__BSS                          
-     000004C2  s__HEAP                         
+     0000033B  l__CODE                         
+     00000473  s__DATA                         
+     00000473  s__INITIALIZED                  
+     00000495  s__GSINIT                       
+     00000495  s__HOME                         
+     000004A4  s__GSFINAL                      
+     000004A5  s__INITIALIZER                  
+     000004C7  s__BSEG                         
+     000004C7  s__BSS                          
+     000004C7  s__HEAP                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000138    00000336 =         822. bytes (REL,CON)
+_CODE                               00000138    0000033B =         827. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00000138  _pause                             test01
      00000138  _pause_start                       test01
-     00000146  _pause_end                         test01
-     00000146  _setColours                        test01
-     00000146  _setColours_start                  test01
-     00000161  _main                              test01
-     00000161  _main_start                        test01
-     00000161  _setColours_end                    test01
-     000001B9  __clock                            crt0
-     000001B9  _main_end                          test01
-     000001BA  _exit                              crt0
-     000001BB  _disableFirmware                   
-     000001CE  _enableFirmware                    
-     000001DB  _clrScr                            
-     000001E9  _setColour                         
-     000001FB  _setMode                           
-     00000209  _getScreenAddress                  
-     00000244  _printSpriteXOR                    
+     0000014A  _pause_end                         test01
+     0000014A  _setColours                        test01
+     0000014A  _setColours_start                  test01
+     00000165  _main                              test01
+     00000165  _main_start                        test01
+     00000165  _setColours_end                    test01
+     000001AC  __clock                            crt0
+     000001AC  _main_end                          test01
+     000001AD  _exit                              crt0
+     000001AE  _disableFirmware                   
+     000001C1  _enableFirmware                    
+     000001CE  _clrScr                            
+     000001DC  _setColour                         
+     000001EE  _setMode                           
+     000001FC  _getScreenAddress                  
+     00000237  _printSpriteXOR                    
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZED                        0000046E    00000022 =          34. bytes (REL,CON)
+_INITIALIZED                        00000473    00000022 =          34. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000046E  _heart                             test01
-     0000047F  _tintas                            test01
+     00000473  _heart                             test01
+     00000484  _tintas                            test01
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSINIT                             00000490    0000000F =          15. bytes (REL,CON)
+_GSINIT                             00000495    0000000F =          15. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00000490  gsinit                             crt0
+     00000495  gsinit                             crt0
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSFINAL                            0000049F    00000001 =           1. bytes (REL,CON)
+_GSFINAL                            000004A4    00000001 =           1. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -103,7 +103,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZER                        000004A0    00000022 =          34. bytes (REL,CON)
+_INITIALIZER                        000004A5    00000022 =          34. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW64)
-; This file was generated Sun Nov 23 00:23:51 2014
+; This file was generated Sun Nov 23 02:42:38 2014
 ;--------------------------------------------------------
 	.module test01
 	.optsdcc -mz80
@@ -12,7 +12,6 @@
 	.globl _main
 	.globl _setColours
 	.globl _pause
-	.globl _getScreenAddress
 	.globl _printSpriteXOR
 	.globl _setColour
 	.globl _setMode
@@ -55,24 +54,27 @@ _tintas::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;test01.c:19: void pause(unsigned char p){
+;test01.c:19: void pause(unsigned int p){
 ;	---------------------------------
 ; Function pause
 ; ---------------------------------
 _pause_start::
 _pause:
 ;test01.c:21: for (i=0; i < p; i++) {
-	ld	d,#0x00
+	ld	de,#0x0000
 00103$:
 	ld	hl,#2
 	add	hl,sp
-	ld	a,d
+	ld	a,e
 	sub	a, (hl)
+	ld	a,d
+	inc	hl
+	sbc	a, (hl)
 	ret	NC
 ;test01.c:24: __endasm;
 	halt
 ;test01.c:21: for (i=0; i < p; i++) {
-	inc	d
+	inc	de
 	jr	00103$
 	ret
 _pause_end::
@@ -127,19 +129,13 @@ _main:
 	push	hl
 	call	_setColour
 	pop	af
-;test01.c:54: for (i=25;i<200;i=i+5){
-	ld	d,#0x19
+;test01.c:54: for (i=0;i<200;i=i+5){
+	ld	d,#0x00
 ;test01.c:55: for (j=0;j<79;j=j+3){
 00109$:
 	ld	e,#0x00
 00103$:
-;test01.c:56: add=getScreenAddress(j,i);
-	push	de
-	push	de
-	call	_getScreenAddress
-	pop	af
-	pop	de
-;test01.c:57: printSpriteXOR(heart,j,i,0);
+;test01.c:56: printSpriteXOR(heart,j,i,0);
 	ld	bc,#_heart
 	push	de
 	ld	hl,#0x0000
@@ -150,11 +146,6 @@ _main:
 	ld	hl,#6
 	add	hl,sp
 	ld	sp,hl
-	ld	a,#0x14
-	push	af
-	inc	sp
-	call	_pause
-	inc	sp
 	pop	de
 ;test01.c:55: for (j=0;j<79;j=j+3){
 	inc	e
@@ -163,21 +154,18 @@ _main:
 	ld	a,e
 	sub	a, #0x4F
 	jr	C,00103$
-;test01.c:60: pause(200);
-	push	de
-	ld	a,#0xC8
-	push	af
-	inc	sp
-	call	_pause
-	inc	sp
-	pop	de
-;test01.c:54: for (i=25;i<200;i=i+5){
+;test01.c:54: for (i=0;i<200;i=i+5){
 	ld	a,d
 	add	a, #0x05
 	ld	d,a
 	sub	a, #0xC8
 	jr	C,00109$
-;test01.c:63: enableFirmware();
+;test01.c:60: pause(1000);
+	ld	hl,#0x03E8
+	push	hl
+	call	_pause
+	pop	af
+;test01.c:61: enableFirmware();
 	jp	_enableFirmware
 _main_end::
 	.area _CODE
