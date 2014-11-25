@@ -274,7 +274,10 @@ unsigned char pixelEstrella(unsigned char nPixel){
 	
 	return nByte;
 }
-
+//******************************************************************************
+// Función GetMode0PixelColorByte(unsigned char nColor, unsigned char nPixel)
+//
+//******************************************************************************
 unsigned char GetMode0PixelColorByte(unsigned char nColor, unsigned char nPixel)
 {
 	unsigned char nByte = 0;
@@ -332,7 +335,10 @@ void inicializarEstrellas(){
 	}
 	lastMovedEstrella = 0;
 }
-
+//******************************************************************************
+// Función void borrarEstrellas()
+//
+//******************************************************************************
 void borrarEstrellas(){
 	for(nStar = 0; nStar < STARS_NUM; nStar++)
 	{
@@ -344,7 +350,10 @@ void borrarEstrellas(){
 		//*pStar->pCurrentAddress ^= pixelEstrella(pStar->nX % 2);
 	}
 }
-
+//******************************************************************************
+// Función void pintarEstrellas()
+//
+//******************************************************************************
 void pintarEstrellas(){
 	for(nStar = 0; nStar < STARS_NUM; nStar++)
 	{
@@ -358,7 +367,10 @@ void pintarEstrellas(){
 		//*pStar->pCurrentAddress ^= pixelEstrella(pStar->nX % 2);
 	}
 }
-
+//******************************************************************************
+// Función void moverEstrellas()
+//
+//******************************************************************************
 void moverEstrellas(){
 	// Pintar Estrellas
 	for(nStar = 0; nStar < STARS_NUM; nStar++)
@@ -409,8 +421,6 @@ void crearExplosionProta(unsigned char x, unsigned char y){
 	explosiones_prota[4].cx=x+SALTO_EXPLOSION_PROTA;
 	explosiones_prota[4].cy=y;
 	for (i=0;i<5;i++){
-		//explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
-		//cpc_PutSpXOR((char *)explosion_sprite[0][0],16,4,explosiones_prota[i].memoriaPantalla);
 		explosiones_prota[i].memoriaPantalla = getScreenAddress(explosiones_prota[i].cx,explosiones_prota[i].cy);
 		printSpriteXOR(explosion_sprite[0][0],explosiones_prota[i].cx,explosiones_prota[i].cy,explosiones_prota[i].memoriaPantalla);
 		explosiones_prota[i].ox=explosiones_prota[i].cx;
@@ -445,15 +455,11 @@ void actualizarExplosionProta(){
 	unsigned char i=0;
 	if (explosion_prota_activada){
 		for (i=0;i<5;i++){
-			//cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
-			//printSpriteXOR(explosion_sprite[0][fase_explosion_prota],explosiones_prota[i].cx,explosiones_prota[i].cy,explosiones_prota[i].memoriaPantalla);
 			printSpriteXOR(explosion_sprite[0][fase_explosion_prota],explosiones_prota[i].ox,explosiones_prota[i].oy,explosiones_prota[i].memoriaPantalla);
 		}
 		fase_explosion_prota++;
 		if (fase_explosion_prota<4){
 			for (i=0;i<5;i++){
-				//explosiones_prota[i].memoriaPantalla = direccionLinea[explosiones_prota[i].cy]+explosiones_prota[i].cx;
-				//cpc_PutSpXOR((char *)explosion_sprite[0][fase_explosion_prota],16,4,explosiones_prota[i].memoriaPantalla);
 				explosiones_prota[i].memoriaPantalla = getScreenAddress(explosiones_prota[i].cx,explosiones_prota[i].cy);
 				printSpriteXOR(explosion_sprite[0][fase_explosion_prota],explosiones_prota[i].cx,explosiones_prota[i].cy,explosiones_prota[i].memoriaPantalla);
 				explosiones_prota[i].ox=explosiones_prota[i].cx;
@@ -468,8 +474,10 @@ void actualizarExplosionProta(){
 //
 //EXPLOSIONES
 //
-
-//Inicializar Explosiones
+//******************************************************************************
+// Función: inicializarExplosiones()
+//
+//******************************************************************************
 void inicializarExplosiones(){
 	unsigned char i = 0;
 	
@@ -496,7 +504,10 @@ void inicializarExplosiones(){
 	explosion_sprite[1][2]=&toque002;
 	explosion_sprite[1][3]=&toque003;
 }
-//Crear explosion
+//******************************************************************************
+// Función: crearExplosion(unsigned char tipo, unsigned char x, unsigned char y)
+//
+//******************************************************************************
 void crearExplosion(unsigned char tipo, unsigned char x, unsigned char y){
 	unsigned char i;
 	i=0;
@@ -508,7 +519,6 @@ void crearExplosion(unsigned char tipo, unsigned char x, unsigned char y){
 	explosiones[i].fase=0;
 	explosiones[i].cx=x;
 	explosiones[i].cy=y;
-	//explosiones[i].memoriaPantalla = direccionLinea[explosiones[i].cy]+explosiones[i].cx;
 	explosiones[i].memoriaPantalla = getScreenAddress(explosiones[i].cx,explosiones[i].cy);
 	if (!tipo){
 		explosiones[i].h=16;
@@ -518,10 +528,12 @@ void crearExplosion(unsigned char tipo, unsigned char x, unsigned char y){
 		explosiones[i].w=2;
 	}
 	explosiones_activas++;
-	//cpc_PutSpXOR((char *)explosion_sprite[tipo][0],explosiones[i].h,explosiones[i].w,explosiones[i].memoriaPantalla);
 	printSpriteXOR(explosion_sprite[tipo][0],explosiones[i].cx,explosiones[i].cy,explosiones[i].memoriaPantalla);
 }
-//Actualizar Explosiones
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void actualizarExplosiones(){
 	unsigned char i=0;
 	if (explosiones_activas>0){
@@ -533,7 +545,10 @@ void actualizarExplosiones(){
 		}
 	}
 }
-//Animar Explosiones
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void animarExplosiones(){
 	unsigned char i=0;
 	if (explosiones_activas>0){
@@ -558,7 +573,10 @@ void animarExplosiones(){
 //DISPAROS MALOS
 //
 
-//Inicializar Disparos Malos
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void inicializarDisparosMalos(){
 	unsigned char k;
 	k=0;
@@ -575,7 +593,10 @@ void inicializarDisparosMalos(){
 	}
 	disparos_malos_activos=0;
 }
-//Crear Disparo Malo
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void crearDisparoMalo(unsigned char x, unsigned char y, unsigned speed){
 	unsigned char k;
 	k=0;
@@ -597,7 +618,10 @@ void crearDisparoMalo(unsigned char x, unsigned char y, unsigned speed){
 	disparos_malos_activos++;
 	if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 }
-//Mover Disparos Malos
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void moverDisparosMalos(){
 	unsigned char i;
 	long lapso;
@@ -636,14 +660,16 @@ void moverDisparosMalos(){
 	}
 
 }
-//Borrar Disparos Malos
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void borrarDisparosMalos(){
 	unsigned char k;
 	k=0;
 	if (disparos_malos_activos>0){
 		for (k=0;k<MAX_DISPAROS_MALOS;k++){
 			if ((disparosMalos[k].activo==1) && (disparosMalos[k].nuevo==0) && (disparosMalos[k].moved)){
-				//cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].oy]+disparosMalos[k].ox);
 				printSpriteXOR(disparosMalos[k].sp0,disparosMalos[k].ox,disparosMalos[k].oy,0);
 				if (disparosMalos[k].dead){
 					disparosMalos[k].activo=0;
@@ -653,14 +679,16 @@ void borrarDisparosMalos(){
 		}
 	}
 }
-//Pintar Disparos Malos
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void pintarDisparosMalos(){
 	unsigned char k;
 	k=0;
 	if (disparos_malos_activos>0){
 		for (k=0;k<MAX_DISPAROS_MALOS;k++){
 			if ((disparosMalos[k].activo==1) && (disparosMalos[k].moved) && (!disparosMalos[k].dead)){
-				//cpc_PutSpXOR(disparosMalos[k].sp0,4,2,direccionLinea[disparosMalos[k].cy]+disparosMalos[k].cx);
 				printSpriteXOR(disparosMalos[k].sp0,disparosMalos[k].cx,disparosMalos[k].cy,0);
 				disparosMalos[k].ox=disparosMalos[k].cx;
 				disparosMalos[k].oy=disparosMalos[k].cy;
@@ -677,7 +705,10 @@ void pintarDisparosMalos(){
 // ADDONES
 //
 
-//Inicializo los addones, pero solo los campos necesarios para la carga
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void inicializarAddones(){
 	unsigned char i;
 	for (i=0;i<MAX_ADDONES;i++){
@@ -690,7 +721,10 @@ void inicializarAddones(){
 	addon_sprite[2]=&addones002;
 	addon_sprite[3]=&addones003;
 }
-//Crear Addon
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void crearAddon(unsigned char posx, unsigned char posy){
 	unsigned char i;
 	unsigned char aux;
@@ -713,14 +747,18 @@ void crearAddon(unsigned char posx, unsigned char posy){
 		addones[i].tipo=3;
 		addones[i].x=posx;
 		addones[i].y=posy+10;
-		addones[i].moved=0;
+		addones[i].moved=1;
 		addones[i].lastmoved=0;
 		addones[i].speed=40;
 		//Aumentar el contador de addones activos
 		addones_activos++;
+		printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
 	}
 }
-//Mover addones
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void moverAddones(){
 	unsigned char i;
 	long lapso;
@@ -741,25 +779,29 @@ void moverAddones(){
 		}
 	}
 }
-//Borrar Addones
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void borrarAddones(){
 	unsigned char i = 0;
 	if (addones_activos>0){
 		for (i=0;i<MAX_ADDONES;i++){
 			if ((addones[i].activo==1) && (addones[i].moved)){
-				//cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
 				printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
 			}
 		}
 	}
 }
-//Pintar Addones
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void pintarAddones(){
 	unsigned char i = 0;
 	if (addones_activos>0){
 		for (i=0;i<MAX_ADDONES;i++){
 			if ((addones[i].activo==1) && (addones[i].moved)){
-				//cpc_PutSpXOR(addon_sprite[addones[i].tipo],6,3,direccionLinea[addones[i].y]+addones[i].x);
 				printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
 				addones[i].moved=0;
 				addones[i].lastmoved=getTime();
@@ -772,7 +814,10 @@ void pintarAddones(){
 //ATAQUES
 //
 
-//Inicializo los ataques, pero solo los campos necesarios para la carga
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void inicializarAtaques(){
 	unsigned char i;
 	for (i=0;i<MAX_ATAQUES;i++){
@@ -782,7 +827,10 @@ void inicializarAtaques(){
 	}
 	ataques_activos=0;
 }
-// Crear Ataque
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void crearAtaque(unsigned char malo){
 	unsigned char i;
 	i=0;
@@ -803,7 +851,10 @@ void crearAtaque(unsigned char malo){
 //
 //MALOS
 //
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void cargarMalo(unsigned char malo, unsigned char tipo){
 	malos[malo].type=tipo;
 	switch(tipo) {
@@ -850,7 +901,10 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 	}
 
 }
-//Inicializar Malos
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void inicializarMalos(){
 	unsigned char i = 0;
 	unsigned char x;
@@ -889,76 +943,53 @@ void inicializarMalos(){
 
 		break;
 	case 2:
+		x=20;
 		malos_activos=4;
 		for (i=0;i < malos_activos;i++){
 			cargarMalo(i,2);
-		}
-		malos[0].cx=29;  // coloco en formación el segundo malo
-		malos[0].cy=20;  // coloco en formación el segundo malo
-		malos[1].cx=38;  // coloco en formación el segundo malo
-		malos[1].cy=28;  // coloco en formación el segundo malo		
-		malos[2].cx=47;  // coloco en formación el segundo malo
-		malos[2].cy=20;  // coloco en formación el segundo malo
-		malos[3].cx=56;  // coloco en formación el segundo malo
-		malos[3].cy=28;  // coloco en formación el segundo malo		
-		for (i=0;i < malos_activos;i++){
-			malos[i].ox=malos[i].cx;
+			malos[i].cx=x;
+			malos[i].ox=x;
+			malos[i].homeX=x;
+			x=x+9;
+			malos[i].cy=20+((i%2)*8); 
 			malos[i].oy=malos[i].cy;
-			malos[i].homeX=malos[i].cx;
 			malos[i].homeY=malos[i].cy;
 		}
-
 		break;
 	case 3:
 		malos_activos=5;
+		x=20;
 		for (i=0;i < malos_activos;i++){
 			cargarMalo(i,3);
+			malos[i].cx=x;
+			malos[i].ox=x;
+			malos[i].homeX=x;
+			x=x+9;
+			malos[i].cy=17; 
+			malos[i].oy=17;
+			malos[i].homeY=17;
 		}
-		malos[0].cx=20;  // coloco en formación el segundo malo
-		malos[0].cy=17;  // coloco en formación el segundo malo
-		malos[1].cx=29;  // coloco en formación el segundo malo
-		malos[1].cy=17;  // coloco en formación el segundo malo		
-		malos[2].cx=38;  // coloco en formación el segundo malo
-		malos[2].cy=17;  // coloco en formación el segundo malo
-		malos[3].cx=47;  // coloco en formación el segundo malo
-		malos[3].cy=17;  // coloco en formación el segundo malo
-		malos[4].cx=56;  // coloco en formación el segundo malo
-		malos[4].cy=17;  // coloco en formación el segundo malo			
-		for (i=0;i < malos_activos;i++){
-			malos[i].ox=malos[i].cx;
-			malos[i].oy=malos[i].cy;
-			malos[i].homeX=malos[i].cx;
-			malos[i].homeY=malos[i].cy;
-		}
-
 		break;
 	default:
 		malos_activos=5;
+		x=20;
 		for (i=0;i < malos_activos;i++){
 			cargarMalo(i,3);
-		}
-		malos[0].cx=20;  // coloco en formación el segundo malo
-		malos[0].cy=17;  // coloco en formación el segundo malo
-		malos[1].cx=29;  // coloco en formación el segundo malo
-		malos[1].cy=17;  // coloco en formación el segundo malo		
-		malos[2].cx=38;  // coloco en formación el segundo malo
-		malos[2].cy=17;  // coloco en formación el segundo malo
-		malos[3].cx=47;  // coloco en formación el segundo malo
-		malos[3].cy=17;  // coloco en formación el segundo malo
-		malos[4].cx=56;  // coloco en formación el segundo malo
-		malos[4].cy=17;  // coloco en formación el segundo malo			
-		for (i=0;i < malos_activos;i++){
-			malos[i].ox=malos[i].cx;
-			malos[i].oy=malos[i].cy;
-			malos[i].homeX=malos[i].cx;
-			malos[i].homeY=malos[i].cy;
+			malos[i].cx=x;
+			malos[i].ox=x;
+			malos[i].homeX=x;
+			x=x+9;
+			malos[i].cy=17; 
+			malos[i].oy=17;
+			malos[i].homeY=17;
 		}
 		break;
 	}
 }
-
-
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void moverMalos(){
 	unsigned char i;
 	unsigned char j;
@@ -1051,7 +1082,10 @@ void moverMalos(){
 		}
 	}
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void borrarMalos(){
 	unsigned char i = 0;
 	if (malos_activos>0){
@@ -1068,7 +1102,10 @@ void borrarMalos(){
 		}
 	}
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void pintarMalos(){
 	unsigned char i = 0;
 	if (malos_activos>0){
@@ -1088,8 +1125,10 @@ void pintarMalos(){
 
 
 }
-
-//Inicializar los disparos del prota
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void inicializarDisparos(){
 	unsigned char k;
 	for (k=0;k<MAX_DISPAROS;k++){
@@ -1105,7 +1144,10 @@ void inicializarDisparos(){
 	}
 	disparos_activos=0;
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void crearDisparo(unsigned char x, unsigned char y){
 	unsigned char k;
 	k=0;
@@ -1124,7 +1166,10 @@ void crearDisparo(unsigned char x, unsigned char y){
 	prota.lastShot = getTime();
 	if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void moverDisparos(){
 	unsigned char i;
 	unsigned char j;
@@ -1190,7 +1235,10 @@ void moverDisparos(){
 	}
 
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void borrarDisparos(){
 	unsigned char k;
 	k=0;
@@ -1207,11 +1255,10 @@ void borrarDisparos(){
 		}
 	}
 }
-
-
-
-
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void pintarDisparos(){
 	unsigned char k;
 	k=0;
@@ -1228,7 +1275,13 @@ void pintarDisparos(){
 		}
 	}
 }
-
+//
+// prota
+//
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void inicializarProta(){
 	prota.activo=1;
 	prota.sp0=nave;
@@ -1243,10 +1296,10 @@ void inicializarProta(){
 	prota.lastShot=0;
 	prota.reloadSpeed=80; //Velocidad de recarga
 }
-
-
-
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void moverProta(){
 	if (!prota.dead){
 		if (cpc_TestKey(KEY_RIGHT)==1 && prota.cx<=75)   // DERECHA
@@ -1275,7 +1328,10 @@ void moverProta(){
 		}
 	}
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void borrarProta(){
 	if ((prota.moved) || (prota.dead==1)){
 		//cpc_PutSpXOR(prota.sp0,16,4,direccionLinea[prota.oy]+prota.ox);
@@ -1295,8 +1351,10 @@ void pintarProta(){
 		prota.moved=0;
 	}
 }
-
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void inicializarTeclado()
 {
 	cpc_AssignKey (KEY_LEFT, 0x4404);		// O
@@ -1312,7 +1370,10 @@ void inicializarTeclado()
 	cpc_AssignKey (KEY_DEBUG, 0x4720);		// D
 	cpc_AssignKey (KEY_HOSTILITY, 0x4510);		// H
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void mostrarVidasProta(){
 	unsigned char i = 0;
 	for (i=0;i<prota.vidas;i++){
@@ -1321,6 +1382,13 @@ void mostrarVidasProta(){
 	}
 }
 
+//
+// Items
+//
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void pintarBanderasNivel(){
 	unsigned char i;
 	unsigned char avance;
@@ -1343,12 +1411,19 @@ void pintarBanderasNivel(){
 		avance=avance+3;
 	}
 }
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void inicializarPartida(){
 	prota.vidas=3;
 	nivel=1;
 	score=0;
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void debug(){
 	cpc_ClrScr();				//fills scr with ink 0
 	letrasColorAzul();
@@ -1371,7 +1446,10 @@ void debug(){
 	
 	cpc_ClrScr();				//fills scr with ink 0
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 char help() {
 	cpc_ClrScr();				//fills scr with ink 0
 	cpc_SetMode(0);				//hardware call to set mode 1
@@ -1390,7 +1468,10 @@ char help() {
 
 	return STATE_MENU; 
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 char gameOver()
 {
 	letrasColorAzul();
@@ -1409,7 +1490,10 @@ char gameOver()
 	
 	return STATE_MENU; 
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 char levelUp()
 {
 	letrasColorAzul();
@@ -1437,7 +1521,10 @@ char levelUp()
 	
 	return STATE_GAME; 
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 char protaDead()
 {
 	letrasColorAzul();
@@ -1470,7 +1557,10 @@ char protaDead()
 	} else 
 	return STATE_LOSE; 
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 char win()
 {
 	letrasColorAzul();
@@ -1490,7 +1580,10 @@ char win()
 	
 	return STATE_MENU; 
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 unsigned char redefineKeys()
 {
 	
@@ -1525,7 +1618,10 @@ unsigned char redefineKeys()
 	
 	return STATE_MENU;
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void pintarMenu(){
 	cpc_ClrScr();				//fills scr with ink 0
 	cpc_SetMode(0);				//hardware call to set mode 1
@@ -1542,7 +1638,10 @@ void pintarMenu(){
 	letrasColorRojo();
 	cpc_PrintGphStrXY("JOHN;LOBO", 31, 11*16);
 }
-
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 char menu() {
 	char choice=-1;
 
