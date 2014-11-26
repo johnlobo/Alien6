@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Apr  5 2014) (MINGW64)
-; This file was generated Tue Nov 25 18:23:18 2014
+; This file was generated Tue Nov 25 23:15:40 2014
 ;--------------------------------------------------------
 	.module alien6
 	.optsdcc -mz80
@@ -4874,7 +4874,7 @@ _borrarAddones:
 	push	af
 	push	af
 	dec	sp
-;alien6.c:788: if (addones_activos>0){
+;alien6.c:788: if (addones_activos){
 	ld	a,(#_addones_activos + 0)
 	or	a, a
 	jp	Z,00109$
@@ -6077,9 +6077,11 @@ _inicializarMalos:
 	jr	00126$
 ;alien6.c:973: default:
 00110$:
-;alien6.c:974: malos_activos=5;
-	ld	hl,#_malos_activos + 0
-	ld	(hl), #0x05
+;alien6.c:974: malos_activos=nivel+2;
+	ld	hl,#_malos_activos
+	ld	a,(#_nivel + 0)
+	add	a, #0x02
+	ld	(hl),a
 ;alien6.c:976: for (i=0;i < malos_activos;i++){
 	ld	de,#0x0014
 	ld	hl, #2
@@ -6093,10 +6095,21 @@ _inicializarMalos:
 	ld	a,d
 	sub	a, (hl)
 	jr	NC,00131$
-;alien6.c:977: cargarMalo(i,3);
+;alien6.c:977: cargarMalo(i,(nivel%3)+1);
 	push	de
 	ld	a,#0x03
 	push	af
+	inc	sp
+	ld	a,(_nivel)
+	push	af
+	inc	sp
+	call	__moduschar_rrx_s
+	pop	af
+	ld	h,l
+	pop	de
+	inc	h
+	push	de
+	push	hl
 	inc	sp
 	push	de
 	inc	sp
@@ -7554,7 +7567,7 @@ _moverDisparos:
 	or	a, a
 	jp	Z,00135$
 ;alien6.c:1180: for (i=0;i<MAX_DISPAROS;i++){
-	ld	iy,#2
+	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
 	ld	hl, #31
@@ -7714,7 +7727,7 @@ _moverDisparos:
 	ld	iy,#16
 	add	iy,sp
 	ld	1 (iy),a
-	ld	iy,#1
+	ld	iy,#2
 	add	iy,sp
 	ld	0 (iy),#0x00
 	ld	hl, #14
@@ -7872,7 +7885,7 @@ _moverDisparos:
 	dec	a
 	jr	NZ,00106$
 ;alien6.c:1196: while ((ataques[k].idMalo!=j)&&(!ataques[k].activo))
-	ld	iy,#0
+	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),#0x00
 	ld	hl, #3
@@ -7895,7 +7908,7 @@ _moverDisparos:
 	ld	h, d
 	inc	hl
 	ld	b,(hl)
-	ld	hl, #1+0
+	ld	hl, #2+0
 	add	hl, sp
 	ld	a, (hl)
 	sub	a, b
@@ -7913,13 +7926,13 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	iy,#0
+	ld	iy,#1
 	add	iy,sp
 	inc	0 (iy)
 	jr	00102$
 00104$:
 ;alien6.c:1198: ataques[k].activo=0;
-	ld	hl, #0+0
+	ld	hl, #1+0
 	add	hl, sp
 	ld	c, (hl)
 	ld	b,#0x00
@@ -8090,7 +8103,7 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	iy,#1
+	ld	iy,#2
 	add	iy,sp
 	inc	0 (iy)
 	ld	a,0 (iy)
@@ -8174,7 +8187,7 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	iy,#2
+	ld	iy,#0
 	add	iy,sp
 	inc	0 (iy)
 	ld	a,0 (iy)
@@ -10581,7 +10594,7 @@ _game:
 ;alien6.c:1752: inicializarNivel();
 	call	_inicializarNivel
 ;alien6.c:1754: while(1)
-00139$:
+00141$:
 ;alien6.c:1760: if ((DEBUG) && (cpc_TestKey(KEY_DEBUG)==1)){			// DEBUG
 	ld	a,#0x0A
 	push	af
@@ -10846,48 +10859,53 @@ _game:
 	ld	bc, #4
 	ldir
 00115$:
-;alien6.c:1793: borrarAddones();
-	call	_borrarAddones
-;alien6.c:1794: moverAddones();
-	call	_moverAddones
-;alien6.c:1795: pintarAddones();
-	call	_pintarAddones
-;alien6.c:1798: moverDisparos();  		//Mover disparos
-	call	_moverDisparos
-;alien6.c:1799: borrarDisparos();		//Borro disparos
-	call	_borrarDisparos
-;alien6.c:1800: pintarDisparos();		//Pinto Disparos
-	call	_pintarDisparos
-;alien6.c:1803: moverMalos();		//Muevo los malos
-	call	_moverMalos
-;alien6.c:1804: borrarMalos();		//Borro los malos
-	call	_borrarMalos
-;alien6.c:1805: pintarMalos();		//Pinto los malos
-	call	_pintarMalos
-;alien6.c:1808: moverDisparosMalos();	//mover disparos
-	call	_moverDisparosMalos
-;alien6.c:1809: borrarDisparosMalos();	//borro disparos
-	call	_borrarDisparosMalos
-;alien6.c:1810: pintarDisparosMalos();	//Pinto Disparos
-	call	_pintarDisparosMalos
-;alien6.c:1813: if ((ESTRELLAS_ACTIVADAS) && (estrellasMovidas)){
-	ld	a,(#_estrellasMovidas + 0)
+;alien6.c:1793: if (addones_activos){
+	ld	a,(#_addones_activos + 0)
 	or	a, a
 	jr	Z,00118$
-;alien6.c:1814: pintarEstrellas();
+;alien6.c:1794: borrarAddones();
+	call	_borrarAddones
+;alien6.c:1795: moverAddones();
+	call	_moverAddones
+;alien6.c:1796: pintarAddones();
+	call	_pintarAddones
+00118$:
+;alien6.c:1800: moverDisparos();  		//Mover disparos
+	call	_moverDisparos
+;alien6.c:1801: borrarDisparos();		//Borro disparos
+	call	_borrarDisparos
+;alien6.c:1802: pintarDisparos();		//Pinto Disparos
+	call	_pintarDisparos
+;alien6.c:1805: moverMalos();		//Muevo los malos
+	call	_moverMalos
+;alien6.c:1806: borrarMalos();		//Borro los malos
+	call	_borrarMalos
+;alien6.c:1807: pintarMalos();		//Pinto los malos
+	call	_pintarMalos
+;alien6.c:1810: moverDisparosMalos();	//mover disparos
+	call	_moverDisparosMalos
+;alien6.c:1811: borrarDisparosMalos();	//borro disparos
+	call	_borrarDisparosMalos
+;alien6.c:1812: pintarDisparosMalos();	//Pinto Disparos
+	call	_pintarDisparosMalos
+;alien6.c:1815: if ((ESTRELLAS_ACTIVADAS) && (estrellasMovidas)){
+	ld	a,(#_estrellasMovidas + 0)
+	or	a, a
+	jr	Z,00120$
+;alien6.c:1816: pintarEstrellas();
 	call	_pintarEstrellas
-;alien6.c:1815: estrellasMovidas=0;
+;alien6.c:1817: estrellasMovidas=0;
 	ld	hl,#_estrellasMovidas + 0
 	ld	(hl), #0x00
-00118$:
-;alien6.c:1819: if (cambio_score){
+00120$:
+;alien6.c:1821: if (cambio_score){
 	ld	a,(#_cambio_score + 0)
 	or	a, a
-	jr	Z,00121$
-;alien6.c:1820: cambio_score=0;
+	jr	Z,00123$
+;alien6.c:1822: cambio_score=0;
 	ld	hl,#_cambio_score + 0
 	ld	(hl), #0x00
-;alien6.c:1821: sprintf(aux_txt,"%05d",score);
+;alien6.c:1823: sprintf(aux_txt,"%05d",score);
 	ld	de,#_aux_txt
 	ld	hl,(_score)
 	push	hl
@@ -10898,7 +10916,7 @@ _game:
 	ld	hl,#6
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:1822: cpc_PrintGphStr(aux_txt,0xc050);
+;alien6.c:1824: cpc_PrintGphStr(aux_txt,0xc050);
 	ld	hl,#_aux_txt
 	ld	bc,#0xC050
 	push	bc
@@ -10906,80 +10924,80 @@ _game:
 	call	_cpc_PrintGphStr
 	pop	af
 	pop	af
-00121$:
-;alien6.c:1825: if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos) && (!explosion_prota_activada)){
+00123$:
+;alien6.c:1827: if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos) && (!explosion_prota_activada)){
 	ld	a, (#_prota + 14)
 	or	a, a
-	jr	Z,00123$
+	jr	Z,00125$
 	ld	a,(#_explosiones_activas + 0)
 	or	a, a
-	jr	NZ,00123$
+	jr	NZ,00125$
 	ld	a,(#_disparos_activos + 0)
 	or	a, a
-	jr	NZ,00123$
+	jr	NZ,00125$
 	ld	a,(#_disparos_malos_activos + 0)
 	or	a, a
-	jr	NZ,00123$
+	jr	NZ,00125$
 	ld	a,(#_explosion_prota_activada + 0)
 	or	a, a
-	jr	NZ,00123$
-;alien6.c:1826: state = STATE_DEAD;
+	jr	NZ,00125$
+;alien6.c:1828: state = STATE_DEAD;
 	ld	hl,#_state + 0
 	ld	(hl), #0x0B
-;alien6.c:1827: break;
-	jr	00141$
-00123$:
-;alien6.c:1830: if (cpc_TestKey(KEY_ESC)==1){			// ESC
+;alien6.c:1829: break;
+	jr	00143$
+00125$:
+;alien6.c:1832: if (cpc_TestKey(KEY_ESC)==1){			// ESC
 	ld	a,#0x05
 	push	af
 	inc	sp
 	call	_cpc_TestKey
 	inc	sp
 	dec	l
-	jr	NZ,00132$
-;alien6.c:1831: state = STATE_MENU;
+	jr	NZ,00134$
+;alien6.c:1833: state = STATE_MENU;
 	ld	hl,#_state + 0
 	ld	(hl), #0x02
-;alien6.c:1832: break;
-	jr	00141$
-;alien6.c:1837: if ((DEBUG) && (cpc_TestKey(KEY_HOSTILITY)==1)){			
-00132$:
+;alien6.c:1834: break;
+	jr	00143$
+;alien6.c:1839: if ((DEBUG) && (cpc_TestKey(KEY_HOSTILITY)==1)){			
+00134$:
 	ld	a,#0x0B
 	push	af
 	inc	sp
 	call	_cpc_TestKey
 	inc	sp
 	dec	l
-	jr	NZ,00131$
-;alien6.c:1838: hostilidad=!hostilidad;
+	jr	NZ,00133$
+;alien6.c:1840: hostilidad=!hostilidad;
 	ld	a,(#_hostilidad + 0)
 	sub	a,#0x01
 	ld	a,#0x00
 	rla
 	ld	(#_hostilidad + 0),a
-00131$:
-;alien6.c:1842: if ((malos_activos==0) && (explosiones_activas==0) && (!disparos_activos) && (!disparos_malos_activos)){
+00133$:
+;alien6.c:1844: if ((malos_activos==0) && (explosiones_activas==0) && (!disparos_activos) && (!disparos_malos_activos)){
 	ld	a,(#_malos_activos + 0)
 	or	a, a
-	jp	NZ,00139$
+	jp	NZ,00141$
 	ld	a,(#_explosiones_activas + 0)
 	or	a, a
-	jp	NZ,00139$
+	jp	NZ,00141$
 	ld	a,(#_disparos_activos + 0)
 	or	a, a
-	jp	NZ,00139$
+	jp	NZ,00141$
 	ld	a,(#_disparos_malos_activos + 0)
 	or	a, a
-	jp	NZ,00139$
-;alien6.c:1843: state = STATE_LEVELUP;
+	jp	NZ,00141$
+;alien6.c:1845: state = STATE_LEVELUP;
 	ld	hl,#_state + 0
 	ld	(hl), #0x08
-;alien6.c:1849: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
-00141$:
+;alien6.c:1851: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+00143$:
 	call	_cpc_WyzSetPlayerOff
-;alien6.c:1850: timerOff();
+;alien6.c:1852: timerOff();
 	call	_timerOff
-;alien6.c:1851: return state;
+;alien6.c:1853: return state;
 	ld	iy,#_state
 	ld	l,0 (iy)
 	pop	af
@@ -10991,29 +11009,29 @@ _game_end::
 ___str_43:
 	.ascii "%05d"
 	.db 0x00
-;alien6.c:1857: void InitialSetUp() {
+;alien6.c:1859: void InitialSetUp() {
 ;	---------------------------------
 ; Function InitialSetUp
 ; ---------------------------------
 _InitialSetUp_start::
 _InitialSetUp:
-;alien6.c:1859: cpc_DisableFirmware();
+;alien6.c:1861: cpc_DisableFirmware();
 	call	_cpc_DisableFirmware
-;alien6.c:1861: set_colours();
+;alien6.c:1863: set_colours();
 	call	_set_colours
-;alien6.c:1862: cpc_SetMode(0);				//hardware call to set mode 0
+;alien6.c:1864: cpc_SetMode(0);				//hardware call to set mode 0
 	xor	a, a
 	push	af
 	inc	sp
 	call	_cpc_SetMode
 	inc	sp
-;alien6.c:1863: cpc_ClrScr();				//fills scr with ink 0
+;alien6.c:1865: cpc_ClrScr();				//fills scr with ink 0
 	call	_cpc_ClrScr
-;alien6.c:1865: letrasColorAzul();
+;alien6.c:1867: letrasColorAzul();
 	call	_letrasColorAzul
-;alien6.c:1867: inicializarTeclado();
+;alien6.c:1869: inicializarTeclado();
 	call	_inicializarTeclado
-;alien6.c:1871: cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
+;alien6.c:1873: cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
 	ld	hl,#_SOUND_TABLE_0
 	ld	bc,#_SONG_TABLE_0
 	push	bc
@@ -11026,30 +11044,30 @@ _InitialSetUp:
 	ld	hl,#8
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:1872: cpc_WyzLoadSong(0);
+;alien6.c:1874: cpc_WyzLoadSong(0);
 	xor	a, a
 	push	af
 	inc	sp
 	call	_cpc_WyzLoadSong
 	inc	sp
-;alien6.c:1873: cpc_WyzSetPlayerOn();
+;alien6.c:1875: cpc_WyzSetPlayerOn();
 	call	_cpc_WyzSetPlayerOn
-;alien6.c:1876: state = INITIAL_STATE;
+;alien6.c:1878: state = INITIAL_STATE;
 	ld	hl,#_state + 0
 	ld	(hl), #0x02
 	ret
 _InitialSetUp_end::
-;alien6.c:1883: int main() {
+;alien6.c:1885: int main() {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main_start::
 _main:
-;alien6.c:1884: InitialSetUp();
+;alien6.c:1886: InitialSetUp();
 	call	_InitialSetUp
-;alien6.c:1886: while (state != STATE_EXIT) {
+;alien6.c:1888: while (state != STATE_EXIT) {
 00122$:
-;alien6.c:1887: switch(state) {
+;alien6.c:1889: switch(state) {
 	ld	a,(#_state + 0)
 	cp	a,#0x05
 	jp	Z,00125$
@@ -11066,47 +11084,47 @@ _main:
 	sub	a, #0x09
 	jr	Z,00102$
 	jp	00120$
-;alien6.c:1888: case STATE_MENU:
+;alien6.c:1890: case STATE_MENU:
 00101$:
-;alien6.c:1889: state = menu();
+;alien6.c:1891: state = menu();
 	call	_menu
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1890: break;
+;alien6.c:1892: break;
 	jr	00122$
-;alien6.c:1892: case STATE_REDEFINE:
+;alien6.c:1894: case STATE_REDEFINE:
 00102$:
-;alien6.c:1893: state = redefineKeys();
+;alien6.c:1895: state = redefineKeys();
 	call	_redefineKeys
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1894: break;
+;alien6.c:1896: break;
 	jr	00122$
-;alien6.c:1896: case STATE_HELP:
+;alien6.c:1898: case STATE_HELP:
 00103$:
-;alien6.c:1897: state = help();
+;alien6.c:1899: state = help();
 	call	_help
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1898: break;
+;alien6.c:1900: break;
 	jr	00122$
-;alien6.c:1900: case STATE_GAME:
+;alien6.c:1902: case STATE_GAME:
 00104$:
-;alien6.c:1901: nivel=1;
+;alien6.c:1903: nivel=1;
 	ld	hl,#_nivel + 0
 	ld	(hl), #0x01
-;alien6.c:1902: prota.vidas=3;
+;alien6.c:1904: prota.vidas=3;
 	ld	hl,#(_prota + 0x000f)
 	ld	(hl),#0x03
-;alien6.c:1904: cambio_score=0;
+;alien6.c:1906: cambio_score=0;
 	ld	hl,#_cambio_score + 0
 	ld	(hl), #0x00
-;alien6.c:1905: score=0;
+;alien6.c:1907: score=0;
 	ld	hl,#_score + 0
 	ld	(hl), #0x00
 	ld	hl,#_score + 1
 	ld	(hl), #0x00
-;alien6.c:1907: while ((state!=STATE_LOSE) && (state!=STATE_WIN) && (state!=STATE_MENU)) {
+;alien6.c:1909: while ((state!=STATE_LOSE) && (state!=STATE_WIN) && (state!=STATE_MENU)) {
 00115$:
 	ld	a,(#_state + 0)
 	cp	a,#0x07
@@ -11115,13 +11133,13 @@ _main:
 	jr	Z,00122$
 	sub	a, #0x02
 	jr	Z,00122$
-;alien6.c:1909: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+;alien6.c:1911: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
 	call	_cpc_WyzSetPlayerOff
-;alien6.c:1910: state = game();
+;alien6.c:1912: state = game();
 	call	_game
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1912: cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
+;alien6.c:1914: cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
 	ld	hl,#_SOUND_TABLE_0
 	ld	bc,#_SONG_TABLE_0
 	push	bc
@@ -11134,63 +11152,63 @@ _main:
 	ld	hl,#8
 	add	hl,sp
 	ld	sp,hl
-;alien6.c:1913: cpc_WyzLoadSong(0);
+;alien6.c:1915: cpc_WyzLoadSong(0);
 	xor	a, a
 	push	af
 	inc	sp
 	call	_cpc_WyzLoadSong
 	inc	sp
-;alien6.c:1914: cpc_WyzSetPlayerOn();
+;alien6.c:1916: cpc_WyzSetPlayerOn();
 	call	_cpc_WyzSetPlayerOn
-;alien6.c:1916: if (state==STATE_LEVELUP)
+;alien6.c:1918: if (state==STATE_LEVELUP)
 	ld	a,(#_state + 0)
 	sub	a, #0x08
 	jr	NZ,00110$
-;alien6.c:1917: state=levelUp();
+;alien6.c:1919: state=levelUp();
 	call	_levelUp
 	ld	iy,#_state
 	ld	0 (iy),l
 00110$:
-;alien6.c:1918: if (state==STATE_DEAD){
+;alien6.c:1920: if (state==STATE_DEAD){
 	ld	a,(#_state + 0)
 	sub	a, #0x0B
 	jr	NZ,00115$
-;alien6.c:1919: prota.vidas--;
+;alien6.c:1921: prota.vidas--;
 	ld	a, (#(_prota + 0x000f) + 0)
 	add	a,#0xFF
 	ld	(#(_prota + 0x000f)),a
-;alien6.c:1920: state=protaDead();
+;alien6.c:1922: state=protaDead();
 	call	_protaDead
 	ld	iy,#_state
 	ld	0 (iy),l
 	jr	00115$
-;alien6.c:1925: case STATE_WIN:
+;alien6.c:1927: case STATE_WIN:
 00118$:
-;alien6.c:1926: state = win();
+;alien6.c:1928: state = win();
 	call	_win
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1927: break;
+;alien6.c:1929: break;
 	jp	00122$
-;alien6.c:1929: case STATE_LOSE:
+;alien6.c:1931: case STATE_LOSE:
 00119$:
-;alien6.c:1930: state = gameOver();
+;alien6.c:1932: state = gameOver();
 	call	_gameOver
 	ld	iy,#_state
 	ld	0 (iy),l
-;alien6.c:1931: break;
+;alien6.c:1933: break;
 	jp	00122$
-;alien6.c:1933: default:
+;alien6.c:1935: default:
 00120$:
-;alien6.c:1934: state = STATE_EXIT;
+;alien6.c:1936: state = STATE_EXIT;
 	ld	hl,#_state + 0
 	ld	(hl), #0x05
-;alien6.c:1936: }
+;alien6.c:1938: }
 	jp	00122$
-;alien6.c:1938: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+;alien6.c:1940: if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
 00125$:
 	call	_cpc_WyzSetPlayerOff
-;alien6.c:1940: return 0;  
+;alien6.c:1942: return 0;  
 	ld	hl,#0x0000
 	ret
 _main_end::

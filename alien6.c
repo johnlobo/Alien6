@@ -594,7 +594,7 @@ void inicializarDisparosMalos(){
 	disparos_malos_activos=0;
 }
 //******************************************************************************
-// Función: 
+// Función: void crearDisparoMalo(unsigned char x, unsigned char y, unsigned speed)
 //
 //******************************************************************************
 void crearDisparoMalo(unsigned char x, unsigned char y, unsigned speed){
@@ -722,7 +722,7 @@ void inicializarAddones(){
 	addon_sprite[3]=&addones003;
 }
 //******************************************************************************
-// Función: 
+// Función: void crearAddon(unsigned char posx, unsigned char posy)
 //
 //******************************************************************************
 void crearAddon(unsigned char posx, unsigned char posy){
@@ -738,13 +738,13 @@ void crearAddon(unsigned char posx, unsigned char posy){
 		//calculo el tipo de addon en base a un valor aleatorio y una probabilidad 40% escudo, 40% rafaga, 15% freeza, 5% vida extra
 		aux=cpc_Random();
 		if (aux<108)
-		addones[i].tipo=0;
+			addones[i].tipo=0;
 		else if (aux<216)
-		addones[i].tipo=1;
+			addones[i].tipo=1;
 		else if (aux<243)
-		addones[i].tipo=2;
+			addones[i].tipo=2;
 		else
-		addones[i].tipo=3;
+			addones[i].tipo=3;
 		addones[i].x=posx;
 		addones[i].y=posy+10;
 		addones[i].moved=1;
@@ -756,7 +756,7 @@ void crearAddon(unsigned char posx, unsigned char posy){
 	}
 }
 //******************************************************************************
-// Función: 
+// Función: void moverAddones()
 //
 //******************************************************************************
 void moverAddones(){
@@ -785,7 +785,7 @@ void moverAddones(){
 //******************************************************************************
 void borrarAddones(){
 	unsigned char i = 0;
-	if (addones_activos>0){
+	if (addones_activos){
 		for (i=0;i<MAX_ADDONES;i++){
 			if ((addones[i].activo==1) && (addones[i].moved)){
 				printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
@@ -794,7 +794,7 @@ void borrarAddones(){
 	}
 }
 //******************************************************************************
-// Función: 
+// Función: void pintarAddones()
 //
 //******************************************************************************
 void pintarAddones(){
@@ -828,7 +828,7 @@ void inicializarAtaques(){
 	ataques_activos=0;
 }
 //******************************************************************************
-// Función: 
+// Función: void crearAtaque(unsigned char malo)
 //
 //******************************************************************************
 void crearAtaque(unsigned char malo){
@@ -852,7 +852,7 @@ void crearAtaque(unsigned char malo){
 //MALOS
 //
 //******************************************************************************
-// Función: 
+// Función: cargarMalo(unsigned char malo, unsigned char tipo)
 //
 //******************************************************************************
 void cargarMalo(unsigned char malo, unsigned char tipo){
@@ -902,7 +902,7 @@ void cargarMalo(unsigned char malo, unsigned char tipo){
 
 }
 //******************************************************************************
-// Función: 
+// Función: inicializarMalos()
 //
 //******************************************************************************
 void inicializarMalos(){
@@ -971,10 +971,10 @@ void inicializarMalos(){
 		}
 		break;
 	default:
-		malos_activos=5;
+		malos_activos=nivel+2;
 		x=20;
 		for (i=0;i < malos_activos;i++){
-			cargarMalo(i,3);
+			cargarMalo(i,(nivel%3)+1);
 			malos[i].cx=x;
 			malos[i].ox=x;
 			malos[i].homeX=x;
@@ -1790,9 +1790,11 @@ unsigned char game()
 		}
 		
 		//addones
-		borrarAddones();
-		moverAddones();
-		pintarAddones();
+		if (addones_activos){
+			moverAddones();
+			borrarAddones();
+			pintarAddones();
+		}
 		
 		//disparos
 		moverDisparos();  		//Mover disparos
