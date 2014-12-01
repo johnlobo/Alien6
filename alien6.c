@@ -57,10 +57,11 @@
 #define MAX_ADDONES 2
 #define VELOCIDAD_EXPLOSIONES 30
 
-
 //Explosiones prota
 #define	SALTO_EXPLOSION_PROTA 4
 #define VELOCIDAD_EXPLOSION_PROTA 40
+
+#define PASO_ADDONES 4
 
 unsigned int timer0 = 0;
 unsigned int timer1 = 0;
@@ -750,9 +751,10 @@ void crearAddon(unsigned char posx, unsigned char posy){
 		addones[i].moved=1;
 		addones[i].lastmoved=0;
 		addones[i].speed=40;
+		addones[i].dead=0;
+		addones[i].nuevo=1;
 		//Aumentar el contador de addones activos
 		addones_activos++;
-		printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
 	}
 }
 //******************************************************************************
@@ -768,27 +770,30 @@ void moverAddones(){
 		for (i=0;i<MAX_ADDONES;i++){
 			if ((addones[i].activo==1) && (lapso-addones[i].lastmoved>addones[i].speed)){
 				//Movimiento de la formación
-				addones[i].y=addones[i].y+4;
+				addones[i].y=addones[i].y + PASO_ADDONES;
 				addones[i].moved=1;
 				//Si el addon ha llegado al final de la pantalla lo desactivo
 				if (addones[i].y>199){
-					addones[i].activo=0;
-					addones_activos--;
+					addones[i].dead=1;
 				}
 			}
 		}
 	}
 }
 //******************************************************************************
-// Función: 
+// Función: borrarAddones()
 //
 //******************************************************************************
 void borrarAddones(){
 	unsigned char i = 0;
 	if (addones_activos){
 		for (i=0;i<MAX_ADDONES;i++){
-			if ((addones[i].activo==1) && (addones[i].moved)){
-				printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
+			if ((addones[i].activo==1) && (addones[i].moved) && (!addones[i].nuevo)){
+				printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y - PASO_ADDONES,0);
+				if (addones[i].dead){
+					addones[i].activo=0;
+					addones_activos--;
+				}
 			}
 		}
 	}
@@ -805,6 +810,9 @@ void pintarAddones(){
 				printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
 				addones[i].moved=0;
 				addones[i].lastmoved=getTime();
+			if (addones[i].nuevo){
+				addones[i].nuevo=0;	
+				}
 			}
 		}
 	}
@@ -815,7 +823,7 @@ void pintarAddones(){
 //
 
 //******************************************************************************
-// Función: 
+// Función: inicializarAtaques()
 //
 //******************************************************************************
 void inicializarAtaques(){

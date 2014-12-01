@@ -116,7 +116,8 @@ typedef struct{
 	unsigned char tipo;  //Tipos de addones : 0:escudo, 1:rafaga, 2:freeze,  3:vida Extra
 	unsigned char x;
 	unsigned char y;
-	unsigned chat nuevo;
+	unsigned char nuevo;
+	unsigned char dead;
 	unsigned char moved;
 	unsigned char speed;
 	long lastmoved;
