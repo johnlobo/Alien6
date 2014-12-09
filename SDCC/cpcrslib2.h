@@ -12,6 +12,9 @@ unsigned char 				cpc_Random(void);
 
 void 						cpc_ClrScr(void);
 
+void 						cpc_PutSprite(char *sprite, int posicion);
+
+
 void     					cpc_RRI(unsigned int pos, unsigned char w, unsigned char h);
 void  		   				cpc_RLI(unsigned int pos, unsigned char w, unsigned char h);
 
