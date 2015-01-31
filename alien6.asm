@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.4.0 #8981 (Apr  5 2014) (MINGW64)
-; This file was generated Mon Dec 08 23:57:05 2014
+; Version 3.4.0 #8981 (Apr  5 2014) (MINGW32)
+; This file was generated Sat Jan 31 13:30:25 2015
 ;--------------------------------------------------------
 	.module alien6
 	.optsdcc -mz80
@@ -2189,7 +2189,7 @@ _borrarEstrellas:
 	ld	l, e
 	ld	h, d
 	ld	a,(hl)
-	ld	iy,#1
+	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),a
 	inc	hl
@@ -2197,9 +2197,9 @@ _borrarEstrellas:
 	ld	1 (iy),a
 	ld	a,(bc)
 	and	a, #0x01
-	inc	sp
-	push	af
-	inc	sp
+	ld	iy,#2
+	add	iy,sp
+	ld	0 (iy),a
 	ld	l, c
 	ld	h, b
 	inc	hl
@@ -2207,9 +2207,7 @@ _borrarEstrellas:
 	ld	b,(hl)
 	inc	b
 	push	de
-	ld	hl, #2+0
-	add	hl, sp
-	ld	a, (hl)
+	ld	a,0 (iy)
 	push	af
 	inc	sp
 	push	bc
@@ -2218,7 +2216,7 @@ _borrarEstrellas:
 	pop	af
 	pop	de
 	ld	h,#0x00
-	ld	iy,#1
+	ld	iy,#0
 	add	iy,sp
 	ld	a,0 (iy)
 	xor	a, l
@@ -2427,15 +2425,16 @@ _moverEstrellas:
 ;alien6.c:381: }
 00104$:
 ;alien6.c:370: switch(pStar->nStarType)
-	ld	hl,(_pStar)
+	ld	de,(_pStar)
 ;alien6.c:373: pStar->nY += 1;
-	inc	hl
+	inc	de
 ;alien6.c:383: if(pStar->nY >= 200)
-	ld	a, (hl)
+	ld	a,(de)
 	sub	a, #0xC8
 	jr	C,00109$
 ;alien6.c:385: pStar->nY = 16;
-	ld	(hl),#0x10
+	ld	a,#0x10
+	ld	(de),a
 00109$:
 ;alien6.c:366: for(nStar = 0; nStar < STARS_NUM; nStar++)
 	ld	hl, #_nStar+0
@@ -2510,7 +2509,7 @@ _crearExplosionProta:
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #11
+	ld	hl, #9
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -2519,7 +2518,7 @@ _crearExplosionProta:
 00102$:
 ;alien6.c:414: explosiones_prota[i].memoriaPantalla = getScreenAddress(explosiones_prota[i].cx,explosiones_prota[i].cy);
 	ld	a,#<(_explosiones_prota)
-	ld	hl,#11
+	ld	hl,#9
 	add	hl,sp
 	add	a, (hl)
 	ld	c,a
@@ -2529,13 +2528,13 @@ _crearExplosionProta:
 	ld	b,a
 	ld	hl,#0x0004
 	add	hl,bc
-	ld	iy,#9
+	ld	iy,#7
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 	ld	hl,#0x0001
 	add	hl,bc
-	ld	iy,#7
+	ld	iy,#11
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
@@ -2552,7 +2551,7 @@ _crearExplosionProta:
 	pop	af
 	ex	de,hl
 	pop	bc
-	ld	hl, #9
+	ld	hl, #7
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -2562,7 +2561,7 @@ _crearExplosionProta:
 	inc	hl
 	ld	(hl),d
 ;alien6.c:415: printSpriteXOR(explosion_sprite[0][0],explosiones_prota[i].cx,explosiones_prota[i].cy,explosiones_prota[i].memoriaPantalla);
-	ld	hl, #7
+	ld	hl, #11
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -2571,7 +2570,7 @@ _crearExplosionProta:
 	ld	a,(hl)
 	push	af
 	ld	a,(bc)
-	ld	iy,#11
+	ld	iy,#9
 	add	iy,sp
 	ld	0 (iy),a
 	pop	af
@@ -2584,7 +2583,7 @@ _crearExplosionProta:
 	push	de
 	push	af
 	inc	sp
-	ld	hl, #14+0
+	ld	hl, #12+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
@@ -2612,7 +2611,7 @@ _crearExplosionProta:
 	inc	bc
 	inc	bc
 	ld	d,c
-	ld	hl, #7
+	ld	hl, #11
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -2623,7 +2622,7 @@ _crearExplosionProta:
 	ld	h, b
 	ld	(hl),a
 ;alien6.c:413: for (i=0;i<5;i++){
-	ld	hl,#11
+	ld	hl,#9
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x06
@@ -2737,7 +2736,7 @@ _actualizarExplosionProta:
 ;alien6.c:448: printSpriteXOR(explosion_sprite[0][fase_explosion_prota],explosiones_prota[i].ox,explosiones_prota[i].oy,explosiones_prota[i].memoriaPantalla);
 	ld	hl,#_explosiones_prota
 	add	hl,de
-	ld	iy,#8
+	ld	iy,#3
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
@@ -2745,7 +2744,7 @@ _actualizarExplosionProta:
 	ld	iy,#6
 	add	iy,sp
 	ld	0 (iy),a
-	ld	hl, #8+1
+	ld	hl, #3+1
 	add	hl, sp
 	ld	a, (hl)
 	ld	iy,#6
@@ -2760,7 +2759,7 @@ _actualizarExplosionProta:
 	inc	hl
 	ld	a,(hl)
 	ld	1 (iy),a
-	ld	hl, #8
+	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -2773,7 +2772,7 @@ _actualizarExplosionProta:
 	ld	iy,#5
 	add	iy,sp
 	ld	0 (iy),a
-	ld	iy,#8
+	ld	iy,#3
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -2803,7 +2802,7 @@ _actualizarExplosionProta:
 	ld	a, (hl)
 	push	af
 	inc	sp
-	ld	hl, #13+0
+	ld	hl, #8+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
@@ -2855,13 +2854,13 @@ _actualizarExplosionProta:
 	ld	d,a
 	ld	hl,#0x0004
 	add	hl,de
-	ld	iy,#8
+	ld	iy,#3
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 	ld	hl,#0x0001
 	add	hl,de
-	ld	iy,#3
+	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
@@ -2879,7 +2878,7 @@ _actualizarExplosionProta:
 	ld	c,l
 	ld	b,h
 	pop	de
-	ld	hl, #8
+	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -2889,7 +2888,7 @@ _actualizarExplosionProta:
 	inc	hl
 	ld	(hl),b
 ;alien6.c:454: printSpriteXOR(explosion_sprite[0][fase_explosion_prota],explosiones_prota[i].cx,explosiones_prota[i].cy,explosiones_prota[i].memoriaPantalla);
-	ld	hl, #3
+	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -2900,7 +2899,7 @@ _actualizarExplosionProta:
 	add	iy,sp
 	ld	0 (iy),a
 	ld	a,(de)
-	ld	iy,#8
+	ld	iy,#3
 	add	iy,sp
 	ld	0 (iy),a
 	ld	a,(#_fase_explosion_prota + 0)
@@ -2914,7 +2913,7 @@ _actualizarExplosionProta:
 	inc	hl
 	ld	h,(hl)
 	ld	l,a
-	ld	iy,#1
+	ld	iy,#8
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
@@ -2925,12 +2924,12 @@ _actualizarExplosionProta:
 	ld	a, (hl)
 	push	af
 	inc	sp
-	ld	hl, #13+0
+	ld	hl, #8+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
 	inc	sp
-	ld	hl, #7
+	ld	hl, #14
 	add	hl, sp
 	ld	c, (hl)
 	inc	hl
@@ -2952,7 +2951,7 @@ _actualizarExplosionProta:
 	inc	de
 	inc	de
 	inc	de
-	ld	hl, #3
+	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3121,11 +3120,11 @@ _crearExplosion:
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
-	ld	iy,#3
+	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
-	ld	hl,#3
+	ld	hl,#1
 	add	hl,sp
 	ld	a,(hl)
 	add	a, c
@@ -3151,7 +3150,7 @@ _crearExplosion:
 ;alien6.c:507: explosiones[i].activo=1;
 	ld	(hl),#0x01
 ;alien6.c:508: explosiones[i].tipo=tipo;
-	ld	hl, #3
+	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3162,7 +3161,7 @@ _crearExplosion:
 	ld	a,0 (iy)
 	ld	(hl),a
 ;alien6.c:509: explosiones[i].fase=0;
-	ld	iy,#3
+	ld	iy,#1
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -3179,7 +3178,7 @@ _crearExplosion:
 	ld	a,0 (iy)
 	ld	(hl),a
 ;alien6.c:511: explosiones[i].cy=y;
-	ld	iy,#3
+	ld	iy,#1
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x04
@@ -3192,9 +3191,9 @@ _crearExplosion:
 	ld	a, (hl)
 	ld	(de),a
 ;alien6.c:512: explosiones[i].memoriaPantalla = getScreenAddress(explosiones[i].cx,explosiones[i].cy);
-	ld	hl,#1
+	ld	hl,#3
 	add	hl,sp
-	ld	iy,#3
+	ld	iy,#1
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x09
@@ -3219,7 +3218,7 @@ _crearExplosion:
 	ld	d,l
 	ld	e,h
 	pop	bc
-	ld	hl, #1
+	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3229,9 +3228,9 @@ _crearExplosion:
 	inc	hl
 	ld	(hl),e
 ;alien6.c:514: explosiones[i].h=16;
-	ld	hl,#1
+	ld	hl,#3
 	add	hl,sp
-	ld	iy,#3
+	ld	iy,#1
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x07
@@ -3254,7 +3253,7 @@ _crearExplosion:
 	or	a, a
 	jr	NZ,00105$
 ;alien6.c:514: explosiones[i].h=16;
-	ld	hl, #1
+	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3267,7 +3266,7 @@ _crearExplosion:
 	jr	00106$
 00105$:
 ;alien6.c:517: explosiones[i].h=8;
-	ld	hl, #1
+	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3296,7 +3295,7 @@ _crearExplosion:
 	ld	bc, #0x0009
 	add	hl, bc
 	ld	a,(hl)
-	ld	iy,#1
+	ld	iy,#3
 	add	iy,sp
 	ld	0 (iy),a
 	inc	hl
@@ -3322,7 +3321,7 @@ _crearExplosion:
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
-	ld	hl, #1
+	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3367,12 +3366,12 @@ _actualizarExplosiones:
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
-	ld	iy,#3
+	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 	ld	a,#<(_explosiones)
-	ld	hl,#3
+	ld	hl,#1
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -3402,7 +3401,7 @@ _actualizarExplosiones:
 	ld	bc, #0x0004
 	add	hl, bc
 	ld	a,(hl)
-	ld	iy,#2
+	ld	iy,#4
 	add	iy,sp
 	ld	0 (iy),a
 	ld	l, e
@@ -3411,7 +3410,7 @@ _actualizarExplosiones:
 	inc	hl
 	inc	hl
 	ld	a,(hl)
-	ld	iy,#1
+	ld	iy,#3
 	add	iy,sp
 	ld	0 (iy),a
 	ld	a,(de)
@@ -3439,18 +3438,18 @@ _actualizarExplosiones:
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
-	ld	hl, #3
+	ld	hl, #1
 	add	hl, sp
 	ld	c, (hl)
 	inc	hl
 	ld	b, (hl)
 	push	bc
-	ld	hl, #4+0
+	ld	hl, #6+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
 	inc	sp
-	ld	hl, #4+0
+	ld	hl, #6+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
@@ -3655,14 +3654,14 @@ _crearDisparoMalo:
 	ld	b, d
 	inc	bc
 	inc	bc
-	ld	hl,#1
+	ld	hl,#0
 	add	hl,sp
 	ld	iy,#4
 	add	iy,sp
 	ld	a,0 (iy)
 	inc	a
 	ld	(hl),a
-	ld	hl, #1+0
+	ld	hl, #0+0
 	add	hl, sp
 	ld	a, (hl)
 	ld	(bc),a
@@ -3672,28 +3671,28 @@ _crearDisparoMalo:
 	inc	bc
 	inc	bc
 	inc	bc
-	ld	hl,#0
+	ld	hl,#1
 	add	hl,sp
 	ld	iy,#5
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a,#0xFF
 	ld	(hl),a
-	ld	hl, #0+0
+	ld	hl, #1+0
 	add	hl, sp
 	ld	a, (hl)
 	ld	(bc),a
 ;alien6.c:598: disparosMalos[k].ox=x+1;
 	ld	hl,#0x0004
 	add	hl,de
-	ld	iy,#1
+	ld	iy,#0
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
 ;alien6.c:599: disparosMalos[k].oy=y-1;
 	ld	hl,#0x0005
 	add	hl,de
-	ld	iy,#0
+	ld	iy,#1
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
@@ -3768,13 +3767,13 @@ _moverDisparosMalos:
 	ld	iy,#4
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #15
+	ld	hl, #7
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-	ld	hl, #13
+	ld	hl, #5
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -3789,9 +3788,9 @@ _moverDisparosMalos:
 	jp	NC,00121$
 ;alien6.c:622: if ((disparosMalos[i].activo) && (!disparosMalos[i].dead) && (lapso-disparosMalos[i].lastmoved>disparosMalos[i].speed)){
 	ld	a,#<(_disparosMalos)
-	ld	hl,#13
+	ld	hl,#5
 	add	hl,sp
-	ld	iy,#11
+	ld	iy,#15
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -3800,7 +3799,7 @@ _moverDisparosMalos:
 	adc	a, (hl)
 	inc	iy
 	ld	0 (iy),a
-	ld	iy,#11
+	ld	iy,#15
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -3809,7 +3808,7 @@ _moverDisparosMalos:
 	ld	a,(hl)
 	or	a, a
 	jp	Z,00120$
-	ld	hl,#9
+	ld	hl,#13
 	add	hl,sp
 	ld	a,0 (iy)
 	add	a, #0x0A
@@ -3818,7 +3817,7 @@ _moverDisparosMalos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-	ld	hl, #9
+	ld	hl, #13
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3827,7 +3826,7 @@ _moverDisparosMalos:
 	ld	a,(hl)
 	or	a, a
 	jp	NZ,00120$
-	ld	hl, #11
+	ld	hl, #15
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3842,7 +3841,7 @@ _moverDisparosMalos:
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
-	ld	hl,#5
+	ld	hl,#9
 	add	hl,sp
 	ld	iy,#0
 	add	iy,sp
@@ -3861,7 +3860,7 @@ _moverDisparosMalos:
 	sbc	a, b
 	inc	hl
 	ld	(hl),a
-	ld	hl, #11
+	ld	hl, #15
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3873,7 +3872,7 @@ _moverDisparosMalos:
 	ld	d,#0x00
 	ld	bc,#0x0000
 	ld	a,e
-	ld	iy,#5
+	ld	iy,#9
 	add	iy,sp
 	sub	a, 0 (iy)
 	ld	a,d
@@ -3887,9 +3886,9 @@ _moverDisparosMalos:
 00160$:
 	jp	P,00120$
 ;alien6.c:623: if (disparosMalos[i].cy<(199-SALTO_DISPARO_MALO)){
-	ld	hl,#5
+	ld	hl,#9
 	add	hl,sp
-	ld	iy,#11
+	ld	iy,#15
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x03
@@ -3898,7 +3897,7 @@ _moverDisparosMalos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-	ld	iy,#5
+	ld	iy,#9
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -3917,7 +3916,7 @@ _moverDisparosMalos:
 	ld	d,(hl)
 	ld	hl, #(_prota + 0x0002) + 0
 	ld	c,(hl)
-	ld	hl, #11
+	ld	hl, #15
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3926,7 +3925,7 @@ _moverDisparosMalos:
 	inc	hl
 	inc	hl
 	ld	a,(hl)
-	ld	iy,#5
+	ld	iy,#9
 	add	iy,sp
 	ld	0 (iy),a
 	ld	hl,#0x1004
@@ -3958,7 +3957,7 @@ _moverDisparosMalos:
 	or	a, a
 	jr	Z,00104$
 ;alien6.c:634: disparosMalos[i].dead=1;
-	ld	hl, #9
+	ld	hl, #13
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -3990,7 +3989,7 @@ _moverDisparosMalos:
 	jr	00110$
 00104$:
 ;alien6.c:640: disparosMalos[i].dead=1;
-	ld	iy,#9
+	ld	iy,#13
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -4018,7 +4017,7 @@ _moverDisparosMalos:
 	jr	00110$
 00109$:
 ;alien6.c:652: disparosMalos[i].dead=1;
-	ld	hl, #9
+	ld	hl, #13
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -4028,7 +4027,7 @@ _moverDisparosMalos:
 00110$:
 ;alien6.c:654: disparosMalos[i].moved=1;
 	ld	a,#<(_disparosMalos)
-	ld	hl,#15
+	ld	hl,#7
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -4041,7 +4040,7 @@ _moverDisparosMalos:
 	ld	(hl),#0x01
 00120$:
 ;alien6.c:621: for (i=0;i<max_disparos_MALOS;i++){
-	ld	hl,#15
+	ld	hl,#7
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x0F
@@ -4050,7 +4049,7 @@ _moverDisparosMalos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl,#13
+	ld	hl,#5
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x0F
@@ -4128,7 +4127,7 @@ _borrarDisparosMalos:
 	inc	hl
 	inc	hl
 	ld	a,(hl)
-	ld	iy,#4
+	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),a
 	ld	l, e
@@ -4137,14 +4136,14 @@ _borrarDisparosMalos:
 	inc	hl
 	inc	hl
 	inc	hl
+	ld	a,(hl)
+	ld	iy,#2
+	add	iy,sp
+	ld	0 (iy),a
+	ld	l, e
+	ld	h, d
 	ld	a,(hl)
 	ld	iy,#3
-	add	iy,sp
-	ld	0 (iy),a
-	ld	l, e
-	ld	h, d
-	ld	a,(hl)
-	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),a
 	inc	hl
@@ -4154,17 +4153,17 @@ _borrarDisparosMalos:
 	push	de
 	ld	hl,#0x0000
 	push	hl
-	ld	hl, #10+0
+	ld	hl, #7+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
 	inc	sp
-	ld	hl, #10+0
+	ld	hl, #9+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
 	inc	sp
-	ld	hl, #9
+	ld	hl, #11
 	add	hl, sp
 	ld	c, (hl)
 	inc	hl
@@ -4232,7 +4231,7 @@ _pintarDisparosMalos:
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-	ld	hl, #7
+	ld	hl, #5
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -4247,9 +4246,9 @@ _pintarDisparosMalos:
 	jp	NC,00113$
 ;alien6.c:688: if ((disparosMalos[k].activo==1) && (disparosMalos[k].moved) && (!disparosMalos[k].dead)){
 	ld	a,#<(_disparosMalos)
-	ld	hl,#7
+	ld	hl,#5
 	add	hl,sp
-	ld	iy,#5
+	ld	iy,#3
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -4258,7 +4257,7 @@ _pintarDisparosMalos:
 	adc	a, (hl)
 	inc	iy
 	ld	0 (iy),a
-	ld	iy,#5
+	ld	iy,#3
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -4282,7 +4281,7 @@ _pintarDisparosMalos:
 	or	a, a
 	jp	NZ,00112$
 ;alien6.c:689: printSpriteXOR(disparosMalos[k].sp0,disparosMalos[k].cx,disparosMalos[k].cy,0);
-	ld	hl,#3
+	ld	hl,#1
 	add	hl,sp
 	ld	a,0 (iy)
 	add	a, #0x03
@@ -4291,14 +4290,14 @@ _pintarDisparosMalos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-	ld	hl, #3
+	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
 	ld	h, (hl)
 	ld	l, a
 	ld	d,(hl)
-	ld	iy,#5
+	ld	iy,#3
 	add	iy,sp
 	ld	c,0 (iy)
 	ld	b,1 (iy)
@@ -4309,7 +4308,7 @@ _pintarDisparosMalos:
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	a,(hl)
-	ld	iy,#1
+	ld	iy,#7
 	add	iy,sp
 	ld	0 (iy),a
 	inc	hl
@@ -4328,7 +4327,7 @@ _pintarDisparosMalos:
 	ld	sp,hl
 	pop	bc
 ;alien6.c:690: disparosMalos[k].ox=disparosMalos[k].cx;
-	ld	iy,#5
+	ld	iy,#3
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x04
@@ -4345,7 +4344,7 @@ _pintarDisparosMalos:
 	ld	a,1 (iy)
 	adc	a, #0x00
 	ld	d,a
-	ld	hl, #3
+	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -4354,9 +4353,9 @@ _pintarDisparosMalos:
 	ld	a,(hl)
 	ld	(de),a
 ;alien6.c:692: if (disparosMalos[k].nuevo) 
-	ld	hl,#1
+	ld	hl,#7
 	add	hl,sp
-	ld	iy,#5
+	ld	iy,#3
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x09
@@ -4365,7 +4364,7 @@ _pintarDisparosMalos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-	ld	iy,#1
+	ld	iy,#7
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -4416,7 +4415,7 @@ _pintarDisparosMalos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl,#7
+	ld	hl,#5
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x0F
@@ -4491,7 +4490,7 @@ _crearAddon:
 	ld	de,#0x0000
 00101$:
 	ld	a,c
-	ld	hl,#2
+	ld	hl,#1
 	add	hl,sp
 	add	a, e
 	ld	(hl),a
@@ -4499,7 +4498,7 @@ _crearAddon:
 	adc	a, d
 	inc	hl
 	ld	(hl),a
-	ld	hl, #2
+	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -4520,7 +4519,7 @@ _crearAddon:
 	ld	hl, #0+0
 	add	hl, sp
 	ld	a, (hl)
-	ld	iy,#1
+	ld	iy,#3
 	add	iy,sp
 	ld	0 (iy),a
 ;alien6.c:732: if (i<MAX_ADDONES){
@@ -4530,7 +4529,7 @@ _crearAddon:
 	sub	a, #0x02
 	jp	NC,00115$
 ;alien6.c:734: addones[i].activo=1;
-	ld	hl, #2
+	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -4543,7 +4542,7 @@ _crearAddon:
 	pop	bc
 	ld	d,l
 ;alien6.c:738: addones[i].tipo=0;		//escudo
-	ld	hl, #2
+	ld	hl, #1
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -4578,7 +4577,7 @@ _crearAddon:
 	ld	(hl),#0x03
 00112$:
 ;alien6.c:745: addones[i].x=posx;
-	ld	hl, #1+0
+	ld	hl, #3+0
 	add	hl, sp
 	ld	e, (hl)
 	ld	d,#0x00
@@ -4784,7 +4783,7 @@ _moverAddones:
 	add	iy,sp
 	ld	0 (iy),a
 ;alien6.c:773: addones[i].dead=1;
-	ld	hl,#7
+	ld	hl,#6
 	add	hl,sp
 	ld	iy,#14
 	add	iy,sp
@@ -4802,7 +4801,7 @@ _moverAddones:
 	sub	a, 0 (iy)
 	jr	NC,00109$
 ;alien6.c:773: addones[i].dead=1;
-	ld	hl, #7
+	ld	hl, #6
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -4821,7 +4820,7 @@ _moverAddones:
 	ld	a,(hl)
 	ld	1 (iy),a
 	ld	a,(#(_prota + 0x0003) + 0)
-	ld	iy,#6
+	ld	iy,#8
 	add	iy,sp
 	ld	0 (iy),a
 	ld	a,(#(_prota + 0x0002) + 0)
@@ -4856,7 +4855,7 @@ _moverAddones:
 	ld	h, (hl)
 	ld	l, a
 	push	hl
-	ld	hl, #10+0
+	ld	hl, #12+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
@@ -4887,7 +4886,7 @@ _moverAddones:
 	or	a, a
 	jr	Z,00118$
 ;alien6.c:775: addones[i].dead=1;
-	ld	hl, #7
+	ld	hl, #6
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5108,7 +5107,7 @@ _pintarAddones:
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #5
+	ld	hl, #3
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -5117,9 +5116,9 @@ _pintarAddones:
 00109$:
 ;alien6.c:818: if ((addones[i].activo==1) && (addones[i].moved)){
 	ld	a,#<(_addones)
-	ld	hl,#5
+	ld	hl,#3
 	add	hl,sp
-	ld	iy,#3
+	ld	iy,#5
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -5128,7 +5127,7 @@ _pintarAddones:
 	adc	a, (hl)
 	inc	iy
 	ld	0 (iy),a
-	ld	iy,#3
+	ld	iy,#5
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -5154,7 +5153,7 @@ _pintarAddones:
 	or	a, a
 	jp	Z,00110$
 ;alien6.c:819: printSpriteXOR(addon_sprite[addones[i].tipo],addones[i].x,addones[i].y,0);
-	ld	iy,#3
+	ld	iy,#5
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -5195,7 +5194,7 @@ _pintarAddones:
 	ld	l, a
 	ld	(hl),#0x00
 ;alien6.c:821: addones[i].lastmoved=getTime();
-	ld	iy,#3
+	ld	iy,#5
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x08
@@ -5218,7 +5217,7 @@ _pintarAddones:
 	inc	hl
 	ld	(hl),d
 ;alien6.c:822: if (addones[i].nuevo){
-	ld	iy,#3
+	ld	iy,#5
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x04
@@ -5234,7 +5233,7 @@ _pintarAddones:
 	ld	(de),a
 00110$:
 ;alien6.c:817: for (i=0;i<MAX_ADDONES;i++){
-	ld	hl,#5
+	ld	hl,#3
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x0C
@@ -5426,42 +5425,39 @@ _cargarMalo:
 ;alien6.c:879: malos[malo].activo=1;
 	ld	hl,#0x000D
 	add	hl,de
-	ld	iy,#11
-	add	iy,sp
-	ld	0 (iy),l
-	ld	1 (iy),h
+	ex	(sp), hl
 ;alien6.c:881: malos[malo].w=4;
 	ld	hl,#0x0007
 	add	hl,de
-	ld	iy,#9
+	ld	iy,#7
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 ;alien6.c:882: malos[malo].h=15;
 	ld	hl,#0x0006
 	add	hl,de
-	ld	iy,#7
+	ld	iy,#9
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 ;alien6.c:883: malos[malo].agresividad=4;
 	ld	hl,#0x0014
 	add	hl,de
-	ld	iy,#5
+	ld	iy,#11
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 ;alien6.c:884: malos[malo].vidas=1;
 	ld	hl,#0x0013
 	add	hl,de
-	ld	iy,#3
+	ld	iy,#4
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 ;alien6.c:885: malos[malo].speed=40;
 	ld	hl,#0x000F
 	add	hl,de
-	ld	iy,#1
+	ld	iy,#2
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
@@ -5479,13 +5475,13 @@ _cargarMalo:
 	ld	a,#0x03
 	sub	a, 0 (iy)
 	jp	C,00104$
-	ld	hl,#0
+	ld	hl,#6
 	add	hl,sp
 	ld	a,0 (iy)
 	add	a,#0xFF
 	ld	(hl),a
 	push	de
-	ld	iy,#2
+	ld	iy,#8
 	add	iy,sp
 	ld	e,0 (iy)
 	ld	d,#0x00
@@ -5502,12 +5498,8 @@ _cargarMalo:
 ;alien6.c:878: case 1:
 00101$:
 ;alien6.c:879: malos[malo].activo=1;
-	ld	hl, #11
-	add	hl, sp
-	ld	a, (hl)
-	inc	hl
-	ld	h, (hl)
-	ld	l, a
+	pop	hl
+	push	hl
 	ld	(hl),#0x01
 ;alien6.c:880: malos[malo].sp0=baddie01;
 	ld	a,#<(_baddie01)
@@ -5516,7 +5508,7 @@ _cargarMalo:
 	ld	a,#>(_baddie01)
 	ld	(de),a
 ;alien6.c:881: malos[malo].w=4;
-	ld	hl, #9
+	ld	hl, #7
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5524,7 +5516,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x04
 ;alien6.c:882: malos[malo].h=15;
-	ld	hl, #7
+	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5532,7 +5524,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x0F
 ;alien6.c:883: malos[malo].agresividad=4;
-	ld	hl, #5
+	ld	hl, #11
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5540,7 +5532,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x04
 ;alien6.c:884: malos[malo].vidas=1;
-	ld	hl, #3
+	ld	hl, #4
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5548,7 +5540,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x01
 ;alien6.c:885: malos[malo].speed=40;
-	ld	hl, #1
+	ld	hl, #2
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5563,12 +5555,8 @@ _cargarMalo:
 ;alien6.c:888: case 2:
 00102$:
 ;alien6.c:889: malos[malo].activo=1;
-	ld	hl, #11
-	add	hl, sp
-	ld	a, (hl)
-	inc	hl
-	ld	h, (hl)
-	ld	l, a
+	pop	hl
+	push	hl
 	ld	(hl),#0x01
 ;alien6.c:890: malos[malo].sp0=baddie02;
 	ld	a,#<(_baddie02)
@@ -5577,7 +5565,7 @@ _cargarMalo:
 	ld	a,#>(_baddie02)
 	ld	(de),a
 ;alien6.c:891: malos[malo].w=4;
-	ld	hl, #9
+	ld	hl, #7
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5585,7 +5573,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x04
 ;alien6.c:892: malos[malo].h=8;
-	ld	hl, #7
+	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5593,7 +5581,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x08
 ;alien6.c:893: malos[malo].agresividad=8;
-	ld	hl, #5
+	ld	hl, #11
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5601,7 +5589,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x08
 ;alien6.c:894: malos[malo].vidas=2;
-	ld	hl, #3
+	ld	hl, #4
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5609,7 +5597,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x02
 ;alien6.c:895: malos[malo].speed=16;
-	ld	hl, #1
+	ld	hl, #2
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5624,12 +5612,8 @@ _cargarMalo:
 ;alien6.c:898: case 3:
 00103$:
 ;alien6.c:899: malos[malo].activo=1;
-	ld	hl, #11
-	add	hl, sp
-	ld	a, (hl)
-	inc	hl
-	ld	h, (hl)
-	ld	l, a
+	pop	hl
+	push	hl
 	ld	(hl),#0x01
 ;alien6.c:900: malos[malo].sp0=baddie03;
 	ld	a,#<(_baddie03)
@@ -5638,7 +5622,7 @@ _cargarMalo:
 	ld	a,#>(_baddie03)
 	ld	(de),a
 ;alien6.c:901: malos[malo].w=4;
-	ld	hl, #9
+	ld	hl, #7
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5646,7 +5630,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x04
 ;alien6.c:902: malos[malo].h=8;
-	ld	hl, #7
+	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5654,7 +5638,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x08
 ;alien6.c:903: malos[malo].agresividad=16;
-	ld	hl, #5
+	ld	hl, #11
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5662,7 +5646,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x10
 ;alien6.c:904: malos[malo].vidas=3;
-	ld	hl, #3
+	ld	hl, #4
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5670,7 +5654,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x03
 ;alien6.c:905: malos[malo].speed=8;
-	ld	hl, #1
+	ld	hl, #2
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5685,12 +5669,8 @@ _cargarMalo:
 ;alien6.c:908: default:
 00104$:
 ;alien6.c:909: malos[malo].activo=1;
-	ld	hl, #11
-	add	hl, sp
-	ld	a, (hl)
-	inc	hl
-	ld	h, (hl)
-	ld	l, a
+	pop	hl
+	push	hl
 	ld	(hl),#0x01
 ;alien6.c:910: malos[malo].sp0=baddie01;
 	ld	a,#<(_baddie01)
@@ -5699,7 +5679,7 @@ _cargarMalo:
 	ld	a,#>(_baddie01)
 	ld	(de),a
 ;alien6.c:911: malos[malo].w=4;
-	ld	hl, #9
+	ld	hl, #7
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5707,7 +5687,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x04
 ;alien6.c:912: malos[malo].h=15;
-	ld	hl, #7
+	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5715,7 +5695,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x0F
 ;alien6.c:913: malos[malo].agresividad=32;
-	ld	hl, #5
+	ld	hl, #11
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5723,7 +5703,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x20
 ;alien6.c:914: malos[malo].vidas=1;
-	ld	hl, #3
+	ld	hl, #4
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5731,7 +5711,7 @@ _cargarMalo:
 	ld	l, a
 	ld	(hl),#0x01
 ;alien6.c:915: malos[malo].speed=15;
-	ld	hl, #1
+	ld	hl, #2
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -5933,7 +5913,7 @@ _inicializarMalos:
 	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #6
+	ld	hl, #4
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -5948,7 +5928,7 @@ _inicializarMalos:
 	jp	NC,00131$
 ;alien6.c:955: malos[i].ox=malos[i].cx;
 	ld	a,#<(_malos)
-	ld	hl,#6
+	ld	hl,#4
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -5962,7 +5942,7 @@ _inicializarMalos:
 	ld	b,h
 	ld	hl,#0x0002
 	add	hl,de
-	ld	iy,#4
+	ld	iy,#6
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
@@ -5990,7 +5970,7 @@ _inicializarMalos:
 	add	hl,de
 	ld	c,l
 	ld	b,h
-	ld	hl, #4
+	ld	hl, #6
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6011,7 +5991,7 @@ _inicializarMalos:
 	ld	a,(hl)
 	ld	(de),a
 ;alien6.c:954: for (i=0;i < malos_activos;i++){
-	ld	hl,#6
+	ld	hl,#4
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x1D
@@ -6330,16 +6310,16 @@ _moverMalos:
 	or	a, a
 	jp	Z,00162$
 ;alien6.c:1018: for (i=0;i<MAX_MALOS;i++){
-	ld	iy,#2
+	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #27
+	ld	hl, #5
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-	ld	hl, #25
+	ld	hl, #27
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -6382,7 +6362,7 @@ _moverMalos:
 	or	a, a
 	jp	NZ,00161$
 	call	_getTime
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	3 (iy),d
 	ld	2 (iy),e
@@ -6401,7 +6381,7 @@ _moverMalos:
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
-	ld	hl,#17
+	ld	hl,#15
 	add	hl,sp
 	ld	a,(hl)
 	sub	a, e
@@ -6426,7 +6406,7 @@ _moverMalos:
 	ld	d,#0x00
 	ld	bc,#0x0000
 	ld	a,e
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	sub	a, 0 (iy)
 	ld	a,d
@@ -6467,9 +6447,9 @@ _moverMalos:
 	jr	Z,00106$
 ;alien6.c:1031: malos[i].homeX=malos[i].homeX+velXForm;
 	ld	a,#<(_malos)
-	ld	hl,#27
+	ld	hl,#5
 	add	hl,sp
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -6478,9 +6458,9 @@ _moverMalos:
 	adc	a, (hl)
 	inc	iy
 	ld	0 (iy),a
-	ld	hl,#17
+	ld	hl,#15
 	add	hl,sp
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x0B
@@ -6500,9 +6480,9 @@ _moverMalos:
 00106$:
 ;alien6.c:1033: if (malos[i].movement==BADDIE_FORMATION){	
 	ld	a,#<(_malos)
-	ld	hl,#25
+	ld	hl,#27
 	add	hl,sp
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -6513,7 +6493,7 @@ _moverMalos:
 	ld	0 (iy),a
 	ld	hl,#21
 	add	hl,sp
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x09
@@ -6530,9 +6510,9 @@ _moverMalos:
 	ld	l, a
 	ld	c,(hl)
 ;alien6.c:1035: if (cpc_Random()<malos[i].agresividad){		//creo ataque propocionalmente a la agresividad
-	ld	hl,#15
+	ld	hl,#9
 	add	hl,sp
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x14
@@ -6542,7 +6522,7 @@ _moverMalos:
 	inc	hl
 	ld	(hl),a
 ;alien6.c:1037: } else malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formaci√≥n.
-	ld	hl,#13
+	ld	hl,#19
 	add	hl,sp
 	ld	a,0 (iy)
 	add	a, #0x02
@@ -6552,7 +6532,7 @@ _moverMalos:
 	inc	hl
 	ld	(hl),a
 ;alien6.c:1047: if (malos[i].cy>(199-(malos[i].h))){	// si me salgo de la pantalla inicio el camino a la formaci√≥n
-	ld	hl,#11
+	ld	hl,#25
 	add	hl,sp
 	ld	a,0 (iy)
 	add	a, #0x03
@@ -6573,7 +6553,7 @@ _moverMalos:
 ;alien6.c:1035: if (cpc_Random()<malos[i].agresividad){		//creo ataque propocionalmente a la agresividad
 	call	_cpc_Random
 	ld	d,l
-	ld	hl, #15
+	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6584,7 +6564,7 @@ _moverMalos:
 	sub	a, h
 	jr	NC,00108$
 ;alien6.c:1036: crearAtaque(i);
-	ld	hl, #2+0
+	ld	hl, #0+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
@@ -6594,7 +6574,7 @@ _moverMalos:
 	jp	00144$
 00108$:
 ;alien6.c:1037: } else malos[i].cx=malos[i].cx+velXForm;	//en caso contrario me sigo moviendo con la formaci√≥n.
-	ld	iy,#13
+	ld	iy,#19
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -6607,7 +6587,7 @@ _moverMalos:
 	jp	00144$
 00111$:
 ;alien6.c:1038: } else 	malos[i].cx=malos[i].cx+velXForm;		//en caso contrario me sigo moviendo con la formaci√≥n.
-	ld	iy,#13
+	ld	iy,#19
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -6624,10 +6604,10 @@ _moverMalos:
 	dec	a
 	jp	NZ,00140$
 ;alien6.c:1042: while (!(ataques[j].idMalo==i)&&(ataques[j].activo==1)){ 	//busco el ataque que le corresponde a este malo
-	ld	iy,#1
+	ld	iy,#2
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #9
+	ld	hl, #3
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -6635,7 +6615,7 @@ _moverMalos:
 	ld	(hl), a
 00114$:
 	ld	a,#<(_ataques)
-	ld	hl,#9
+	ld	hl,#3
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -6647,7 +6627,7 @@ _moverMalos:
 	ld	h, d
 	inc	hl
 	ld	b,(hl)
-	ld	hl, #2+0
+	ld	hl, #0+0
 	add	hl, sp
 	ld	a, (hl)
 	sub	a, b
@@ -6656,7 +6636,7 @@ _moverMalos:
 	dec	a
 	jr	NZ,00116$
 ;alien6.c:1043: j++;
-	ld	hl,#9
+	ld	hl,#3
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x06
@@ -6665,20 +6645,20 @@ _moverMalos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	iy,#1
+	ld	iy,#2
 	add	iy,sp
 	inc	0 (iy)
 	jr	00114$
 00116$:
 ;alien6.c:1045: malos[i].cx=malos[i].cx+ataques[j].trayectoria[ataques[j].step]; //muevo al malo
-	ld	hl, #13
+	ld	hl, #19
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
 	ld	h, (hl)
 	ld	l, a
 	ld	e,(hl)
-	ld	hl, #1+0
+	ld	hl, #2+0
 	add	hl, sp
 	ld	c, (hl)
 	ld	b,#0x00
@@ -6688,7 +6668,7 @@ _moverMalos:
 	add	hl, bc
 	add	hl, hl
 	ld	a,#<(_ataques)
-	ld	hl,#9
+	ld	hl,#3
 	add	hl,sp
 	add	a, l
 	ld	(hl),a
@@ -6696,7 +6676,7 @@ _moverMalos:
 	adc	a, h
 	inc	hl
 	ld	(hl),a
-	ld	iy,#9
+	ld	iy,#3
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -6726,20 +6706,20 @@ _moverMalos:
 	ld	l,(hl)
 	ld	a,e
 	add	a, l
-	ld	iy,#13
+	ld	iy,#19
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	(hl),a
 ;alien6.c:1047: if (malos[i].cy>(199-(malos[i].h))){	// si me salgo de la pantalla inicio el camino a la formaci√≥n
-	ld	hl, #11
+	ld	hl, #25
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
 	ld	h, (hl)
 	ld	l, a
 	ld	e,(hl)
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -6771,7 +6751,7 @@ _moverMalos:
 	ld	l, a
 	ld	(hl),#0x02
 ;alien6.c:1049: malos[i].cy=-10;  //coloco al malo fuera de la pantalla por arriba para que tarde un poco en llegar
-	ld	hl, #11
+	ld	hl, #25
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6779,7 +6759,7 @@ _moverMalos:
 	ld	l, a
 	ld	(hl),#0xF6
 ;alien6.c:1050: ataques[j].activo=0;
-	ld	iy,#9
+	ld	iy,#3
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -6802,7 +6782,7 @@ _moverMalos:
 	ld	h, (hl)
 	ld	l, a
 	ld	d,(hl)
-	ld	hl, #9
+	ld	hl, #3
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6841,7 +6821,7 @@ _moverMalos:
 	sub	a, #0x02
 	jp	NZ,00144$
 ;alien6.c:1062: if ((malos[i].cx=malos[i].homeX) && (malos[i].cy==malos[i].homeY)){
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x0B
@@ -6851,7 +6831,7 @@ _moverMalos:
 	ld	d,a
 	ld	a,(de)
 	ld	b,a
-	ld	hl, #13
+	ld	hl, #19
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6860,7 +6840,7 @@ _moverMalos:
 	ld	(hl),b
 	ld	hl,#7
 	add	hl,sp
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x0C
@@ -6872,7 +6852,7 @@ _moverMalos:
 	ld	a,b
 	or	a, a
 	jr	Z,00134$
-	ld	hl, #11
+	ld	hl, #25
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6898,7 +6878,7 @@ _moverMalos:
 	ld	l, a
 	ld	(hl),#0x00
 ;alien6.c:1064: malos[i].speed=malos[i].formSpeed;
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x0F
@@ -6915,7 +6895,7 @@ _moverMalos:
 	jr	00144$
 00134$:
 ;alien6.c:1068: if (malos[i].cx<malos[i].homeX)
-	ld	iy,#13
+	ld	iy,#19
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -6938,7 +6918,7 @@ _moverMalos:
 	jr	NC,00127$
 ;alien6.c:1071: malos[i].cx--;
 	dec	c
-	ld	hl, #13
+	ld	hl, #19
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6947,7 +6927,7 @@ _moverMalos:
 	ld	(hl),c
 00127$:
 ;alien6.c:1073: if (malos[i].cy<malos[i].homeY)
-	ld	hl, #11
+	ld	hl, #25
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6966,7 +6946,7 @@ _moverMalos:
 	jr	NC,00131$
 ;alien6.c:1074: malos[i].cy++;
 	inc	d
-	ld	hl, #11
+	ld	hl, #25
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6981,7 +6961,7 @@ _moverMalos:
 	jr	NC,00144$
 ;alien6.c:1076: malos[i].cy--;
 	dec	d
-	ld	hl, #11
+	ld	hl, #25
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -6998,7 +6978,7 @@ _moverMalos:
 	ld	iy,#7
 	add	iy,sp
 	ld	0 (iy),l
-	ld	hl, #15
+	ld	hl, #9
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -7014,7 +6994,7 @@ _moverMalos:
 	or	a, a
 	jr	Z,00150$
 ;alien6.c:1082: switch (malos[i].type){
-	ld	hl, #17
+	ld	hl, #15
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -7036,7 +7016,7 @@ _moverMalos:
 ;alien6.c:1083: case 1:
 00145$:
 ;alien6.c:1084: velocidadDisparo=8;
-	ld	iy,#0
+	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),#0x08
 ;alien6.c:1085: break;
@@ -7044,7 +7024,7 @@ _moverMalos:
 ;alien6.c:1086: case 2:
 00146$:
 ;alien6.c:1087: velocidadDisparo=6;
-	ld	iy,#0
+	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),#0x06
 ;alien6.c:1088: break;
@@ -7052,24 +7032,24 @@ _moverMalos:
 ;alien6.c:1089: default:
 00147$:
 ;alien6.c:1090: velocidadDisparo=4;
-	ld	iy,#0
+	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),#0x04
 ;alien6.c:1092: }
 00148$:
 ;alien6.c:1093: crearDisparoMalo(malos[i].cx,malos[i].cy,velocidadDisparo);
-	ld	hl, #0+0
+	ld	hl, #1+0
 	add	hl, sp
 	ld	c, (hl)
 	ld	b,#0x00
-	ld	hl, #11
+	ld	hl, #25
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
 	ld	h, (hl)
 	ld	l, a
 	ld	d,(hl)
-	ld	hl, #13
+	ld	hl, #19
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -7088,7 +7068,7 @@ _moverMalos:
 ;alien6.c:1095: malos[i].lastmoved=getTime();
 	ld	hl,#7
 	add	hl,sp
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x19
@@ -7098,7 +7078,7 @@ _moverMalos:
 	inc	hl
 	ld	(hl),a
 	call	_getTime
-	ld	iy,#3
+	ld	iy,#11
 	add	iy,sp
 	ld	3 (iy),d
 	ld	2 (iy),e
@@ -7109,14 +7089,14 @@ _moverMalos:
 	ld	e, (hl)
 	inc	hl
 	ld	d, (hl)
-	ld	hl, #0x0003
+	ld	hl, #0x000B
 	add	hl, sp
 	ld	bc, #0x0004
 	ldir
 ;alien6.c:1096: malos[i].moved=1;
-	ld	hl,#3
+	ld	hl,#11
 	add	hl,sp
-	ld	iy,#17
+	ld	iy,#15
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x0E
@@ -7125,7 +7105,7 @@ _moverMalos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-	ld	hl, #3
+	ld	hl, #11
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -7134,7 +7114,7 @@ _moverMalos:
 	ld	(hl),#0x01
 00161$:
 ;alien6.c:1018: for (i=0;i<MAX_MALOS;i++){
-	ld	hl,#27
+	ld	hl,#5
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x1D
@@ -7143,7 +7123,7 @@ _moverMalos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl,#25
+	ld	hl,#27
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x1D
@@ -7161,7 +7141,7 @@ _moverMalos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	iy,#2
+	ld	iy,#0
 	add	iy,sp
 	inc	0 (iy)
 	ld	a,0 (iy)
@@ -7190,13 +7170,13 @@ _borrarMalos:
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #5
+	ld	hl, #3
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-	ld	hl, #3
+	ld	hl, #5
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -7205,7 +7185,7 @@ _borrarMalos:
 00115$:
 ;alien6.c:1109: if ((malos[i].activo==1) && (malos[i].nuevo==0) && (malos[i].moved)){
 	ld	a,#<(_malos)
-	ld	hl,#3
+	ld	hl,#5
 	add	hl,sp
 	ld	iy,#1
 	add	iy,sp
@@ -7284,7 +7264,7 @@ _borrarMalos:
 00102$:
 ;alien6.c:1112: if (malos[i].dead){
 	ld	a,#<(_malos)
-	ld	hl,#5
+	ld	hl,#3
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -7306,7 +7286,7 @@ _borrarMalos:
 	dec	(hl)
 00116$:
 ;alien6.c:1108: for (i=0;i<MAX_MALOS;i++){
-	ld	hl,#5
+	ld	hl,#3
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x1D
@@ -7315,7 +7295,7 @@ _borrarMalos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl,#3
+	ld	hl,#5
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x1D
@@ -7353,7 +7333,7 @@ _pintarMalos:
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #5
+	ld	hl, #1
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -7370,7 +7350,7 @@ _pintarMalos:
 	ld	a,#<(_malos)
 	ld	hl,#3
 	add	hl,sp
-	ld	iy,#1
+	ld	iy,#5
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -7379,7 +7359,7 @@ _pintarMalos:
 	adc	a, (hl)
 	inc	iy
 	ld	0 (iy),a
-	ld	iy,#1
+	ld	iy,#5
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -7441,7 +7421,7 @@ _pintarMalos:
 00102$:
 ;alien6.c:1132: malos[i].ox=malos[i].cx;
 	ld	a,#<(_malos)
-	ld	hl,#5
+	ld	hl,#1
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -7482,7 +7462,7 @@ _pintarMalos:
 	ld	(hl),#0x00
 00115$:
 ;alien6.c:1127: for (i=0;i<MAX_MALOS;i++){
-	ld	hl,#5
+	ld	hl,#1
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x1D
@@ -7733,22 +7713,22 @@ _moverDisparos:
 	ld	iy,#1
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #31
+	ld	hl, #3
 	add	hl, sp
 	ld	(hl), #0x00
 	inc	hl
 	ld	(hl), #0x00
-	ld	hl, #29
+	ld	hl, #30
 	add	hl, sp
 	ld	(hl), #0x00
 	inc	hl
 	ld	(hl), #0x00
-	ld	hl, #27
+	ld	hl, #12
 	add	hl, sp
 	ld	(hl), #0x00
 	inc	hl
 	ld	(hl), #0x00
-	ld	hl, #25
+	ld	hl, #18
 	add	hl, sp
 	ld	(hl), #0x00
 	inc	hl
@@ -7763,9 +7743,9 @@ _moverDisparos:
 	jp	NC,00136$
 ;alien6.c:1195: if ((disparos[i].activo==1) && (disparos[i].dead==0)){
 	ld	a,#<(_disparos)
-	ld	hl,#25
+	ld	hl,#18
 	add	hl,sp
-	ld	iy,#23
+	ld	iy,#26
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -7774,7 +7754,7 @@ _moverDisparos:
 	adc	a, (hl)
 	inc	iy
 	ld	0 (iy),a
-	ld	iy,#23
+	ld	iy,#26
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -7783,7 +7763,7 @@ _moverDisparos:
 	ld	a,(hl)
 	dec	a
 	jp	NZ,00135$
-	ld	hl,#21
+	ld	hl,#22
 	add	hl,sp
 	ld	a,0 (iy)
 	add	a, #0x0A
@@ -7792,21 +7772,21 @@ _moverDisparos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-	ld	hl, #21
+	ld	hl, #22
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
 	ld	h, (hl)
 	ld	l, a
 	ld	a,(hl)
-	ld	iy,#20
+	ld	iy,#17
 	add	iy,sp
 	ld	0 (iy),a
 	ld	a,0 (iy)
 	or	a, a
 	jp	NZ,00135$
 ;alien6.c:1196: if (disparos[i].cy>16){
-	ld	hl,#23
+	ld	hl,#26
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x03
@@ -7815,40 +7795,40 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl, #23
+	ld	hl, #26
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
 	ld	h, (hl)
 	ld	l, a
 	ld	a,(hl)
-	ld	iy,#20
+	ld	iy,#17
 	add	iy,sp
 	ld	0 (iy),a
 	ld	a,#0x10
 	sub	a, 0 (iy)
 	jp	NC,00123$
 ;alien6.c:1197: disparos[i].cy=disparos[i].cy - SALTO_DISPARO;
-	ld	hl,#20
+	ld	hl,#17
 	add	hl,sp
 	ld	a,(hl)
 	add	a,#0xFC
 	ld	(hl),a
-	ld	hl, #23
+	ld	hl, #26
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
 	ld	h, (hl)
 	ld	l, a
-	ld	iy,#20
+	ld	iy,#17
 	add	iy,sp
 	ld	a,0 (iy)
 	ld	(hl),a
 ;alien6.c:1198: for (j=0;j<MAX_MALOS;j++){	//compruebo colisiones con los malos.
 	ld	a,#<(_disparos)
-	ld	hl,#29
+	ld	hl,#30
 	add	hl,sp
-	ld	iy,#23
+	ld	iy,#26
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -7857,40 +7837,40 @@ _moverDisparos:
 	adc	a, (hl)
 	inc	iy
 	ld	0 (iy),a
-	ld	hl, #23+0
+	ld	hl, #26+0
 	add	hl, sp
 	ld	a, (hl)
-	ld	iy,#18
+	ld	iy,#5
 	add	iy,sp
 	ld	0 (iy),a
-	ld	hl, #23+1
+	ld	hl, #26+1
 	add	hl, sp
 	ld	a, (hl)
-	ld	iy,#18
+	ld	iy,#5
 	add	iy,sp
 	ld	1 (iy),a
-	ld	hl, #23+0
+	ld	hl, #26+0
 	add	hl, sp
 	ld	a, (hl)
-	ld	iy,#16
+	ld	iy,#28
 	add	iy,sp
 	ld	0 (iy),a
-	ld	hl, #23+1
+	ld	hl, #26+1
 	add	hl, sp
 	ld	a, (hl)
-	ld	iy,#16
+	ld	iy,#28
 	add	iy,sp
 	ld	1 (iy),a
-	ld	iy,#0
+	ld	iy,#2
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #14
+	ld	hl, #10
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
 	inc	hl
 	ld	(hl), a
-	ld	hl, #12
+	ld	hl, #7
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -7899,7 +7879,7 @@ _moverDisparos:
 00131$:
 ;alien6.c:1199: if (malos[j].activo==1){
 	ld	a,#<(_malos)
-	ld	hl,#12
+	ld	hl,#7
 	add	hl,sp
 	add	a, (hl)
 	ld	c,a
@@ -7918,7 +7898,7 @@ _moverDisparos:
 	ld	de, #0x0006
 	add	hl, de
 	ld	a,(hl)
-	ld	iy,#20
+	ld	iy,#17
 	add	iy,sp
 	ld	0 (iy),a
 	push	bc
@@ -7926,29 +7906,29 @@ _moverDisparos:
 	ld	e,7 (iy)
 	ld	hl,#0x0003
 	add	hl,bc
-	ld	iy,#10
+	ld	iy,#15
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	a,(hl)
-	ld	iy,#9
+	ld	iy,#14
 	add	iy,sp
 	ld	0 (iy),a
 	ld	hl,#0x0002
 	add	hl,bc
-	ld	iy,#7
+	ld	iy,#24
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	a,(hl)
-	ld	iy,#6
+	ld	iy,#32
 	add	iy,sp
 	ld	0 (iy),a
-	ld	hl, #18
+	ld	hl, #5
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -7958,10 +7938,10 @@ _moverDisparos:
 	inc	hl
 	inc	hl
 	ld	a,(hl)
-	ld	iy,#5
+	ld	iy,#9
 	add	iy,sp
 	ld	0 (iy),a
-	ld	hl, #16
+	ld	hl, #28
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -7971,7 +7951,7 @@ _moverDisparos:
 	inc	hl
 	ld	d,(hl)
 	push	bc
-	ld	hl, #22+0
+	ld	hl, #19+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
@@ -7979,19 +7959,19 @@ _moverDisparos:
 	ld	a,e
 	push	af
 	inc	sp
-	ld	hl, #13+0
+	ld	hl, #18+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
 	inc	sp
-	ld	hl, #11+0
+	ld	hl, #37+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
 	inc	sp
 	ld	hl,#0x0602
 	push	hl
-	ld	hl, #13+0
+	ld	hl, #17+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
@@ -8008,7 +7988,7 @@ _moverDisparos:
 	or	a, a
 	jp	Z,00132$
 ;alien6.c:1202: disparos[i].dead=1;
-	ld	iy,#23
+	ld	iy,#26
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x0A
@@ -8039,10 +8019,10 @@ _moverDisparos:
 	dec	a
 	jr	NZ,00106$
 ;alien6.c:1210: while ((ataques[k].idMalo!=j)&&(!ataques[k].activo))
-	ld	iy,#2
+	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #3
+	ld	hl, #20
 	add	hl, sp
 	xor	a, a
 	ld	(hl), a
@@ -8050,7 +8030,7 @@ _moverDisparos:
 	ld	(hl), a
 00102$:
 	ld	a,#<(_ataques)
-	ld	hl,#3
+	ld	hl,#20
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -8062,7 +8042,7 @@ _moverDisparos:
 	ld	h, d
 	inc	hl
 	ld	b,(hl)
-	ld	hl, #0+0
+	ld	hl, #2+0
 	add	hl, sp
 	ld	a, (hl)
 	sub	a, b
@@ -8071,7 +8051,7 @@ _moverDisparos:
 	or	a, a
 	jr	NZ,00104$
 ;alien6.c:1211: k++;
-	ld	hl,#3
+	ld	hl,#20
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x06
@@ -8080,13 +8060,13 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	iy,#2
+	ld	iy,#0
 	add	iy,sp
 	inc	0 (iy)
 	jr	00102$
 00104$:
 ;alien6.c:1212: ataques[k].activo=0;
-	ld	hl, #2+0
+	ld	hl, #0+0
 	add	hl, sp
 	ld	c, (hl)
 	ld	b,#0x00
@@ -8130,7 +8110,7 @@ _moverDisparos:
 00107$:
 ;alien6.c:1223: crearExplosion(0, malos[j].cx, malos[j].cy);
 	ld	a,#<(_malos)
-	ld	hl,#14
+	ld	hl,#10
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -8140,7 +8120,7 @@ _moverDisparos:
 	ld	d,a
 	ld	hl,#0x0003
 	add	hl,de
-	ld	iy,#3
+	ld	iy,#20
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
@@ -8170,7 +8150,7 @@ _moverDisparos:
 	sub	a, #0x19
 	jr	NC,00132$
 ;alien6.c:1228: crearAddon(malos[j].cx, malos[j].cy);
-	ld	hl, #3
+	ld	hl, #20
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -8187,7 +8167,7 @@ _moverDisparos:
 	jr	00132$
 00115$:
 ;alien6.c:1231: crearExplosion(1, malos[j].cx, malos[j].cy+malos[i].h);
-	ld	hl, #10
+	ld	hl, #15
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -8195,7 +8175,7 @@ _moverDisparos:
 	ld	l, a
 	ld	d,(hl)
 	ld	a,#<(_malos)
-	ld	hl,#31
+	ld	hl,#3
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -8209,7 +8189,7 @@ _moverDisparos:
 	ld	l,(hl)
 	ld	a,d
 	add	a, l
-	ld	iy,#7
+	ld	iy,#24
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -8239,7 +8219,7 @@ _moverDisparos:
 	ld	(hl), #0x01
 00132$:
 ;alien6.c:1198: for (j=0;j<MAX_MALOS;j++){	//compruebo colisiones con los malos.
-	ld	hl,#14
+	ld	hl,#10
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x1D
@@ -8248,7 +8228,7 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl,#12
+	ld	hl,#7
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x1D
@@ -8257,7 +8237,7 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	iy,#0
+	ld	iy,#2
 	add	iy,sp
 	inc	0 (iy)
 	ld	a,0 (iy)
@@ -8266,7 +8246,7 @@ _moverDisparos:
 	jr	00124$
 00123$:
 ;alien6.c:1244: disparos[i].dead=1;
-	ld	hl, #21
+	ld	hl, #22
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -8276,9 +8256,9 @@ _moverDisparos:
 00124$:
 ;alien6.c:1246: disparos[i].moved=1;
 	ld	a,#<(_disparos)
-	ld	hl,#27
+	ld	hl,#12
 	add	hl,sp
-	ld	iy,#3
+	ld	iy,#20
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -8287,7 +8267,7 @@ _moverDisparos:
 	adc	a, (hl)
 	inc	iy
 	ld	0 (iy),a
-	ld	hl,#3
+	ld	hl,#20
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x07
@@ -8296,7 +8276,7 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl, #3
+	ld	hl, #20
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -8305,7 +8285,7 @@ _moverDisparos:
 	ld	(hl),#0x01
 00135$:
 ;alien6.c:1194: for (i=0;i<prota.max_disparos;i++){
-	ld	hl,#31
+	ld	hl,#3
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x1D
@@ -8314,7 +8294,7 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl,#29
+	ld	hl,#30
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x0F
@@ -8323,7 +8303,7 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl,#27
+	ld	hl,#12
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x0F
@@ -8332,7 +8312,7 @@ _moverDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl,#25
+	ld	hl,#18
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x0F
@@ -8383,7 +8363,7 @@ _borrarDisparos:
 	ex	de,hl
 	ld	hl,#0x0006
 	add	hl,de
-	ld	iy,#5
+	ld	iy,#4
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
@@ -8411,7 +8391,7 @@ _borrarDisparos:
 	inc	hl
 	inc	hl
 	ld	a,(hl)
-	ld	iy,#4
+	ld	iy,#3
 	add	iy,sp
 	ld	0 (iy),a
 	ld	l, e
@@ -8421,7 +8401,7 @@ _borrarDisparos:
 	inc	hl
 	inc	hl
 	ld	a,(hl)
-	ld	iy,#3
+	ld	iy,#6
 	add	iy,sp
 	ld	0 (iy),a
 	ld	l, e
@@ -8437,12 +8417,12 @@ _borrarDisparos:
 	push	de
 	ld	hl,#0x0000
 	push	hl
-	ld	hl, #10+0
+	ld	hl, #9+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
 	inc	sp
-	ld	hl, #10+0
+	ld	hl, #13+0
 	add	hl, sp
 	ld	a, (hl)
 	push	af
@@ -8466,7 +8446,7 @@ _borrarDisparos:
 	or	a, a
 	jr	Z,00112$
 ;alien6.c:1264: disparos[k].activo=0;
-	ld	iy,#5
+	ld	iy,#4
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -8507,12 +8487,12 @@ _pintarDisparos:
 	ld	iy,#0
 	add	iy,sp
 	ld	0 (iy),#0x00
-	ld	hl, #9
+	ld	hl, #7
 	add	hl, sp
 	ld	(hl), #0x00
 	inc	hl
 	ld	(hl), #0x00
-	ld	hl, #7
+	ld	hl, #9
 	add	hl, sp
 	ld	(hl), #0x00
 	inc	hl
@@ -8527,9 +8507,9 @@ _pintarDisparos:
 	jp	NC,00113$
 ;alien6.c:1280: if ((disparos[k].activo) && (disparos[k].moved) && (!disparos[k].dead)){
 	ld	a,#<(_disparos)
-	ld	hl,#7
+	ld	hl,#9
 	add	hl,sp
-	ld	iy,#5
+	ld	iy,#1
 	add	iy,sp
 	add	a, (hl)
 	ld	0 (iy),a
@@ -8538,7 +8518,7 @@ _pintarDisparos:
 	adc	a, (hl)
 	inc	iy
 	ld	0 (iy),a
-	ld	iy,#5
+	ld	iy,#1
 	add	iy,sp
 	ld	l,0 (iy)
 	ld	h,1 (iy)
@@ -8562,7 +8542,7 @@ _pintarDisparos:
 	or	a, a
 	jp	NZ,00112$
 ;alien6.c:1281: printSpriteXOR(disparos[k].sp0,disparos[k].cx,disparos[k].cy,0);
-	ld	hl,#3
+	ld	hl,#5
 	add	hl,sp
 	ld	a,0 (iy)
 	add	a, #0x03
@@ -8571,14 +8551,14 @@ _pintarDisparos:
 	adc	a, #0x00
 	inc	hl
 	ld	(hl),a
-	ld	hl, #3
+	ld	hl, #5
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
 	ld	h, (hl)
 	ld	l, a
 	ld	d,(hl)
-	ld	iy,#5
+	ld	iy,#1
 	add	iy,sp
 	ld	c,0 (iy)
 	ld	b,1 (iy)
@@ -8589,7 +8569,7 @@ _pintarDisparos:
 	ld	l,0 (iy)
 	ld	h,1 (iy)
 	ld	a,(hl)
-	ld	iy,#1
+	ld	iy,#3
 	add	iy,sp
 	ld	0 (iy),a
 	inc	hl
@@ -8608,7 +8588,7 @@ _pintarDisparos:
 	ld	sp,hl
 	pop	bc
 ;alien6.c:1282: disparos[k].ox=disparos[k].cx;
-	ld	iy,#5
+	ld	iy,#1
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x04
@@ -8625,7 +8605,7 @@ _pintarDisparos:
 	ld	a,1 (iy)
 	adc	a, #0x00
 	ld	d,a
-	ld	hl, #3
+	ld	hl, #5
 	add	hl, sp
 	ld	a, (hl)
 	inc	hl
@@ -8634,7 +8614,7 @@ _pintarDisparos:
 	ld	a,(hl)
 	ld	(de),a
 ;alien6.c:1284: if (disparos[k].nuevo) disparos[k].nuevo=0;
-	ld	iy,#5
+	ld	iy,#1
 	add	iy,sp
 	ld	a,0 (iy)
 	add	a, #0x09
@@ -8650,7 +8630,7 @@ _pintarDisparos:
 00102$:
 ;alien6.c:1285: disparos[k].moved=0;
 	ld	a,#<(_disparos)
-	ld	hl,#9
+	ld	hl,#7
 	add	hl,sp
 	add	a, (hl)
 	ld	e,a
@@ -8663,7 +8643,7 @@ _pintarDisparos:
 	ld	(hl),#0x00
 00112$:
 ;alien6.c:1279: for (k=0;k<prota.max_disparos;k++){
-	ld	hl,#9
+	ld	hl,#7
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x0F
@@ -8672,7 +8652,7 @@ _pintarDisparos:
 	ld	a,(hl)
 	adc	a, #0x00
 	ld	(hl),a
-	ld	hl,#7
+	ld	hl,#9
 	add	hl,sp
 	ld	a,(hl)
 	add	a, #0x0F
@@ -8880,7 +8860,7 @@ _moverProta:
 	jp	NC,00119$
 	push	de
 	call	_getTime
-	ld	iy,#6
+	ld	iy,#2
 	add	iy,sp
 	ld	3 (iy),d
 	ld	2 (iy),e
@@ -8889,15 +8869,15 @@ _moverProta:
 	pop	de
 	ld	hl, (#_prota + 20)
 	ld	bc, (#_prota + 22)
-	ld	iy,#0
+	ld	iy,#4
 	add	iy,sp
 	ld	0 (iy),l
 	ld	1 (iy),h
 	ld	2 (iy),c
 	ld	3 (iy),b
-	ld	hl,#0
+	ld	hl,#4
 	add	hl,sp
-	ld	iy,#4
+	ld	iy,#0
 	add	iy,sp
 	ld	a,0 (iy)
 	sub	a, (hl)
@@ -8921,10 +8901,10 @@ _moverProta:
 	ld	1 (iy),a
 	ld	2 (iy),a
 	ld	3 (iy),a
-	ld	hl,#4
+	ld	hl,#0
 	add	hl,sp
 	ld	a,(hl)
-	ld	iy,#0
+	ld	iy,#4
 	add	iy,sp
 	sub	a, 0 (iy)
 	inc	hl
@@ -11293,13 +11273,13 @@ __xinit__trayectoria1:
 	.db #0x02	;  2
 	.db #0x00	;  0
 	.db #0xFE	; -2
-	.db #0xFC	; -4
+	.db #0xFC	; -4	'¸'
 	.db #0xFB	; -5
 	.db #0xFA	; -6
 	.db #0xFA	; -6
 	.db #0xFA	; -6
 	.db #0xFB	; -5
-	.db #0xFC	; -4
+	.db #0xFC	; -4	'¸'
 	.db #0xFE	; -2
 __xinit__tintas:
 	.db #0x14	; 20
@@ -11859,13 +11839,13 @@ __xinit__shot2:
 	.db #0x06	;  6
 	.db #0x55	;  85	'U'
 	.db #0x00	;  0
-	.db #0xBF	; -65
+	.db #0xBF	; -65	'ø'
 	.db #0xAA	; -86
-	.db #0xBF	; -65
+	.db #0xBF	; -65	'ø'
 	.db #0xAA	; -86
-	.db #0xBF	; -65
+	.db #0xBF	; -65	'ø'
 	.db #0xAA	; -86
-	.db #0xBF	; -65
+	.db #0xBF	; -65	'ø'
 	.db #0xAA	; -86
 	.db #0x55	;  85	'U'
 	.db #0x00	;  0
