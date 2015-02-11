@@ -10,9 +10,9 @@ sdasz80 -o Wyz.s
 sdar rc cpcrslib2.lib cpcrslib2.rel GphStr.rel Keyboard.rel GphStrStd.rel Sprites.rel 
 sdar rc cpcwyzlib.lib Wyz.rel
 
-copy cpcrslib2.lib c:\"Archivos de programa"\SDCC\lib\z80
-copy cpcrslib2.h c:\"Archivos de programa"\SDCC\include
-copy cpcwyzlib.lib c:\"Archivos de programa""\SDCC\lib\z80
-copy cpcwyzlib.h c:\"Archivos de programa"\SDCC\include
+copy cpcrslib2.lib c:\retro\SDCC\lib\z80
+copy cpcrslib2.h c:\retro\SDCC\include
+copy cpcwyzlib.lib c:\retro\SDCC\lib\z80
+copy cpcwyzlib.h c:\retro\SDCC\include
 
 pause
